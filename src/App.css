@@ -199,6 +199,9 @@ h1 {
   .nav_bg .container-xxl {
     max-width: 1500px !important;
   }
+  .nav_gbg .container-xxl {
+    max-width: 1500px !important;
+  }
 }
 .clr_chng a.active svg path{
   fill: #006835 !important;

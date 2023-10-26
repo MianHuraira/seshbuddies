@@ -17,6 +17,8 @@ const Account = lazy(() => import("../pages/UserAccount"));
 const Notification = lazy(() => import("../components/Notifications"));
 const Search = lazy(() => import("../pages/Search"));
 const Chat = lazy(() => import("../pages/messages/message2"));
+const Reels = lazy(() => import("../pages/Reels"));
+const Sessions = lazy(() => import("../pages/Sessions"));
 const LiveStream = lazy(() => import("../pages/LiveStream"));
 const Router = () => {
   return (
@@ -88,6 +90,14 @@ const Router = () => {
         {
           path: "/chat",
           element: <Chat />,
+        },
+        {
+          path: "/reels",
+          element: <Reels />,
+        },
+        {
+          path: "/sessions",
+          element: <Sessions />,
         },
         {
           path: "/live_stream",

@@ -12,6 +12,16 @@ function App() {
   const location = useLocation();
   let getPath = location.pathname;
 
+  let allPath = false;
+
+  if (
+    getPath === "/live_stream" ||
+    getPath === "/sessions" ||
+    getPath === "/reels"
+  ) {
+    allPath = true;
+  }
+
   useEffect(() => {
     const bodyDiv = document.body;
 
@@ -19,7 +29,7 @@ function App() {
       bodyDiv.style.backgroundColor = "#023223";
     } else if (getPath === "/") {
       bodyDiv.style.backgroundColor = "#023223";
-    } else if (getPath === "/live_stream") {
+    } else if (allPath) {
       bodyDiv.style.backgroundColor = "#02150F";
     } else {
       bodyDiv.style.backgroundColor = "#eef5f2";

@@ -131,11 +131,20 @@
 }
 .search_icon {
   cursor: pointer;
+  font-size: 22px;
+  color: #000000;
 }
 .blank_div {
   width: 1px;
   height: 25px;
   background-color: #c8ded3;
+}
+
+.nav_item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 25rem;
 }
 .nav_item a {
   background-color: transparent !important;
@@ -147,6 +156,7 @@
   border-radius: 20px;
   border: 1px solid transparent;
 }
+
 .nav_item a.active {
   background-color: transparent !important;
   padding: 10px 22px;
@@ -159,6 +169,37 @@
   box-shadow: 0px 1px 8px 0px rgba(20, 20, 20, 0.08),
     0px 0px 1px 0px rgba(20, 20, 20, 0.52);
 }
+/* dark css nav item  */
+.item_nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 25rem;
+}
+
+.item_nav a {
+  background-color: transparent !important;
+  padding: 10px 22px;
+  width: 83px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  border: 1px solid transparent;
+}
+.item_nav a.active {
+  background-color: #2d3d38 !important;
+  padding: 10px 22px;
+  width: 83px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 104, 53, 0.08);
+  box-shadow: 0px 1px 8px 0px rgba(20, 20, 20, 0.08),
+    0px 0px 1px 0px rgba(20, 20, 20, 0.52);
+}
+/* /////////// */
 .nav_bar {
   padding: 0.5rem 0.5rem !important;
   position: sticky !important;
@@ -172,12 +213,6 @@
   object-fit: contain;
 }
 
-.nav_item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 25rem;
-}
 .main_noti_div {
   position: relative;
   display: flex;
@@ -212,6 +247,7 @@
   height: 20px;
   cursor: pointer;
   border-radius: 50%;
+  border: 3px solid white;
 }
 .main_drop_na .dropdown-toggle {
   display: flex !important;
@@ -629,20 +665,121 @@
   width: 24px;
   height: 24px;
 }
-.statusDiv img{
+.statusDiv img {
   width: 12px;
   height: 12px;
 }
-.pag_head{
+.pag_head {
   color: var(--head-color);
   font-family: "inter-bold";
   font-size: 20px;
 }
-.page_sbhead{
+.page_sbhead {
   color: var(--head-color);
   font-family: "inter-regular";
   font-size: 16px;
   text-align: center;
+}
+
+/* ///////////////////////// live page css start  /////////////// */
+.video_div {
+  width: 312px;
+}
+.video_size {
+  width: 100%;
+  height: 35rem;
+  border-radius: 12px;
+}
+.video_head_icon {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 18px;
+}
+.LiveProImg {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+.userNameLive {
+  font-family: "inter-medium";
+  font-size: 10px;
+  color: #ffffff;
+}
+.liveRang00 {
+  color: #ffffff;
+  font-family: "inter-light";
+  font-size: 11px;
+  opacity: 0.6;
+}
+.live_div_btn {
+  background-color: #32b744;
+  border-radius: 20px;
+  height: 31px;
+  width: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.live_div_btn h5 {
+  font-size: 10px;
+  color: white;
+  font-family: "inter-medium";
+}
+.eyeDiv00 {
+  background-color: rgba(2, 21, 15, 0.31);
+  border-radius: 20px;
+  height: 31px;
+  padding: 10px 17px;
+  cursor: pointer;
+}
+.eyeDiv00 h5 {
+  font-size: 10px;
+  color: white;
+  font-family: "inter-medium";
+  margin-left: 3px;
+}
+.cros_icon00 {
+  font-size: 12px;
+  color: white;
+  cursor: pointer;
+}
+.comnt_inp {
+  border-radius: 20px;
+  border: 1px solid rgba(230, 240, 235, 0.1);
+  background: rgba(255, 255, 255, 0.14);
+  padding: 8px;
+}
+.comnt_inp ::placeholder {
+  color: #959a9c;
+}
+.strem_btn_div {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  width: 312px;
+}
+.stat00 {
+  position: absolute;
+  bottom: 0;
+  width: 15px;
+  height: 15px;
+  right: 0;
+}
+.contM{
+  color: white;
+  font-family: "inter-medium";
+  font-size: 10px;
+}
+.sonDov{
+  width: 36px;
+  height: 36px;
+  background: #32B744;
+  border-radius: 50%;
+  display: flex;
+  align-content: center;
+  justify-content: center;
 }
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
@@ -1038,6 +1175,11 @@
 /* ____modal tabs___ */
 .ModalNav {
   background-color: white !important;
+}
+.user_name0 {
+  font-family: "inter-medium";
+  color: rgba(37, 37, 37, 1);
+  font-size: 16px;
 }
 .nav_item_modal {
   width: 32.5% !important;
@@ -1478,6 +1620,17 @@
     background-color: #ffffff;
     z-index: 999;
   }
+  .item_nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 0rem 2rem;
+    background-color: #02150f;
+    z-index: 999;
+    border: 1px solid rgba(200, 222, 211, 0.08);
+  }
   .dropdown-toggle::after {
     display: none !important;
   }
@@ -1485,8 +1638,17 @@
     width: auto !important;
     padding: 10px 10px !important;
   }
+  .item_nav a {
+    width: auto !important;
+    padding: 10px 10px !important;
+  }
 
   .nav_item a.active {
+    width: auto !important;
+    padding: 10px 10px !important;
+    box-shadow: none !important;
+  }
+  .item_nav a.active {
     width: auto !important;
     padding: 10px 10px !important;
     box-shadow: none !important;
