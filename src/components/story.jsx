@@ -16,26 +16,32 @@ import angle_right from "../assets/logo/icons/angle_right.svg";
 import alert_success from "../assets/logo/alert-success.svg";
 import icon_info from "../assets/logo/icons/icn-info.svg";
 import icon_start from "../assets/logo/icons/icn-eye-off.svg";
+
 const Story = ({ handleShow, show }) => {
   const [Likes, setShow] = useState(false);
   const Likes_btn_close = () => setShow(false);
   const Likes_btn_open = () => setShow(true);
 
   const showSuccess = () => {
-    setReport(false); // Close the first modal
+    setReport(false);
     setmodal(true); // Open the second modal
   };
 
-  // ___report modal
   const [report, setReport] = useState(false);
   const report_btn_open = () => setReport(true);
   const report_btn_close = () => setReport(false);
-  // ___report modal
-  // ___report modal 2
+
   const [report_success, setmodal] = useState(false);
-  // const report_modal2_open = () => setmodal(true);
   const report_modal2_close = () => setmodal(false);
-  // ___report modal
+
+  // follow status
+
+  const [follow, setFollow] = useState(false);
+
+  const folloStatus = () => {
+    setFollow(!follow);
+  };
+
   return (
     <div
       className={
@@ -98,7 +104,6 @@ const Story = ({ handleShow, show }) => {
           <div className="d-flex justify-content-between pb-1">
             <div className="d-flex">
               <p className="inherit black_text_md align_center">
-                {" "}
                 <img alt="" src={likes} className="ms-2 me-1" />
                 541
               </p>
@@ -111,9 +116,7 @@ const Story = ({ handleShow, show }) => {
           </div>
         </div>
       </div>
-      {console.log(show)}
       <Row className="w-100 h-100 p-0 border-top m-auto">
-
         {show === false ? (
           <Col sm="4" className="like_btn">
             <button className=" bg-white" onClick={Likes_btn_open}>
@@ -169,123 +172,119 @@ const Story = ({ handleShow, show }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className=" py-2 px-4 likes_modal_body overflow-y-auto no_scrollbar">
-          <div className="  ">
-            {/* <follow div> */}
-            <div className="d-flex mb-3 justify-content-between align-items-center">
-              <div className="d-flex align-items-center">
-                <img alt="" src={girl} className="likes_dp" />
-                <div className="ms-3 height-30 me-4">
-                  <p className="black_text_lg inter-semi fs-15">trailblaze</p>
-                  <div className="d-flex align-items-start">
-                    <img alt="" src={stars} className="rating-star" />
-                    <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
-                  </div>
+          <div className="d-flex mb-3 justify-content-between align-items-center">
+            <div className="d-flex align-items-center">
+              <img alt="" src={girl} className="likes_dp" />
+              <div className="ms-3 height-30 me-4">
+                <p className="black_text_lg inter-semi fs-15">trailblaze</p>
+                <div className="d-flex align-items-start">
+                  <img alt="" src={stars} className="rating-star" />
+                  <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
                 </div>
               </div>
-              <button className="follow_modalbtn Likes_active">Follow</button>
             </div>
-            {/* <follow div> */}
-            {/* <follow div> */}
-            <div className="d-flex mb-3 justify-content-between align-items-center">
-              <div className="d-flex align-items-center">
-                <img alt="" src={girl} className="likes_dp" />
-                <div className="ms-3 height-30 me-4">
-                  <p className="black_text_lg inter-semi fs-15">trailblaze</p>
-                  <div className="d-flex align-items-start">
-                    <img alt="" src={stars} className="rating-star" />
-                    <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
-                  </div>
+            <button
+              onClick={folloStatus}
+              className={`${follow ? "folowing_btn00" : "folow_btn00"}`}
+            >
+              {follow ? "Following" : "Follow"}
+            </button>
+          </div>
+
+          <div className="d-flex mb-3 justify-content-between align-items-center">
+            <div className="d-flex align-items-center">
+              <img alt="" src={girl} className="likes_dp" />
+              <div className="ms-3 height-30 me-4">
+                <p className="black_text_lg inter-semi fs-15">trailblaze</p>
+                <div className="d-flex align-items-start">
+                  <img alt="" src={stars} className="rating-star" />
+                  <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
                 </div>
               </div>
-              <button className="follow_modalbtn Likes_active">Follow</button>
             </div>
-            {/* <follow div> */}
-            {/* <follow div> */}
-            <div className="d-flex mb-3 justify-content-between align-items-center">
-              <div className="d-flex align-items-center">
-                <img alt="" src={girl} className="likes_dp" />
-                <div className="ms-3 height-30 me-4">
-                  <p className="black_text_lg inter-semi fs-15">trailblaze</p>
-                  <div className="d-flex align-items-start">
-                    <img alt="" src={stars} className="rating-star" />
-                    <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
-                  </div>
+            <button className="folowing_btn00">Following</button>
+          </div>
+
+          <div className="d-flex mb-3 justify-content-between align-items-center">
+            <div className="d-flex align-items-center">
+              <img alt="" src={girl} className="likes_dp" />
+              <div className="ms-3 height-30 me-4">
+                <p className="black_text_lg inter-semi fs-15">trailblaze</p>
+                <div className="d-flex align-items-start">
+                  <img alt="" src={stars} className="rating-star" />
+                  <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
                 </div>
               </div>
-              <button className="follow_modalbtn Likes_active">Follow</button>
             </div>
-            {/* <follow div> */}
-            {/* <follow div> */}
-            <div className="d-flex mb-3 justify-content-between align-items-center">
-              <div className="d-flex align-items-center">
-                <img alt="" src={girl} className="likes_dp" />
-                <div className="ms-3 height-30 me-4">
-                  <p className="black_text_lg inter-semi fs-15">trailblaze</p>
-                  <div className="d-flex align-items-start">
-                    <img alt="" src={stars} className="rating-star" />
-                    <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
-                  </div>
+            <button className="folow_btn00">Follow</button>
+          </div>
+
+          <div className="d-flex mb-3 justify-content-between align-items-center">
+            <div className="d-flex align-items-center">
+              <img alt="" src={girl} className="likes_dp" />
+              <div className="ms-3 height-30 me-4">
+                <p className="black_text_lg inter-semi fs-15">trailblaze</p>
+                <div className="d-flex align-items-start">
+                  <img alt="" src={stars} className="rating-star" />
+                  <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
                 </div>
               </div>
-              <button className="follow_modalbtn Likes_active">Follow</button>
             </div>
-            {/* <follow div> */}
-            {/* <follow div> */}
-            <div className="d-flex mb-3 justify-content-between align-items-center">
-              <div className="d-flex align-items-center">
-                <img alt="" src={girl} className="likes_dp" />
-                <div className="ms-3 height-30 me-4">
-                  <p className="black_text_lg inter-semi fs-15">trailblaze</p>
-                  <div className="d-flex align-items-start">
-                    <img alt="" src={stars} className="rating-star" />
-                    <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
-                  </div>
+            <button className="folow_btn00">Follow</button>
+          </div>
+
+          <div className="d-flex mb-3 justify-content-between align-items-center">
+            <div className="d-flex align-items-center">
+              <img alt="" src={girl} className="likes_dp" />
+              <div className="ms-3 height-30 me-4">
+                <p className="black_text_lg inter-semi fs-15">trailblaze</p>
+                <div className="d-flex align-items-start">
+                  <img alt="" src={stars} className="rating-star" />
+                  <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
                 </div>
               </div>
-              <button className="follow_modalbtn Likes_active">Follow</button>
             </div>
-            {/* <follow div> */}
-            {/* <follow div> */}
-            <div className="d-flex mb-3 justify-content-between align-items-center">
-              <div className="d-flex align-items-center">
-                <img alt="" src={girl} className="likes_dp" />
-                <div className="ms-3 height-30 me-4">
-                  <p className="black_text_lg inter-semi fs-15">trailblaze</p>
-                  <div className="d-flex align-items-start">
-                    <img alt="" src={stars} className="rating-star" />
-                    <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
-                  </div>
+            <button className="folow_btn00">Follow</button>
+          </div>
+
+          <div className="d-flex mb-3 justify-content-between align-items-center">
+            <div className="d-flex align-items-center">
+              <img alt="" src={girl} className="likes_dp" />
+              <div className="ms-3 height-30 me-4">
+                <p className="black_text_lg inter-semi fs-15">trailblaze</p>
+                <div className="d-flex align-items-start">
+                  <img alt="" src={stars} className="rating-star" />
+                  <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
                 </div>
               </div>
-              <button className="follow_modalbtn Likes_active">Follow</button>
             </div>
-            {/* <follow div> */}
-            {/* <follow div> */}
-            <div className="d-flex mb-3 justify-content-between align-items-center">
-              <div className="d-flex align-items-center">
-                <img alt="" src={girl} className="likes_dp" />
-                <div className="ms-3 height-30 me-4">
-                  <p className="black_text_lg inter-semi fs-15">trailblaze</p>
-                  <div className="d-flex align-items-start">
-                    <img alt="" src={stars} className="rating-star" />
-                    <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
-                  </div>
+            <button className="folow_btn00">Follow</button>
+          </div>
+
+          <div className="d-flex mb-3 justify-content-between align-items-center">
+            <div className="d-flex align-items-center">
+              <img alt="" src={girl} className="likes_dp" />
+              <div className="ms-3 height-30 me-4">
+                <p className="black_text_lg inter-semi fs-15">trailblaze</p>
+                <div className="d-flex align-items-start">
+                  <img alt="" src={stars} className="rating-star" />
+                  <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
                 </div>
               </div>
-              <button className="follow_modalbtn Likes_active">Follow</button>
             </div>
-            {/* <follow div> */}
+            <button className="folow_btn00">Follow</button>
           </div>
         </Modal.Body>
       </Modal>
-      {/* ____report modal____ */}
+
       <Modal
         show={report}
         onHide={report_btn_close}
         backdrop="static"
         keyboard={false}
         centered
-        dialogClassName="modal_width">
+        dialogClassName="modal_width"
+      >
         <Modal.Header closeButton className="px-3 py-2 m-0 likes_modal_head">
           <Modal.Title className="m-auto black_text_lg inter-bold fs-16 mt-1">
             Report
@@ -315,7 +314,7 @@ const Story = ({ handleShow, show }) => {
                 Hate speech or symbols <img src={angle_right} alt="" />
               </button>
               <button className="report_btn mt-2 " onClick={showSuccess}>
-                Violence or dangerous organisations{" "}
+                Violence or dangerous organisations
                 <img src={angle_right} alt="" />
               </button>
               <button className="report_btn mt-2" onClick={showSuccess}>
@@ -325,8 +324,7 @@ const Story = ({ handleShow, show }) => {
           </div>
         </Modal.Body>
       </Modal>
-      {/* ____report modal____ */}
-      {/* ____report modal____ */}
+
       <Modal
         show={report_success}
         onHide={report_modal2_close}
@@ -342,7 +340,8 @@ const Story = ({ handleShow, show }) => {
         </Modal.Header>
         <Modal.Body>
           <div className="w-100 d-flex align-items-center justify-content-center">
-            <img alt=""
+            <img
+              alt=""
               src={alert_success}
               style={{ width: "40px" }}
               className="me-3 "
@@ -355,30 +354,35 @@ const Story = ({ handleShow, show }) => {
             We use these reports to:
           </p>
           <div>
-            <button onClick={report_modal2_close} className="report_success_btn mt-2 d-flex align-items-center justify-content-center text-left">
-              <img alt=""
+            <button
+              onClick={report_modal2_close}
+              className="report_success_btn mt-2 d-flex align-items-center justify-content-center text-left"
+            >
+              <img
+                alt=""
                 src={icon_info}
-
                 style={{ width: "22px" }}
                 className="me-2"
-              />{" "}
+              />
               Understand problems that people are having with different types of
               content on SESHBUDDIES.
             </button>
-            <button onClick={report_modal2_close} className="report_success_btn mt-2 d-flex align-items-center justify-content-center text-left">
-              <img alt=""
+            <button
+              onClick={report_modal2_close}
+              className="report_success_btn mt-2 d-flex align-items-center justify-content-center text-left"
+            >
+              <img
+                alt=""
                 src={icon_start}
-
                 style={{ width: "22px" }}
                 className="me-2"
-              />{" "}
+              />
               Understand problems that people are having with different types of
               content on SESHBUDDIES.
             </button>
           </div>
         </Modal.Body>
       </Modal>
-      {/* ____report modal____ */}
     </div>
   );
 };

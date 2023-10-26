@@ -11,6 +11,9 @@ p {
 ::-webkit-scrollbar {
   width: 0;
 }
+.cursorP{
+  cursor: pointer;
+}
 
 /* padding  */
 

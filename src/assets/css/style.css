@@ -203,7 +203,7 @@
 .nav_bar {
   padding: 0.5rem 0.5rem !important;
   position: sticky !important;
-  z-index: 9999 !important;
+  z-index: 10 !important;
   width: 100% !important;
   top: 0px;
 }
@@ -751,9 +751,14 @@
   background: rgba(255, 255, 255, 0.14);
   padding: 8px;
 }
-.comnt_inp ::placeholder {
+
+.strem_btn_div input {
   color: #959a9c;
 }
+.strem_btn_div input::placeholder {
+  color: #959a9c;
+}
+
 .strem_btn_div {
   margin: auto;
   display: flex;
@@ -767,19 +772,47 @@
   height: 15px;
   right: 0;
 }
-.contM{
+.contM {
   color: white;
   font-family: "inter-medium";
   font-size: 10px;
 }
-.sonDov{
+.sonDov {
   width: 36px;
   height: 36px;
-  background: #32B744;
+  background: #32b744;
   border-radius: 50%;
   display: flex;
   align-content: center;
   justify-content: center;
+}
+
+/* //////////////// folow btn css ////////////////////// */
+
+.folow_btn00 {
+  background-color: #006835;
+  border-radius: 20px;
+  color: white;
+  font-family: "inter-regular";
+  border: none;
+  padding: 6px 0px;
+  width: 6.5rem;
+}
+.folowing_btn00 {
+  background-color: white;
+  border: 1px solid #dbd8db;
+  font-family: "inter-regular";
+  border-radius: 20px;
+  color: #02150f;
+  padding: 6px 0px;
+  width: 6.5rem;
+}
+.main_comnt_div00 {
+  border-radius: 12px;
+  height: 35rem;
+}
+.likes_modal_head .btn-close{
+  margin: 0px !important;
 }
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
@@ -1035,7 +1068,6 @@
 }
 .follow_modalbtn {
   height: 30px;
-  /* padding: 17px 30px; */
   width: 92px;
   font-size: 1rem;
   display: flex;
