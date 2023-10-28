@@ -29,14 +29,14 @@ const ForYou = () => {
                                         <button
                                             className={`nav-link ${activeModalTab === 'tab1' ? 'active' : ''}`}
                                             onClick={() => handleModalClick('tab1')} >
-                                            For you
+                                            As Guest
                                         </button>
                                     </li>
                                     <li className="nav-item foryouTabs">
                                         <button
                                             className={`nav-link ${activeModalTab === 'tab2' ? 'active' : ''}`}
                                             onClick={() => handleModalClick('tab2')} >
-                                            For buddies
+                                            As Invitee
                                         </button>
                                     </li>
 
