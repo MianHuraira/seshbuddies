@@ -54,7 +54,7 @@ const Createpost = () => {
       <div className="explore">
         <p className="semibold  l-black inter fs-14 mt-3">Explore</p>
         <NavLink
-          to={"/ForYou"}
+          
           className="black_text_lg d-flex justify-content-between mt-2"
         >
           <div className="d-flex align-items-center">
@@ -106,7 +106,7 @@ const Createpost = () => {
         </div>
         <div className="d-flex justify-content-between mt-1">
           <NavLink
-            to={"/buddies"}
+           
             className="d-flex black_text_lg align-items-center justify-content-between w-100"
           >
             <div className="d-flex align-items-center">
