@@ -12,11 +12,11 @@ const Reels = () => {
         <img alt="" src={reel_girl} className="reel_girl radius_8" />
         <div className=" reel-text h-100 justify-content-between d-flex flex-column p-2">
           <div className="d-flex align-items-center">
-            <img alt="" src={play_icon} className="icon-sm me-2" />{" "}
+            <img alt="" src={play_icon} className="icon-sm me-2" />
             <p className="text-white inter fs-12">22.0M</p>
           </div>
           <div className="d-flex align-items-center">
-            <img alt="" src={avatar} className="user_img me-1" />{" "}
+            <img alt="" src={avatar} className="user_img me-1" />
             <p className="text-white inter fs-11">Steve.brown</p>
           </div>
         </div>
@@ -25,11 +25,11 @@ const Reels = () => {
         <img alt="" src={reel_girl} className="reel_girl radius_8" />
         <div className=" reel-text h-100 justify-content-between d-flex flex-column p-2">
           <div className="d-flex align-items-center">
-            <img alt="" src={play_icon} className="icon-sm me-2" />{" "}
+            <img alt="" src={play_icon} className="icon-sm me-2" />
             <p className="text-white inter fs-12">22.0M</p>
           </div>
           <div className="d-flex align-items-center">
-            <img alt="" src={avatar} className="user_img me-1" />{" "}
+            <img alt="" src={avatar} className="user_img me-1" />
             <p className="text-white inter fs-11">Steve.brown</p>
           </div>
         </div>
@@ -38,11 +38,11 @@ const Reels = () => {
         <img alt="" src={reel_girl} className="reel_girl radius_8" />
         <div className=" reel-text h-100 justify-content-between d-flex flex-column p-2">
           <div className="d-flex align-items-center">
-            <img alt="" src={play_icon} className="icon-sm me-2" />{" "}
+            <img alt="" src={play_icon} className="icon-sm me-2" />
             <p className="text-white inter fs-12">22.0M</p>
           </div>
           <div className="d-flex align-items-center">
-            <img alt="" src={avatar} className="user_img me-1" />{" "}
+            <img alt="" src={avatar} className="user_img me-1" />
             <p className="text-white inter fs-11">Steve.brown</p>
           </div>
         </div>
@@ -51,11 +51,11 @@ const Reels = () => {
         <img alt="" src={reel_girl} className="reel_girl radius_8" />
         <div className=" reel-text h-100 justify-content-between d-flex flex-column p-2">
           <div className="d-flex align-items-center">
-            <img alt="" src={play_icon} className="icon-sm me-2" />{" "}
+            <img alt="" src={play_icon} className="icon-sm me-2" />
             <p className="text-white inter fs-12">22.0M</p>
           </div>
           <div className="d-flex align-items-center">
-            <img alt="" src={avatar} className="user_img me-1" />{" "}
+            <img alt="" src={avatar} className="user_img me-1" />
             <p className="text-white inter fs-11">Steve.brown</p>
           </div>
         </div>
@@ -64,11 +64,11 @@ const Reels = () => {
         <img alt="" src={reel_girl} className="reel_girl radius_8" />
         <div className=" reel-text h-100 justify-content-between d-flex flex-column p-2">
           <div className="d-flex align-items-center">
-            <img alt="" src={play_icon} className="icon-sm me-2" />{" "}
+            <img alt="" src={play_icon} className="icon-sm me-2" />
             <p className="text-white inter fs-12">22.0M</p>
           </div>
           <div className="d-flex align-items-center">
-            <img alt="" src={avatar} className="user_img me-1" />{" "}
+            <img alt="" src={avatar} className="user_img me-1" />
             <p className="text-white inter fs-11">Steve.brown</p>
           </div>
         </div>
@@ -77,11 +77,11 @@ const Reels = () => {
         <img alt="" src={reel_girl} className="reel_girl radius_8" />
         <div className=" reel-text h-100 justify-content-between d-flex flex-column p-2">
           <div className="d-flex align-items-center">
-            <img alt="" src={play_icon} className="icon-sm me-2" />{" "}
+            <img alt="" src={play_icon} className="icon-sm me-2" />
             <p className="text-white inter fs-12">22.0M</p>
           </div>
           <div className="d-flex align-items-center">
-            <img alt="" src={avatar} className="user_img me-1" />{" "}
+            <img alt="" src={avatar} className="user_img me-1" />
             <p className="text-white inter fs-11">Steve.brown</p>
           </div>
         </div>
@@ -90,11 +90,11 @@ const Reels = () => {
         <img alt="" src={reel_girl} className="reel_girl radius_8" />
         <div className=" reel-text h-100 justify-content-between d-flex flex-column p-2">
           <div className="d-flex align-items-center">
-            <img alt="" src={play_icon} className="icon-sm me-2" />{" "}
+            <img alt="" src={play_icon} className="icon-sm me-2" />
             <p className="text-white inter fs-12">22.0M</p>
           </div>
           <div className="d-flex align-items-center">
-            <img alt="" src={avatar} className="user_img me-1" />{" "}
+            <img alt="" src={avatar} className="user_img me-1" />
             <p className="text-white inter fs-11">Steve.brown</p>
           </div>
         </div>
@@ -103,11 +103,11 @@ const Reels = () => {
         <img alt="" src={reel_girl} className="reel_girl radius_8" />
         <div className=" reel-text h-100 justify-content-between d-flex flex-column p-2">
           <div className="d-flex align-items-center">
-            <img alt="" src={play_icon} className="icon-sm me-2" />{" "}
+            <img alt="" src={play_icon} className="icon-sm me-2" />
             <p className="text-white inter fs-12">22.0M</p>
           </div>
           <div className="d-flex align-items-center">
-            <img alt="" src={avatar} className="user_img me-1" />{" "}
+            <img alt="" src={avatar} className="user_img me-1" />
             <p className="text-white inter fs-11">Steve.brown</p>
           </div>
         </div>

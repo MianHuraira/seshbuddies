@@ -20,6 +20,9 @@ const Chat = lazy(() => import("../pages/messages/message2"));
 const Reels = lazy(() => import("../pages/Reels"));
 const Sessions = lazy(() => import("../pages/Sessions"));
 const LiveStream = lazy(() => import("../pages/LiveStream"));
+// for test
+
+const Test = lazy(() => import("../pages/Registration/CreateName"));
 const Router = () => {
   return (
     <Suspense
@@ -33,6 +36,10 @@ const Router = () => {
         {
           path: "/",
           element: <StartUp />,
+        },
+        {
+          path: "/test",
+          element: <Test />,
         },
         {
           path: "/home",

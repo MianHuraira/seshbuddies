@@ -4,11 +4,12 @@ import { Form, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import logo from "../assets/logo/logo.png";
 import logo_text from "../assets/logo/logo-text.png";
-import Search_icon from "../assets/icons/search_icon.png";
 import { useLocation } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
-import logoWhite from "../assets/logo/logo_white.png";
-import LogoTextWhite from "../assets/logo/logo_text_white.png";
+import logoWhite from "../assets/logo/logo_white.svg";
+import LogoTextWhite from "../assets/logo/logo_text_white.svg";
+import SearchIcon from "../assets/icons/search_icon.svg";
+import SearchWhite from "../assets/icons/search_icon_white.svg";
 
 import Profile from "./Profile";
 
@@ -24,17 +25,13 @@ const Header = () => {
 
   let allPath = false;
 
-  if (getPath === "/live_stream" || getPath === "/sessions" || getPath === "/reels") {
+  if (getPath === "/live_stream" || getPath === "/reels") {
     allPath = true;
   }
 
   let chngBg = "";
 
-  if (
-    getPath === "/reels" ||
-    getPath === "/sessions" ||
-    getPath === "/live_stream"
-  ) {
+  if (getPath === "/reels" || getPath === "/live_stream") {
     chngBg = "nav_gbg";
   }
 
@@ -61,19 +58,14 @@ const Header = () => {
           <NavLink
             to={"/search"}
             style={{
-              backgroundColor:
-              allPath ? "rgba(45, 61, 56, 0.3)" : "",
+              backgroundColor: allPath ? "rgba(45, 61, 56, 0.3)" : "",
             }}
             className="search_div"
           >
-            {/* <img
+            <img
               className="icon_size_tab search_icon me-2"
-              src={Search_icon}
+              src={allPath ? SearchWhite : SearchIcon}
               alt=""
-            /> */}
-            <BiSearch
-              style={{ color: allPath ? "white" : "" }}
-              className="search_icon me-2"
             />
             <Form.Control
               type="email"
@@ -82,8 +74,7 @@ const Header = () => {
             />
           </NavLink>
           <div className="blank_div mx-2"></div>
-          <div
-            className={` ${ allPath ? "item_nav" : "clr_chng nav_item" } `} >
+          <div className={` ${allPath ? "item_nav" : "clr_chng nav_item"} `}>
             <NavLink
               className="me-3"
               onClick={() => handleNavLinkClick("home")}
@@ -104,7 +95,7 @@ const Header = () => {
             </NavLink>
             <NavLink
               className="me-3"
-              to={"/users"}
+              to={"/buddies"}
               onClick={() => handleNavLinkClick("user")}
             >
               <svg
@@ -143,8 +134,8 @@ const Header = () => {
                     fill={allPath ? "white" : "#6C7774"}
                   />
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M16.9248 5.45784H0.674805V16.4995C0.674805 16.8447 0.954627 17.1245 1.2998 17.1245H16.2998C16.645 17.1245 16.9248 16.8447 16.9248 16.4995V5.45784ZM11.7165 11.0828L7.13314 8.16618V13.9995L11.7165 11.0828Z"
                     fill={allPath ? "white" : "#6C7774"}
                   />
@@ -190,8 +181,7 @@ const Header = () => {
             <NavLink
               to={"/notification"}
               style={{
-                backgroundColor:
-                allPath ? "rgba(45, 61, 56, 0.26)" : "",
+                backgroundColor: allPath ? "rgba(45, 61, 56, 0.26)" : "",
               }}
               className="icon_div me-3"
             >
@@ -211,8 +201,7 @@ const Header = () => {
             <NavLink
               to={"/chat"}
               style={{
-                backgroundColor:
-                  allPath ? "rgba(45, 61, 56, 0.26)" : "",
+                backgroundColor: allPath ? "rgba(45, 61, 56, 0.26)" : "",
               }}
               className="icon_div me-3"
             >

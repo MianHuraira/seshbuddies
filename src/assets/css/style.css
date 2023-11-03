@@ -303,7 +303,7 @@
   font-size: 21px;
 }
 .startUpCont {
-  color: #ffffff;
+  color: #c8ded3;
   font-family: inter-light;
   font-size: 13px;
 }
@@ -418,9 +418,13 @@
 }
 
 .age_inp {
-  background: #02150f;
   border: none !important;
-  color: #32b744;
+  color: #32b744 !important;
+  height: 54px;
+  background-color: #02150f !important;
+  text-align: center !important;
+  font-size: "inter-regular";
+  border-radius: 12px !important;
 }
 .age_inp:focus {
   background: #02150f;
@@ -811,8 +815,41 @@
   border-radius: 12px;
   height: 35rem;
 }
-.likes_modal_head .btn-close{
+.likes_modal_head .btn-close {
   margin: 0px !important;
+}
+.errrDiv {
+  color: #ed6054;
+  font-family: "inter-regular";
+  font-size: 13px;
+  text-align: center;
+}
+.erorborder {
+  border: 1px solid #ed6054 !important;
+}
+.activeB {
+  border: 1px solid rgb(50, 183, 68) !important;
+}
+.storyModal00 {
+  height: 35rem;
+  background: black;
+}
+.childStory00 {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  object-fit: contain;
+}
+.modalS .modal-dialog .modal-content {
+  border-radius: 14px;
+}
+.storyB00 {
+  position: absolute;
+  bottom: 0;
+  right: 18px;
+  left: 18px;
+  margin-bottom: 12px;
+  width: auto;
 }
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
@@ -1024,15 +1061,14 @@
   margin: auto;
   height: 44px;
   border-radius: 100px;
-  background-color: #eef5f2;
+  background-color: #f6f3f7;
   padding-top: 2px;
   padding-left: 7px;
   display: flex;
   align-items: center;
 }
 .comment_input input {
-  width: 60%;
-  background-color: #eef5f2;
+  background-color: transparent;
   border: none;
   border-radius: 100px;
 }
@@ -1040,7 +1076,7 @@
   border: none;
   outline: none;
   box-shadow: none;
-  background-color: #eef5f2;
+  background-color: transparent;
 }
 .close_btn {
   width: 24px;
@@ -1114,7 +1150,6 @@
   height: Fixed (52px);
   padding: 17px 14px 17px 14px;
   font-size: 14px;
-  font-size: "inter";
   font-weight: bold;
 }
 .report_success_btn {
@@ -1124,10 +1159,9 @@
   width: 100%;
   text-align: left;
   border-radius: 13px;
-  height: Fixed (52px);
   padding: 10px 14px 10px 14px;
   font-size: 12px;
-  font-size: "inter";
+  font-family: "inter-regular";
   font-weight: 500;
 }
 .modal_width {

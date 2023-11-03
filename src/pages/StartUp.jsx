@@ -1,8 +1,8 @@
 import React from "react";
-import Logowhite from "../assets/logo/logo_white.png";
-import LogoTextwhite from "../assets/logo/logo_text_white.png";
-import GoogleIcon from "../assets/icons/google_icon.png";
-import AppleIcon from "../assets/icons/apple_icon.png";
+import Logowhite from "../assets/logo/logo_white.svg";
+import LogoTextwhite from "../assets/logo/logo_text_white.svg";
+import GoogleIcon from "../assets/icons/google_icon.svg";
+import AppleIcon from "../assets/icons/apple_icon.svg";
 import { NavLink } from "react-router-dom";
 
 const StartUp = () => {
@@ -11,7 +11,7 @@ const StartUp = () => {
       <div className="main_startUp">
         <div className="d-flex align-items-center mb-5">
           <img src={Logowhite} className="logo_icon" alt="" />
-          <img className="logo_text" src={LogoTextwhite} alt="" />
+          <img className="logo_text ms-1" src={LogoTextwhite} alt="" />
         </div>
         <h3 className="startUpHead text-center mt-4">
           The Friendliest Cannabis <br /> Social Network

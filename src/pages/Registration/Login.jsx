@@ -1,13 +1,14 @@
 import { React, useState } from "react";
 import { Form } from "react-bootstrap";
-import openEye from "../../assets/icons/open_eye.png";
-import closeEye from "../../assets/icons/close_eye.png";
-import GoogleIcon from "../../assets/icons/google_icon.png";
-import AppleIcon from "../../assets/icons/apple_icon.png";
+import openEye from "../../assets/icons/open_eye.svg";
+import closeEye from "../../assets/icons/close_eye.svg";
+import GoogleIcon from "../../assets/icons/google_icon.svg";
+import AppleIcon from "../../assets/icons/apple_icon.svg";
 import { NavLink } from "react-router-dom";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
   const [inputType, setInputType] = useState("password");
 
   const togglePasswordVisibility = () => {
@@ -27,36 +28,34 @@ const Login = () => {
           <Form className="w-100 mt-4">
             <Form.Group className="mb-4" controlId="formBasicEmail">
               <Form.Control
-                className="login_inp p-2"
+                className="login_inp p-2 radius_12"
                 type="email"
-                placeholder="Enter your email or username"
+                placeholder="Enter your email or username ok"
               />
             </Form.Group>
 
             <Form.Group className="mb-4" controlId="formBasicPassword">
-              <div className="d-flex align-items-center login_inp p-2">
+              <div
+                className={`d-flex align-items-center login_inp p-2 ${
+                  isInputFocused ? "focused" : ""
+                }`}
+              >
                 <Form.Control
                   className="hide_fcontrol p-0"
                   type={inputType}
                   placeholder="Enter password"
+                  onFocus={() => setIsInputFocused(true)}
+                  onBlur={() => setIsInputFocused(false)}
                 />
-                {passwordVisible ? (
-                  <img
-                    className="pass_img"
-                    src={openEye}
-                    alt=""
-                    onClick={togglePasswordVisibility}
-                  />
-                ) : (
-                  <img
-                    className="pass_img"
-                    src={closeEye}
-                    alt=""
-                    onClick={togglePasswordVisibility}
-                  />
-                )}
+                <img
+                  className="pass_img"
+                  src={passwordVisible ? openEye : closeEye}
+                  alt=""
+                  onClick={togglePasswordVisibility}
+                />
               </div>
             </Form.Group>
+
             <h4 className="for_text">Forgot Password?</h4>
             <NavLink
               to={"/home"}
@@ -67,7 +66,7 @@ const Login = () => {
             </NavLink>
           </Form>
 
-          <h4 className="mt-4 sb_head">OR CONTINUE WITH</h4>
+          <h4 className="mt-4 mb-4 sb_head">OR CONTINUE WITH</h4>
 
           <button type="btn" className="login_btn_div border_btn_l mt-2">
             <div className="d-flex align-items-center">

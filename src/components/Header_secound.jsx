@@ -3,9 +3,9 @@ import "../assets/css/style.css";
 import { Navbar } from "react-bootstrap";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/logo/logo.png";
-import logoWhite from "../assets/logo/logo_white.png";
+import logoWhite from "../assets/logo/logo_white.svg";
 import logo_text from "../assets/logo/logo-text.png";
-import LogoTextWhite from "../assets/logo/logo_text_white.png";
+import LogoTextWhite from "../assets/logo/logo_text_white.svg";
 import infoIcon from "../assets/icons/info_icon.png";
 const Header_secound = () => {
   const location = useLocation();

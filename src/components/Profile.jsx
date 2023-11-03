@@ -14,7 +14,6 @@ const Profile = () => {
 
   if (
     getPath === "/live_stream" ||
-    getPath === "/sessions" ||
     getPath === "/reels"
   ) {
     allPath = true;

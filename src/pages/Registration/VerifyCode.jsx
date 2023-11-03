@@ -6,7 +6,6 @@ const VerifyCode = ({ title }) => {
   const [code, setCode] = useState(["", "", "", "", ""]);
   const codeInputs = [useRef(), useRef(), useRef(), useRef(), useRef()];
   const [currentPage, setCurrentPage] = useState("verify");
-
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleCodeChange = (e, index) => {
@@ -17,18 +16,25 @@ const VerifyCode = ({ title }) => {
         const newCode = [...prevCode];
         newCode[index] = value;
 
+        if (value !== "") {
+          codeInputs[index].current.classList.add("activeB");
+        } else {
+          codeInputs[index].current.classList.remove("activeB");
+        }
+
         if (index < 4 && value !== "") {
           codeInputs[index + 1].current.focus();
         } else if (index === 4 && value !== "") {
-          // Check if the code is correct
           const enteredCode = newCode.join("");
           if (enteredCode === "22222") {
             setCurrentPage("createPass");
           } else {
             setErrorMessage("Incorrect code");
           }
+        } else if (index > 0 && value === "") {
+          codeInputs[index - 1].current.focus();
         } else {
-          setErrorMessage(""); // Clear the error message if the input is empty
+          setErrorMessage("");
         }
 
         return newCode;
@@ -86,13 +92,18 @@ const VerifyCode = ({ title }) => {
                     />
                   ))}
                 </Form.Group>
-                {errorMessage && <div className="error_div mt-3"> <img className="me-2" src={errorIcon} alt="" /> {errorMessage}</div>}
+                {errorMessage && (
+                  <div className="error_div mt-3">
+                    <img className="me-2" src={errorIcon} alt="" />
+                    {errorMessage}
+                  </div>
+                )}
               </Form>
               <h5 className="sb_head mt-4">Resend code {timer}s</h5>
               <div className="mt-4">
                 {showResendLink ? (
                   <h5 className="counter_con">
-                    Didn’t get a code?{" "}
+                    Didn’t get a code?
                     <span
                       onClick={handleResendCode}
                       style={{ color: "#32B744", cursor: "pointer" }}

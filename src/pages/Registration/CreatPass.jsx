@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import { Form } from "react-bootstrap";
-import openEye from "../../assets/icons/open_eye.png";
-import closeEye from "../../assets/icons/close_eye.png";
+import openEye from "../../assets/icons/open_eye.svg";
+import closeEye from "../../assets/icons/close_eye.svg";
 import CreateName from "./CreateName";
 
 const CreatPass = () => {
@@ -9,10 +9,9 @@ const CreatPass = () => {
   const [inputType, setInputType] = useState("password");
   const [isLetterAndNumberValid, setIsLetterAndNumberValid] = useState(false);
   const [specialCa, setSpecialCa] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
   const [showCreateName, setShowCreateName] = useState(false);
-
-
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -102,31 +101,28 @@ const CreatPass = () => {
             </h5>
             <Form className="w-100 mt-4">
               <Form.Group className="mb-4" controlId="formBasicPassword">
-                <div className="d-flex align-items-center login_inp p-2">
+                <div
+                  className={`d-flex align-items-center login_inp p-2 ${
+                    isInputFocused ? "focused" : ""
+                  }`}
+                >
                   <Form.Control
                     className="hide_fcontrol  p-0"
                     type={inputType}
                     placeholder="Enter password"
                     value={password}
+                    onFocus={() => setIsInputFocused(true)}
+                    onBlur={() => setIsInputFocused(false)}
                     onChange={({ target }) => {
                       handlePassword(target.value);
                     }}
                   />
-                  {passwordVisible ? (
-                    <img
-                      className="pass_img"
-                      src={openEye}
-                      alt=""
-                      onClick={togglePasswordVisibility}
-                    />
-                  ) : (
-                    <img
-                      className="pass_img"
-                      src={closeEye}
-                      alt=""
-                      onClick={togglePasswordVisibility}
-                    />
-                  )}
+                  <img
+                    className="pass_img"
+                    src={passwordVisible ? openEye : closeEye}
+                    alt=""
+                    onClick={togglePasswordVisibility}
+                  />
                 </div>
               </Form.Group>
 
@@ -143,8 +139,8 @@ const CreatPass = () => {
                     fill="none"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M1.5 9C1.5 5.27208 4.52208 2.25 8.25 2.25C11.9779 2.25 15 5.27208 15 9C15 12.7279 11.9779 15.75 8.25 15.75C4.52208 15.75 1.5 12.7279 1.5 9ZM8.25 0.75C3.69365 0.75 0 4.44365 0 9C0 13.5563 3.69365 17.25 8.25 17.25C12.8063 17.25 16.5 13.5563 16.5 9C16.5 4.44365 12.8063 0.75 8.25 0.75ZM12.7803 7.53033C13.0732 7.23744 13.0732 6.76256 12.7803 6.46967C12.4874 6.17678 12.0126 6.17678 11.7197 6.46967L7.25 10.9393L5.28033 8.96967C4.98744 8.67678 4.51256 8.67678 4.21967 8.96967C3.92678 9.26256 3.92678 9.73744 4.21967 10.0303L6.71967 12.5303L7.25 13.0607L7.78033 12.5303L12.7803 7.53033Z"
                       fill={isPassword8Characters ? "#4EB77B" : "#DBD8DB"}
                     />
@@ -165,8 +161,8 @@ const CreatPass = () => {
                     fill="none"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M1.5 9C1.5 5.27208 4.52208 2.25 8.25 2.25C11.9779 2.25 15 5.27208 15 9C15 12.7279 11.9779 15.75 8.25 15.75C4.52208 15.75 1.5 12.7279 1.5 9ZM8.25 0.75C3.69365 0.75 0 4.44365 0 9C0 13.5563 3.69365 17.25 8.25 17.25C12.8063 17.25 16.5 13.5563 16.5 9C16.5 4.44365 12.8063 0.75 8.25 0.75ZM12.7803 7.53033C13.0732 7.23744 13.0732 6.76256 12.7803 6.46967C12.4874 6.17678 12.0126 6.17678 11.7197 6.46967L7.25 10.9393L5.28033 8.96967C4.98744 8.67678 4.51256 8.67678 4.21967 8.96967C3.92678 9.26256 3.92678 9.73744 4.21967 10.0303L6.71967 12.5303L7.25 13.0607L7.78033 12.5303L12.7803 7.53033Z"
                       fill={isLetterAndNumberValid ? "#4EB77B" : "#DBD8DB"}
                     />
@@ -187,8 +183,8 @@ const CreatPass = () => {
                     fill="none"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M1.5 9C1.5 5.27208 4.52208 2.25 8.25 2.25C11.9779 2.25 15 5.27208 15 9C15 12.7279 11.9779 15.75 8.25 15.75C4.52208 15.75 1.5 12.7279 1.5 9ZM8.25 0.75C3.69365 0.75 0 4.44365 0 9C0 13.5563 3.69365 17.25 8.25 17.25C12.8063 17.25 16.5 13.5563 16.5 9C16.5 4.44365 12.8063 0.75 8.25 0.75ZM12.7803 7.53033C13.0732 7.23744 13.0732 6.76256 12.7803 6.46967C12.4874 6.17678 12.0126 6.17678 11.7197 6.46967L7.25 10.9393L5.28033 8.96967C4.98744 8.67678 4.51256 8.67678 4.21967 8.96967C3.92678 9.26256 3.92678 9.73744 4.21967 10.0303L6.71967 12.5303L7.25 13.0607L7.78033 12.5303L12.7803 7.53033Z"
                       fill={specialCa ? "#4EB77B" : "#DBD8DB"}
                     />

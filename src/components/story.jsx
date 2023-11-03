@@ -4,23 +4,34 @@ import stars from "../assets/logo/icons/star.svg";
 import dots from "../assets/logo/icons/3dots.svg";
 import pineapple from "../assets/logo/pineapple_express.svg";
 import likes from "../assets/logo/icons/likes.svg";
-// import add_icon from "../assets/logo/icons/Status-plus.svg";
 import like_btn from "../assets/icons/like_transparent.svg";
+import greenLeaf from "../assets/icons/greenLeaf.svg";
 import comment_btn from "../assets/logo/icons/commentsvg.svg";
 import share_btn from "../assets/logo/icons/share.svg";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { Row, Col, Modal, Form } from "react-bootstrap";
 import status_icon from "../assets/logo/icons/Status_Icon.svg";
-import { Modal } from "react-bootstrap";
+import avatar from "../assets/logo/yellow_girl.svg";
+import heart from "../assets/logo/icons/heart.svg";
+import union from "../assets/logo/icons/union.svg";
+import emoji from "../assets/logo/icons/emoji.svg";
+import comment_upload from "../assets/logo/icons/comment_upload.svg";
+import Colapse from "./colapse";
 import angle_right from "../assets/logo/icons/angle_right.svg";
 import alert_success from "../assets/logo/alert-success.svg";
 import icon_info from "../assets/logo/icons/icn-info.svg";
 import icon_start from "../assets/logo/icons/icn-eye-off.svg";
+import { Link } from "react-router-dom";
+import Video from "../assets/video/startUpVideo.mp4";
 
-const Story = ({ handleShow, show }) => {
+const Story = () => {
   const [Likes, setShow] = useState(false);
   const Likes_btn_close = () => setShow(false);
   const Likes_btn_open = () => setShow(true);
+  const [liked, setLiked] = useState(false);
+
+  const handleLike = () => {
+    setLiked(!liked);
+  };
 
   const showSuccess = () => {
     setReport(false);
@@ -42,129 +53,244 @@ const Story = ({ handleShow, show }) => {
     setFollow(!follow);
   };
 
-  return (
-    <div
-      className={
-        show === false
-          ? "bg-white pt-1 mt-3 radius_12 mb-4 overflow-hidden"
-          : "bg-white pt-1 radius_12 overflow-hidden"
-      }
-    >
-      <div className="px-3">
-        <div className="d-flex mt-2">
-          <div className="position-relative">
-            <img alt="" src={girl} className="message-dp" />
-            <img alt="" src={status_icon} className="status_plus" />
-          </div>
-          <div className="status ms-2">
-            <p className="inter-semi fs-15">steve.brown </p>
-            <h1 className="fs-14 align_center green-txt inter">
-              New York, USA<span>.</span>
-              <p className="ms-1 black_text_md inter-light ">5 min</p>
-            </h1>
-          </div>
-          <div className=" ms-auto d-flex justify-content-center align-items-center">
-            <div className="d-flex align-items-start me-3 justify-content-center">
-              <img alt="" src={stars} className="rating-star" />
-              <h1 className="black_text_md_bold ms-1">
-                4.9
-                <button
-                  className="border-0 bg-transparent"
-                  onClick={report_btn_open}
-                >
-                  <img alt="" src={dots} className="ms-2" />
-                </button>
-              </h1>
-            </div>
-          </div>
-        </div>
-        <div className="d-flex justify-content-evenly mt-3">
-          <div className="d-flex desc align-items-center justify-content-center">
-            <img alt="" src={stars} className="inter rating-star" />
-            <p className="ms-1 inter fs-11">Quality</p>
-            <p className="ms-1 green-txt inter fs-11">4.9</p>
-          </div>
-          <div className="d-flex desc align-items-center justify-content-center">
-            <img alt="" src={stars} className="inter rating-star" />
-            <p className="ms-1 inter fs-11">Quality</p>
-            <p className="ms-1 green-txt inter fs-11">4.5</p>
-          </div>
-          <div className="d-flex desc align-items-center justify-content-center">
-            <img alt="" src={stars} className="inter rating-star" />
-            <p className="ms-1 inter fs-11">Rollies</p>
-            <p className="ms-1 green-txt inter fs-11">4.0</p>
-          </div>
-        </div>
-        <p className="black_text_md mt-2 ms-1">
-          Just tried the new Pineapple Express strain. 10/10 would recommend!
-          🍍🔥
-        </p>
-        <div className="m-auto mt-2">
-          <img alt="" src={pineapple} className="story_img mb-2" />
-          <div className="d-flex justify-content-between pb-1">
-            <div className="d-flex">
-              <p className="inherit black_text_md align_center">
-                <img alt="" src={likes} className="ms-2 me-1" />
-                541
-              </p>
-            </div>
-            <div className="d-flex">
-              <p className="me-2 light_text_sm">26 Comments</p>
-              <p className="me-2 light_text_sm">87 Shares</p>
-              <p className="me-2 light_text_sm">2.5k Views</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <Row className="w-100 h-100 p-0 border-top m-auto">
-        {show === false ? (
-          <Col sm="4" className="like_btn">
-            <button className=" bg-white" onClick={Likes_btn_open}>
-              <img alt="" src={like_btn} className="me-2" />
-              Like
-            </button>
-          </Col>
-        ) : (
-          <Col sm="6" xs={6} className="like_btn">
-            <button className=" bg-white">
-              <img alt="" src={like_btn} className="me-2" />
-              Like
-            </button>
-          </Col>
-        )}
-        {show === false && (
-          <Col sm="4" className="like_btn">
-            <button className=" bg-white" onClick={handleShow}>
-              <img alt="" src={comment_btn} className="me-2" />
-              Comment
-            </button>
-          </Col>
-        )}
+  const [coment, setComent] = useState(false);
 
-        {show === false ? (
+  const handleClose = () => setComent(false);
+  const comentModal = () => setComent(true);
+
+  return (
+    <>
+      <div className="bg-white mt-3 radius_12 mb-4 overflow-hidden">
+        <div className="px-3">
+          <div className="d-flex justify-content-between mt-2">
+            <Link to={"/users"} className="d-flex align-items-center">
+              <div className="position-relative">
+                <img alt="" src={girl} className="message-dp" />
+                <img alt="" src={status_icon} className="status_plus" />
+              </div>
+              <div className="status ms-2">
+                <p style={{ color: "#252525" }} className="inter-semi fs-15">
+                  steve.brown
+                </p>
+                <h1 className="fs-14 align_center green-txt inter">
+                  New York, USA<span>.</span>
+                  <p className="ms-1 black_text_md inter-light ">5 min</p>
+                </h1>
+              </div>
+            </Link>
+
+            <div className="d-flex justify-content-center align-items-center">
+              <div className="d-flex align-items-start me-3 justify-content-center">
+                <img alt="" src={stars} className="rating-star" />
+                <h1 className="black_text_md_bold ms-1">
+                  4.9
+                  <button
+                    className="border-0 bg-transparent"
+                    onClick={report_btn_open}
+                  >
+                    <img alt="" src={dots} className="ms-2" />
+                  </button>
+                </h1>
+              </div>
+            </div>
+          </div>
+          <div className="d-flex justify-content-evenly mt-3">
+            <div className="d-flex desc align-items-center justify-content-center">
+              <img alt="" src={stars} className="inter rating-star" />
+              <p className="ms-1 inter fs-11">Quality</p>
+              <p className="ms-1 green-txt inter fs-11">4.9</p>
+            </div>
+            <div className="d-flex desc align-items-center justify-content-center">
+              <img alt="" src={stars} className="inter rating-star" />
+              <p className="ms-1 inter fs-11">Quality</p>
+              <p className="ms-1 green-txt inter fs-11">4.5</p>
+            </div>
+            <div className="d-flex desc align-items-center justify-content-center">
+              <img alt="" src={stars} className="inter rating-star" />
+              <p className="ms-1 inter fs-11">Rollies</p>
+              <p className="ms-1 green-txt inter fs-11">4.0</p>
+            </div>
+          </div>
+          <p className="black_text_md mt-2 ms-1">
+            Just tried the new Pineapple Express strain. 10/10 would recommend!
+            🍍🔥
+          </p>
+          <div className="m-auto mt-2">
+            <img
+              onClick={comentModal}
+              alt=""
+              src={pineapple}
+              className="story_img mb-2"
+            />
+            <div className="d-flex justify-content-between pb-1">
+              <div className="d-flex">
+                <p
+                  onClick={Likes_btn_open}
+                  className="inherit black_text_md cursorP align_center"
+                >
+                  <img alt="" src={likes} className="ms-2 me-1" />
+                  541
+                </p>
+              </div>
+              <div className="d-flex">
+                <p className="me-2 light_text_sm">26 Comments</p>
+                <p className="me-2 light_text_sm">87 Shares</p>
+                <p className="me-2 light_text_sm">2.5k Views</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Row className="w-100 h-100 p-0 border-top m-auto">
+          <Col sm="4" className="like_btn">
+            <div
+              onClick={handleLike}
+              className="bg-white cursorP d-flex align-items-center justify-content-center"
+            >
+              <img
+                style={{ width: "20px", height: "20px" }}
+                alt=""
+                src={liked ? greenLeaf : like_btn}
+                className="me-3"
+              />
+              {liked ? "Liked" : "Like"}
+            </div>
+          </Col>
+
+          <Col onClick={comentModal} sm="4" className="like_btn">
+            <div className="bg-white cursorP d-flex align-items-center justify-content-center">
+              <img alt="" src={comment_btn} className="me-3" />
+              Comment
+            </div>
+          </Col>
+
           <Col sm="4" className="like_btn border-0">
-            <button className=" bg-white">
-              <img alt="" src={share_btn} className="me-2" />
+            <button className="bg-white cursorP d-flex align-items-center justify-content-center">
+              <img alt="" src={share_btn} className="me-3" />
               Share
             </button>
           </Col>
-        ) : (
-          <Col sm="6" xs={6} className="like_btn border-0">
-            <button className=" bg-white">
-              <img alt="" src={share_btn} className="me-2" />
+        </Row>
+      </div>
+      <div className="bg-white mt-3 radius_12 mb-4 overflow-hidden">
+        <div className="px-3">
+          <div className="d-flex justify-content-between mt-2">
+            <Link to={"/users"} className="d-flex align-items-center">
+              <div className="position-relative">
+                <img alt="" src={girl} className="message-dp" />
+                <img alt="" src={status_icon} className="status_plus" />
+              </div>
+              <div className="status ms-2">
+                <p style={{ color: "#252525" }} className="inter-semi fs-15">
+                  steve.brown
+                </p>
+                <h1 className="fs-14 align_center green-txt inter">
+                  New York, USA<span>.</span>
+                  <p className="ms-1 black_text_md inter-light ">5 min</p>
+                </h1>
+              </div>
+            </Link>
+
+            <div className="d-flex justify-content-center align-items-center">
+              <div className="d-flex align-items-start me-3 justify-content-center">
+                <img alt="" src={stars} className="rating-star" />
+                <h1 className="black_text_md_bold ms-1">
+                  4.9
+                  <button
+                    className="border-0 bg-transparent"
+                    onClick={report_btn_open}
+                  >
+                    <img alt="" src={dots} className="ms-2" />
+                  </button>
+                </h1>
+              </div>
+            </div>
+          </div>
+          <div className="d-flex justify-content-evenly mt-3">
+            <div className="d-flex desc align-items-center justify-content-center">
+              <img alt="" src={stars} className="inter rating-star" />
+              <p className="ms-1 inter fs-11">Quality</p>
+              <p className="ms-1 green-txt inter fs-11">4.9</p>
+            </div>
+            <div className="d-flex desc align-items-center justify-content-center">
+              <img alt="" src={stars} className="inter rating-star" />
+              <p className="ms-1 inter fs-11">Quality</p>
+              <p className="ms-1 green-txt inter fs-11">4.5</p>
+            </div>
+            <div className="d-flex desc align-items-center justify-content-center">
+              <img alt="" src={stars} className="inter rating-star" />
+              <p className="ms-1 inter fs-11">Rollies</p>
+              <p className="ms-1 green-txt inter fs-11">4.0</p>
+            </div>
+          </div>
+          <p className="black_text_md mt-2 ms-1">
+            Just tried the new Pineapple Express strain. 10/10 would recommend!
+            🍍🔥
+          </p>
+          <div className="m-auto mt-2">
+            <video
+              controls
+              onClick={comentModal}
+              className="story_img mb-2"
+              src={Video}
+            />
+
+            <div className="d-flex justify-content-between pb-1">
+              <div className="d-flex">
+                <p
+                  onClick={Likes_btn_open}
+                  className="inherit black_text_md cursorP align_center"
+                >
+                  <img alt="" src={likes} className="ms-2 me-1" />
+                  541
+                </p>
+              </div>
+              <div className="d-flex">
+                <p className="me-2 light_text_sm">26 Comments</p>
+                <p className="me-2 light_text_sm">87 Shares</p>
+                <p className="me-2 light_text_sm">2.5k Views</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Row className="w-100 h-100 p-0 border-top m-auto">
+          <Col sm="4" className="like_btn">
+            <div
+              onClick={handleLike}
+              className="bg-white cursorP d-flex align-items-center justify-content-center"
+            >
+              <img
+                style={{ width: "20px", height: "20px" }}
+                alt=""
+                src={liked ? greenLeaf : like_btn}
+                className="me-3"
+              />
+              {liked ? "Liked" : "Like"}
+            </div>
+          </Col>
+
+          <Col onClick={comentModal} sm="4" className="like_btn">
+            <div className="bg-white cursorP d-flex align-items-center justify-content-center">
+              <img alt="" src={comment_btn} className="me-3" />
+              Comment
+            </div>
+          </Col>
+
+          <Col sm="4" className="like_btn border-0">
+            <button className="bg-white cursorP d-flex align-items-center justify-content-center">
+              <img alt="" src={share_btn} className="me-3" />
               Share
             </button>
           </Col>
-        )}
-      </Row>
-      <div></div>
+        </Row>
+      </div>
+
       {/* _____likes_modal___ */}
       <Modal
         show={Likes}
         onHide={Likes_btn_close}
         backdrop="static"
         keyboard={false}
-        dialogClassName="rating_modal"
+        centered
       >
         <Modal.Header closeButton className="px-3 py-2 likes_modal_head">
           <Modal.Title className="m-auto black_text_lg inter-bold fs-16 mt-1">
@@ -277,6 +403,321 @@ const Story = ({ handleShow, show }) => {
         </Modal.Body>
       </Modal>
 
+      {/* coment modal start */}
+
+      <Modal show={coment} onHide={handleClose} size="lg" centered>
+        <Modal.Body className="p-0">
+          <Row>
+            <Col
+              className="p-0"
+              style={{ borderRight: "2px solid #EEF5F2" }}
+              lg="6"
+            >
+              <div className="bg-white radius_12  overflow-hidden">
+                <div className="px-3">
+                  <div className="d-flex justify-content-between mt-2">
+                    <Link to={"/users"} className="d-flex align-items-center">
+                      <div className="position-relative">
+                        <img alt="" src={girl} className="message-dp" />
+                        <img alt="" src={status_icon} className="status_plus" />
+                      </div>
+                      <div className="status ms-2">
+                        <p
+                          style={{ color: "#252525" }}
+                          className="inter-semi fs-15"
+                        >
+                          steve.brown
+                        </p>
+                        <h1 className="fs-14 align_center green-txt inter">
+                          New York, USA<span>.</span>
+                          <p className="ms-1 black_text_md inter-light ">
+                            5 min
+                          </p>
+                        </h1>
+                      </div>
+                    </Link>
+
+                    <div className="d-flex justify-content-center align-items-center">
+                      <div className="d-flex align-items-start me-3 justify-content-center">
+                        <img alt="" src={stars} className="rating-star" />
+                        <h1 className="black_text_md_bold ms-1">
+                          4.9
+                          <button
+                            className="border-0 bg-transparent"
+                            onClick={report_btn_open}
+                          >
+                            <img alt="" src={dots} className="ms-2" />
+                          </button>
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-evenly mt-3">
+                    <div className="d-flex desc align-items-center justify-content-center">
+                      <img alt="" src={stars} className="inter rating-star" />
+                      <p className="ms-1 inter fs-11">Quality</p>
+                      <p className="ms-1 green-txt inter fs-11">4.9</p>
+                    </div>
+                    <div className="d-flex desc align-items-center justify-content-center">
+                      <img alt="" src={stars} className="inter rating-star" />
+                      <p className="ms-1 inter fs-11">Quality</p>
+                      <p className="ms-1 green-txt inter fs-11">4.5</p>
+                    </div>
+                    <div className="d-flex desc align-items-center justify-content-center">
+                      <img alt="" src={stars} className="inter rating-star" />
+                      <p className="ms-1 inter fs-11">Rollies</p>
+                      <p className="ms-1 green-txt inter fs-11">4.0</p>
+                    </div>
+                  </div>
+                  <p className="black_text_md mt-2 ms-1">
+                    Just tried the new Pineapple Express strain. 10/10 would
+                    recommend! 🍍🔥
+                  </p>
+                  <div className="m-auto mt-2">
+                    <img alt="" src={pineapple} className="story_img mb-2" />
+                    <div className="d-flex justify-content-between pb-1">
+                      <div className="d-flex">
+                        <p
+                          onClick={Likes_btn_open}
+                          className="inherit black_text_md cursorP align_center"
+                        >
+                          <img alt="" src={likes} className="ms-2 me-1" />
+                          541
+                        </p>
+                      </div>
+                      <div className="d-flex">
+                        <p className="me-2 light_text_sm">26 Comments</p>
+                        <p className="me-2 light_text_sm">87 Shares</p>
+                        <p className="me-2 light_text_sm">2.5k Views</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <Row className="w-100 h-100 p-0 border-top m-auto">
+                  <Col lg="6" className="like_btn">
+                    <div
+                      onClick={handleLike}
+                      className="bg-white cursorP d-flex align-items-center justify-content-center"
+                    >
+                      <img
+                        style={{ width: "20px", height: "20px" }}
+                        alt=""
+                        src={liked ? greenLeaf : like_btn}
+                        className="me-3"
+                      />
+                      {liked ? "Liked" : "Like"}
+                    </div>
+                  </Col>
+
+                  <Col lg="6" className="like_btn border-0">
+                    <button className="bg-white cursorP d-flex align-items-center justify-content-center">
+                      <img alt="" src={share_btn} className="me-3" />
+                      Share
+                    </button>
+                  </Col>
+                </Row>
+              </div>
+            </Col>
+            <Col lg="6">
+              <div className="d-flex flex-column justify-content-between">
+                <div className="d-flex justify-content-between align-items-center mt-3 mb-3">
+                  <h1 className="black_text_lg">35 Comments</h1>
+                  <button
+                    className="border-0 btn-close px-3 hide_fcontrol"
+                    onClick={handleClose}
+                  ></button>
+                </div>
+                <div className="pt-3 px-3 w-100 comment_block no_scrollbar overflow-y-auto overflow-x-hidden">
+                  <div className="d-flex align-items-start">
+                    <img alt="" src={avatar} className="comment_avatar" />
+                    <div className="w-100 ms-2">
+                      <div className="d-flex justify-content-between align-items-center w-100">
+                        <div>
+                          <h1 className="black_text_md inter-semi">
+                            Jane Doe
+                            <span className="light_text_sm ms-1">@Jane D</span>
+                          </h1>
+                        </div>
+                        <p className="gray_text_md justify_center">
+                          1h
+                          <img
+                            alt=""
+                            src={heart}
+                            className=" ms-2 mb-1 heart"
+                          />
+                        </p>
+                      </div>
+                      {/* <name & like section> */}
+
+                      <p className="black_text_md">Looks Like a great time!</p>
+
+                      <p className="black_text_md">
+                        2022-12-23
+                        <button className="border-0 green-txt bg-white inter-semi ms-2">
+                          Reply
+                        </button>
+                        <Colapse children={<Colapse />} />
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="d-flex align-items-start mt-3">
+                    <img alt="" src={avatar} className="comment_avatar" />
+                    <div className="w-100 ms-2">
+                      <div className="d-flex justify-content-between align-items-center w-100">
+                        <div>
+                          <h1 className="black_text_md inter-semi">
+                            Jane Doe
+                            <span className="light_text_sm ms-1">@Jane D</span>
+                          </h1>
+                        </div>
+                        <p className="gray_text_md justify_center">
+                          1h
+                          <img
+                            alt=""
+                            src={heart}
+                            className=" ms-2 mb-1 heart"
+                          />
+                        </p>
+                      </div>
+
+                      <p className="black_text_md">Looks Like a great time!</p>
+
+                      <p className="black_text_md">
+                        2022-12-23
+                        <button className="border-0 green-txt bg-white inter-semi ms-2">
+                          Reply
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="d-flex align-items-start mt-3">
+                    <img alt="" src={avatar} className="comment_avatar" />
+                    <div className="w-100 ms-2">
+                      <div className="d-flex justify-content-between align-items-center w-100">
+                        <div>
+                          <h1 className="black_text_md inter-semi">
+                            Jane Doe
+                            <span className="light_text_sm ms-1">@Jane D</span>
+                          </h1>
+                        </div>
+                        <p className="gray_text_md justify_center">
+                          1h
+                          <img
+                            alt=""
+                            src={heart}
+                            className=" ms-2 mb-1 heart"
+                          />
+                        </p>
+                      </div>
+
+                      <p className="black_text_md">Looks Like a great time!</p>
+
+                      <p className="black_text_md">
+                        2022-12-23
+                        <button className="border-0 green-txt bg-white inter-semi ms-2">
+                          Reply
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="d-flex align-items-start mt-3">
+                    <img alt="" src={avatar} className="comment_avatar" />
+                    <div className="w-100 ms-2">
+                      <div className="d-flex justify-content-between align-items-center w-100">
+                        <div>
+                          <h1 className="black_text_md inter-semi">
+                            Jane Doe
+                            <span className="light_text_sm ms-1">@Jane D</span>
+                          </h1>
+                        </div>
+                        <p className="gray_text_md justify_center">
+                          1h
+                          <img
+                            alt=""
+                            src={heart}
+                            className=" ms-2 mb-1 heart"
+                          />
+                        </p>
+                      </div>
+
+                      <p className="black_text_md">Looks Like a great time!</p>
+
+                      <p className="black_text_md">
+                        2022-12-23
+                        <button className="border-0 green-txt bg-white inter-semi ms-2">
+                          Reply
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="d-flex align-items-start mt-3">
+                    <img alt="" src={avatar} className="comment_avatar" />
+                    <div className="w-100 ms-2">
+                      <div className="d-flex justify-content-between align-items-center w-100">
+                        <div>
+                          <h1 className="black_text_md inter-semi">
+                            Jane Doe
+                            <span className="light_text_sm ms-1">@Jane D</span>
+                          </h1>
+                        </div>
+                        <p className="gray_text_md justify_center">
+                          1h
+                          <img
+                            alt=""
+                            src={heart}
+                            className=" ms-2 mb-1 heart"
+                          />
+                        </p>
+                      </div>
+
+                      <p className="black_text_md">Looks Like a great time!</p>
+
+                      <p className="black_text_md">
+                        2022-12-23
+                        <button className="border-0 green-txt bg-white inter-semi ms-2">
+                          Reply
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="light_border_top">
+                  <div className="comment_input mt-2">
+                    <Form.Control
+                      type="text"
+                      className="w-100"
+                      id="comment_feild"
+                      placeholder="Add comment..."
+                      aria-describedby="comment_feild"
+                      name="comment_feild"
+                    />
+                    <div className="ms-auto d-flex align-items-center me-3">
+                      <div className="ms-3 cursorP">
+                        <img alt="" src={union} className="input_icon" />
+                      </div>
+                      <div className="ms-3 cursorP">
+                        <img alt="" src={emoji} className="input_icon" />
+                      </div>
+                      <div className="ms-3 cursorP">
+                        <img
+                          alt=""
+                          src={comment_upload}
+                          className="input_icon"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
+
       <Modal
         show={report}
         onHide={report_btn_close}
@@ -354,7 +795,7 @@ const Story = ({ handleShow, show }) => {
             We use these reports to:
           </p>
           <div>
-            <button
+            <div
               onClick={report_modal2_close}
               className="report_success_btn mt-2 d-flex align-items-center justify-content-center text-left"
             >
@@ -366,8 +807,8 @@ const Story = ({ handleShow, show }) => {
               />
               Understand problems that people are having with different types of
               content on SESHBUDDIES.
-            </button>
-            <button
+            </div>
+            <div
               onClick={report_modal2_close}
               className="report_success_btn mt-2 d-flex align-items-center justify-content-center text-left"
             >
@@ -379,11 +820,11 @@ const Story = ({ handleShow, show }) => {
               />
               Understand problems that people are having with different types of
               content on SESHBUDDIES.
-            </button>
+            </div>
           </div>
         </Modal.Body>
       </Modal>
-    </div>
+    </>
   );
 };
 

@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import DoneLogo from "../../assets/icons/doneLogo.png";
 import { NavLink } from "react-router-dom";
+import CheckIcon from "../../assets/icons/checkIcon.svg";
+import CrossIcon from "../../assets/icons/crossIcon.svg";
 
 const CreateName = () => {
   const [nickname, setNickname] = useState("");
   const maxCharacterLimit = 30;
 
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
   // Function to update the character count
   const handleNicknameChange = (event) => {
@@ -54,16 +57,29 @@ const CreateName = () => {
               <h5 className="mt-2 sb_head">This can be anything you like.</h5>
               <Form className="mt-4 w-100">
                 <Form.Group
-                  className="mb-3 w-100 text-center shadow_def"
+                  className="mb-3 w-100 text-center"
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Control
-                    className="custom_control mb-3"
-                    type="text"
-                    placeholder="Add your nickname"
-                    value={nickname}
-                    onChange={handleNicknameChange}
-                  />
+                  <div
+                    className={`d-flex align-items-center login_inp p-2 ${
+                      isInputFocused ? "focused" : ""
+                    }`}
+                  >
+                    <Form.Control
+                      className="hide_fcontrol p-0"
+                      type="text"
+                      placeholder="Add your nickname"
+                      value={nickname}
+                      onFocus={() => setIsInputFocused(true)}
+                      onBlur={() => setIsInputFocused(false)}
+                      onChange={handleNicknameChange}
+                    />
+                    <img
+                      className="pass_img"
+                      src={nickname  === "admin" ? CheckIcon : CrossIcon}
+                      alt=""
+                    />
+                  </div>
                   <span className="character-count">
                     {nickname.length}/{maxCharacterLimit}
                   </span>
@@ -75,9 +91,7 @@ const CreateName = () => {
 
               <button
                 onClick={handleConfirmation}
-                className={`btn_${
-                  isButtonEnabled ? "default" : "disable"
-                } phon_inp mt-4`}
+                className={`btn_${ nickname === "admin" ? "default" : "disable" } phon_inp mt-4`}
                 disabled={!isButtonEnabled}
               >
                 Confirm

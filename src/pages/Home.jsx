@@ -39,8 +39,7 @@ const Home = () => {
             </div>
           </Col>
           <Col lg="3" className=" overflow-hidden">
-            {" "}
-            <SideMessage />{" "}
+            <SideMessage />
           </Col>
         </Row>
       </Container>

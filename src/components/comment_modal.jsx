@@ -153,21 +153,22 @@ const Comment_modal = ({ handleClose }) => {
         <div className="comment_input mt-2">
           <Form.Control
             type="text"
+            className="w-100"
             id="comment_feild"
             placeholder="Add comment..."
             aria-describedby="comment_feild"
             name="comment_feild"
           />
-          <div className="ms-auto me-3">
-            <button className="border-0 ms-3">
+          <div className="ms-auto d-flex align-items-center me-3">
+            <div className="ms-3 cursorP">
               <img alt="" src={union} className="input_icon" />
-            </button>
-            <button className="border-0 ms-3">
+            </div>
+            <div className="ms-3 cursorP">
               <img alt="" src={emoji} className="input_icon" />
-            </button>
-            <button className="border-0 ms-3">
+            </div>
+            <div className="ms-3 cursorP">
               <img alt="" src={comment_upload} className="input_icon" />
-            </button>
+            </div>
           </div>
         </div>
       </div>
