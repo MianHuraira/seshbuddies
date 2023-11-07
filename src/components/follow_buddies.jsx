@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import avatar from "../assets/logo/Avatar.svg";
 import stars from "../assets/logo/icons/star.svg";
 // Import Swiper React components
@@ -8,7 +8,16 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
+import { Link } from "react-router-dom";
 const Follow_buddies = () => {
+  const [followState, setFollowState] = useState(false);
+
+  const followHandle = (key) => {
+    setFollowState((prevState) => ({
+      ...prevState,
+      [key]: !prevState[key],
+    }));
+  };
   return (
     <div>
       <Swiper
@@ -21,11 +30,10 @@ const Follow_buddies = () => {
         className="mySwiper py-3"
       >
         <SwiperSlide>
-          {/* ___buddies-card--- */}
           <div className="buddies_card px-3 me-2">
-            <div className="buddies_round">
+            <Link to={"/users"} className="buddies_round">
               <img alt="" src={avatar} />
-            </div>
+            </Link>
             <p className="inter-semi mt-1 fs-13">Mary_Jane</p>
             <div className="d-flex align-items-start mt-2  justify-content-center">
               <img alt="" src={stars} className="rating-star" />
@@ -34,18 +42,23 @@ const Follow_buddies = () => {
             <p className="light_text_sm fs-11 mt-2">
               Mutual Buddies <span>5</span>{" "}
             </p>
-            <button className="green-txt follow_buddy_btn inter-semi fs-14 mt-3">
-              Follow
+            <button
+              onClick={() => followHandle(1)}
+              style={{
+                color: followState[1] ? "white" : "",
+                background: followState[1] ? "#006835" : "",
+              }}
+              className="follow_buddy_btn mt-3"
+            >
+              {followState[1] ? "Following" : "Follow"}
             </button>
           </div>
-          {/* ___buddies-card--- */}
         </SwiperSlide>
         <SwiperSlide>
-          {/* ___buddies-card--- */}
           <div className="buddies_card px-3 me-2">
-            <div className="buddies_round">
+            <Link to={"/users"} className="buddies_round">
               <img alt="" src={avatar} />
-            </div>
+            </Link>
             <p className="inter-semi mt-1 fs-13">Mary_Jane</p>
             <div className="d-flex align-items-start mt-2  justify-content-center">
               <img alt="" src={stars} className="rating-star" />
@@ -54,18 +67,23 @@ const Follow_buddies = () => {
             <p className="light_text_sm fs-11 mt-2">
               Mutual Buddies <span>5</span>{" "}
             </p>
-            <button className="green-txt follow_buddy_btn inter-semi fs-14 mt-3">
-              Follow
+            <button
+              onClick={() => followHandle(2)}
+              style={{
+                color: followState[2] ? "white" : "",
+                background: followState[2] ? "#006835" : "",
+              }}
+              className="follow_buddy_btn mt-3"
+            >
+              {followState[2] ? "Following" : "Follow"}
             </button>
           </div>
-          {/* ___buddies-card--- */}
         </SwiperSlide>
         <SwiperSlide>
-          {/* ___buddies-card--- */}
           <div className="buddies_card px-3 me-2">
-            <div className="buddies_round">
+            <Link to={"/users"} className="buddies_round">
               <img alt="" src={avatar} />
-            </div>
+            </Link>
             <p className="inter-semi mt-1 fs-13">Mary_Jane</p>
             <div className="d-flex align-items-start mt-2  justify-content-center">
               <img alt="" src={stars} className="rating-star" />
@@ -74,18 +92,23 @@ const Follow_buddies = () => {
             <p className="light_text_sm fs-11 mt-2">
               Mutual Buddies <span>5</span>{" "}
             </p>
-            <button className="green-txt follow_buddy_btn inter-semi fs-14 mt-3">
-              Follow
+            <button
+              onClick={() => followHandle(3)}
+              style={{
+                color: followState[3] ? "white" : "",
+                background: followState[3] ? "#006835" : "",
+              }}
+              className="follow_buddy_btn mt-3"
+            >
+              {followState[3] ? "Following" : "Follow"}
             </button>
           </div>
-          {/* ___buddies-card--- */}
         </SwiperSlide>
         <SwiperSlide>
-          {/* ___buddies-card--- */}
           <div className="buddies_card px-3 me-2">
-            <div className="buddies_round">
+            <Link to={"/users"} className="buddies_round">
               <img alt="" src={avatar} />
-            </div>
+            </Link>
             <p className="inter-semi mt-1 fs-13">Mary_Jane</p>
             <div className="d-flex align-items-start mt-2  justify-content-center">
               <img alt="" src={stars} className="rating-star" />
@@ -94,18 +117,23 @@ const Follow_buddies = () => {
             <p className="light_text_sm fs-11 mt-2">
               Mutual Buddies <span>5</span>{" "}
             </p>
-            <button className="green-txt follow_buddy_btn inter-semi fs-14 mt-3">
-              Follow
+            <button
+              onClick={() => followHandle(4)}
+              style={{
+                color: followState[4] ? "white" : "",
+                background: followState[4] ? "#006835" : "",
+              }}
+              className="follow_buddy_btn mt-3"
+            >
+              {followState[4] ? "Following" : "Follow"}
             </button>
           </div>
-          {/* ___buddies-card--- */}
         </SwiperSlide>
         <SwiperSlide>
-          {/* ___buddies-card--- */}
           <div className="buddies_card px-3 me-2">
-            <div className="buddies_round">
+            <Link to={"/users"} className="buddies_round">
               <img alt="" src={avatar} />
-            </div>
+            </Link>
             <p className="inter-semi mt-1 fs-13">Mary_Jane</p>
             <div className="d-flex align-items-start mt-2  justify-content-center">
               <img alt="" src={stars} className="rating-star" />
@@ -114,18 +142,23 @@ const Follow_buddies = () => {
             <p className="light_text_sm fs-11 mt-2">
               Mutual Buddies <span>5</span>{" "}
             </p>
-            <button className="green-txt follow_buddy_btn inter-semi fs-14 mt-3">
-              Follow
+            <button
+              onClick={() => followHandle(5)}
+              style={{
+                color: followState[5] ? "white" : "",
+                background: followState[5] ? "#006835" : "",
+              }}
+              className="follow_buddy_btn mt-3"
+            >
+              {followState[5] ? "Following" : "Follow"}
             </button>
           </div>
-          {/* ___buddies-card--- */}
         </SwiperSlide>
         <SwiperSlide>
-          {/* ___buddies-card--- */}
           <div className="buddies_card px-3 me-2">
-            <div className="buddies_round">
+            <Link to={"/users"} className="buddies_round">
               <img alt="" src={avatar} />
-            </div>
+            </Link>
             <p className="inter-semi mt-1 fs-13">Mary_Jane</p>
             <div className="d-flex align-items-start mt-2  justify-content-center">
               <img alt="" src={stars} className="rating-star" />
@@ -134,18 +167,23 @@ const Follow_buddies = () => {
             <p className="light_text_sm fs-11 mt-2">
               Mutual Buddies <span>5</span>{" "}
             </p>
-            <button className="green-txt follow_buddy_btn inter-semi fs-14 mt-3">
-              Follow
+            <button
+              onClick={() => followHandle(6)}
+              style={{
+                color: followState[6] ? "white" : "",
+                background: followState[6] ? "#006835" : "",
+              }}
+              className="follow_buddy_btn mt-3"
+            >
+              {followState[6] ? "Following" : "Follow"}
             </button>
           </div>
-          {/* ___buddies-card--- */}
         </SwiperSlide>
         <SwiperSlide>
-          {/* ___buddies-card--- */}
           <div className="buddies_card px-3 me-2">
-            <div className="buddies_round">
+            <Link to={"/users"} className="buddies_round">
               <img alt="" src={avatar} />
-            </div>
+            </Link>
             <p className="inter-semi mt-1 fs-13">Mary_Jane</p>
             <div className="d-flex align-items-start mt-2  justify-content-center">
               <img alt="" src={stars} className="rating-star" />
@@ -154,18 +192,23 @@ const Follow_buddies = () => {
             <p className="light_text_sm fs-11 mt-2">
               Mutual Buddies <span>5</span>{" "}
             </p>
-            <button className="green-txt follow_buddy_btn inter-semi fs-14 mt-3">
-              Follow
+            <button
+              onClick={() => followHandle(7)}
+              style={{
+                color: followState[7] ? "white" : "",
+                background: followState[7] ? "#006835" : "",
+              }}
+              className="follow_buddy_btn mt-3"
+            >
+              {followState[7] ? "Following" : "Follow"}
             </button>
           </div>
-          {/* ___buddies-card--- */}
         </SwiperSlide>
         <SwiperSlide>
-          {/* ___buddies-card--- */}
           <div className="buddies_card px-3 me-2">
-            <div className="buddies_round">
+            <Link to={"/users"} className="buddies_round">
               <img alt="" src={avatar} />
-            </div>
+            </Link>
             <p className="inter-semi mt-1 fs-13">Mary_Jane</p>
             <div className="d-flex align-items-start mt-2  justify-content-center">
               <img alt="" src={stars} className="rating-star" />
@@ -174,11 +217,17 @@ const Follow_buddies = () => {
             <p className="light_text_sm fs-11 mt-2">
               Mutual Buddies <span>5</span>{" "}
             </p>
-            <button className="green-txt follow_buddy_btn inter-semi fs-14 mt-3">
-              Follow
+            <button
+              onClick={() => followHandle(8)}
+              style={{
+                color: followState[8] ? "white" : "",
+                background: followState[8] ? "#006835" : "",
+              }}
+              className="follow_buddy_btn mt-3"
+            >
+              {followState[8] ? "Following" : "Follow"}
             </button>
           </div>
-          {/* ___buddies-card--- */}
         </SwiperSlide>
       </Swiper>
     </div>

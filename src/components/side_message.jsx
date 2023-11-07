@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import girl from "../assets/logo/orange-girl.svg";
-import Stars from "../assets/logo/icons/star.svg";
+// import Stars from "../assets/logo/icons/star.svg";
 import plus_full from "../assets/logo/icons/Status-plus.svg";
 import avatar1 from "../assets/logo/Avatar.svg";
 import avatar2 from "../assets/logo/Avatar2.svg";

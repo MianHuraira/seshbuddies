@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import logo from "../assets/logo/logo.png";
 import logo_text from "../assets/logo/logo-text.png";
 import { useLocation } from "react-router-dom";
-import { BiSearch } from "react-icons/bi";
+// import { BiSearch } from "react-icons/bi";
 import logoWhite from "../assets/logo/logo_white.svg";
 import LogoTextWhite from "../assets/logo/logo_text_white.svg";
 import SearchIcon from "../assets/icons/search_icon.svg";

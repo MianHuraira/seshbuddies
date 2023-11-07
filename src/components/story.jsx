@@ -49,8 +49,11 @@ const Story = () => {
 
   const [follow, setFollow] = useState(false);
 
-  const folloStatus = () => {
-    setFollow(!follow);
+  const folloStatus = (key) => {
+    setFollow((prevState) => ({
+      ...prevState,
+      [key]: !prevState[key],
+    }));
   };
 
   const [coment, setComent] = useState(false);
@@ -310,10 +313,10 @@ const Story = () => {
               </div>
             </div>
             <button
-              onClick={folloStatus}
-              className={`${follow ? "folowing_btn00" : "folow_btn00"}`}
+              onClick={() => folloStatus(1)}
+              className={`${follow[1] ? "folowing_btn00" : "folow_btn00"}`}
             >
-              {follow ? "Following" : "Follow"}
+              {follow[1] ? "Following" : "Follow"}
             </button>
           </div>
 
@@ -328,7 +331,12 @@ const Story = () => {
                 </div>
               </div>
             </div>
-            <button className="folowing_btn00">Following</button>
+            <button
+              onClick={() => folloStatus(2)}
+              className={`${follow[2] ? "folowing_btn00" : "folow_btn00"}`}
+            >
+              {follow[2] ? "Following" : "Follow"}
+            </button>
           </div>
 
           <div className="d-flex mb-3 justify-content-between align-items-center">
@@ -342,7 +350,12 @@ const Story = () => {
                 </div>
               </div>
             </div>
-            <button className="folow_btn00">Follow</button>
+            <button
+              onClick={() => folloStatus(3)}
+              className={`${follow[3] ? "folowing_btn00" : "folow_btn00"}`}
+            >
+              {follow[3] ? "Following" : "Follow"}
+            </button>
           </div>
 
           <div className="d-flex mb-3 justify-content-between align-items-center">
@@ -356,7 +369,12 @@ const Story = () => {
                 </div>
               </div>
             </div>
-            <button className="folow_btn00">Follow</button>
+            <button
+              onClick={() => folloStatus(4)}
+              className={`${follow[4] ? "folowing_btn00" : "folow_btn00"}`}
+            >
+              {follow[4] ? "Following" : "Follow"}
+            </button>
           </div>
 
           <div className="d-flex mb-3 justify-content-between align-items-center">
@@ -370,7 +388,12 @@ const Story = () => {
                 </div>
               </div>
             </div>
-            <button className="folow_btn00">Follow</button>
+            <button
+              onClick={() => folloStatus(5)}
+              className={`${follow[5] ? "folowing_btn00" : "folow_btn00"}`}
+            >
+              {follow[5] ? "Following" : "Follow"}
+            </button>
           </div>
 
           <div className="d-flex mb-3 justify-content-between align-items-center">
@@ -384,7 +407,12 @@ const Story = () => {
                 </div>
               </div>
             </div>
-            <button className="folow_btn00">Follow</button>
+            <button
+              onClick={() => folloStatus(6)}
+              className={`${follow[6] ? "folowing_btn00" : "folow_btn00"}`}
+            >
+              {follow[6] ? "Following" : "Follow"}
+            </button>
           </div>
 
           <div className="d-flex mb-3 justify-content-between align-items-center">
@@ -398,7 +426,12 @@ const Story = () => {
                 </div>
               </div>
             </div>
-            <button className="folow_btn00">Follow</button>
+            <button
+              onClick={() => folloStatus(7)}
+              className={`${follow[7] ? "folowing_btn00" : "folow_btn00"}`}
+            >
+              {follow[7] ? "Following" : "Follow"}
+            </button>
           </div>
         </Modal.Body>
       </Modal>

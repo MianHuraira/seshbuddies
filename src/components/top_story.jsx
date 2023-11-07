@@ -10,11 +10,7 @@ import pineapple from "../assets/logo/pineapple_express.svg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Modal } from "react-bootstrap";
 
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Createpost from "../components/createpost";
-import SideMessage from "../components/side_message";
-import { Container } from "react-bootstrap";
+
 import Video from "../assets/video/startUpVideo.mp4";
 import LiveProfile from "../assets/images/livePro.png";
 import closeBtn from "../assets/icons/cros_con.svg";

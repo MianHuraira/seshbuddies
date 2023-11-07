@@ -383,7 +383,7 @@
   background-color: #006835 !important;
   color: white;
   width: 100%;
-  font-family: inter-regular;
+  font-family: "inter-regular" !important;
   border: none !important;
   padding: 8px;
 }
@@ -801,11 +801,13 @@
   border: none;
   padding: 6px 0px;
   width: 6.5rem;
+  font-size: 16px;
 }
 .folowing_btn00 {
   background-color: white;
   border: 1px solid #dbd8db;
   font-family: "inter-regular";
+  font-size: 16px;
   border-radius: 20px;
   color: #02150f;
   padding: 6px 0px;
@@ -851,6 +853,52 @@
   margin-bottom: 12px;
   width: auto;
 }
+
+.sessionName {
+  font-family: "inter-medium";
+  font-size: 14px;
+  color: var(--head-color);
+}
+.sessionSb00 {
+  color: #2d3d38;
+  font-family: "inter-light";
+  font-size: 12px;
+}
+.labelHead00 {
+  color: #2d3d38;
+  font-size: 13px;
+  font-family: "inter-regular";
+}
+
+/* date picker css */
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+.mainSearch000 {
+  border-radius: 10px;
+  background: var(--project-colours-white, #fff);
+  box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.24);
+  width: 20rem;
+  margin: auto;
+  padding: 10px;
+}
+.searcimg00{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.userNamesearc00{
+  font-size: 13px;
+  font-family: "inter-regular";
+  color: #000000;
+}
+.userdessearc00{
+  color: #00000080;
+  font-family: "inter-light";
+  font-size: 11px;
+}
+
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
 /* __for you css___ */
@@ -1010,15 +1058,18 @@
   object-fit: cover;
 }
 .follow_buddy_btn {
-  border-radius: 80px;
+  border-radius: 20px;
   height: 32px;
   background: rgba(230, 240, 235, 1);
+  color: #32b744;
   padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   border: none;
+  font-family: "inter-regular";
+  font-size: 16px;
 }
 /* ------swiper css----- */
 .swiper-pagination {

@@ -1,17 +1,61 @@
 import React, { useState } from "react";
 import edit from "../assets/logo/icons/edit.svg";
-import comp from "../assets/logo/icons/compass.svg";
-import bolt from "../assets/logo/icons/bolt.svg";
-import like from "../assets/logo/icons/Like.svg";
-import user_add from "../assets/logo/icons/user-add.svg";
 import angle_right from "../assets/logo/icons/angle_right.svg";
 import Pinpoint from "../assets/logo/icons/pinpoint.svg";
 import { NavLink, useLocation } from "react-router-dom";
-import Form from "react-bootstrap/Form";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Form } from "react-bootstrap";
 import FileSelector from "./File_selector";
 import alert_success from "../assets/logo/alert-success.svg";
+import downIcon from "../assets/icons/downIcon.svg";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "react-datepicker/dist/react-datepicker-cssmodules.css";
+
+// images
+
+import user1 from "../assets/images/user1.png";
+import user2 from "../assets/images/user2.png";
+
 const Createpost = () => {
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [date, setdate] = useState("");
+
+  const [inputValue, setInputValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+
+  const userSuggestions = [
+    { id: 1, name: "John Doe", image: user1, des: "Toronto, CA" },
+    { id: 2, name: "Jane Smith", image: user2, des: "Guadalajara, MX" },
+  ];
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setInputValue(value);
+
+    // Check if the input contains "@" and filter suggestions
+    if (value.includes("@")) {
+      const keyword = value.split("@")[1];
+      const filteredSuggestions = userSuggestions.filter((user) =>
+        user.name.toLowerCase().includes(keyword.toLowerCase())
+      );
+      setSuggestions(filteredSuggestions);
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const handleSuggestionClick = (user) => {
+    const mention = `@${user.name} `;
+    setInputValue(inputValue.replace(/@[^@]+$/, mention));
+    setSelectedUsers([...selectedUsers, user]);
+    setSuggestions([]);
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
   // get path
 
   const location = useLocation();
@@ -20,10 +64,9 @@ const Createpost = () => {
 
   let allPath = false;
 
-  if (getPath === "/live_stream"  || getPath === "/reels") {
+  if (getPath === "/live_stream" || getPath === "/reels") {
     allPath = true;
   }
-  
 
   const [Success, ShowNotification] = useState(false);
   const Success_close = () => ShowNotification(false);
@@ -38,7 +81,10 @@ const Createpost = () => {
   const Post_close = () => setShow(false);
 
   const [SHMOKE, shmoke] = useState(false);
-  const Shmoke_open = () => shmoke(true);
+  const [smokeModal, setSmokeModal] = useState("");
+  const Shmoke_open = () => {
+    shmoke(true);
+  };
   const Shmoke_close = () => shmoke(false);
 
   return (
@@ -53,10 +99,7 @@ const Createpost = () => {
 
       <div className="explore">
         <p className="semibold  l-black inter fs-14 mt-3">Explore</p>
-        <NavLink
-          
-          className="black_text_lg d-flex justify-content-between mt-2"
-        >
+        <NavLink className="black_text_lg d-flex justify-content-between mt-2">
           <div className="d-flex align-items-center">
             <svg
               width="18"
@@ -105,10 +148,7 @@ const Createpost = () => {
           <img alt="" src={angle_right} className="angle-right" />
         </div>
         <div className="d-flex justify-content-between mt-1">
-          <NavLink
-           
-            className="d-flex black_text_lg align-items-center justify-content-between w-100"
-          >
+          <NavLink className="d-flex black_text_lg align-items-center justify-content-between w-100">
             <div className="d-flex align-items-center">
               <svg
                 width="18"
@@ -193,9 +233,11 @@ const Createpost = () => {
 
       <div>
         <p className="mb-1 mt-3 l-black inter-semi fs-15">Start your seshion</p>
-
         <button
-          onClick={Shmoke_open}
+          onClick={() => {
+            Shmoke_open();
+            setSmokeModal("smoke");
+          }}
           className="green-bg mt-2 shession-oval w-100 border-0 d-flex align-items-center justify-content-between"
         >
           <div>
@@ -214,7 +256,13 @@ const Createpost = () => {
           </div>
           <img alt="" src={angle_right} className=" angle-med" />
         </button>
-        <div className="skin-bg mt-2 shession-oval d-flex align-items-center justify-content-between">
+        <div
+          onClick={() => {
+            Shmoke_open();
+            setSmokeModal("match");
+          }}
+          className="skin-bg mt-2 shession-oval d-flex align-items-center justify-content-between"
+        >
           <div>
             <h1
               style={{ color: allPath ? "white" : "" }}
@@ -283,126 +331,172 @@ const Createpost = () => {
           <Button className="btn-primary mt-3">Post</Button>
         </Modal.Footer>
       </Modal>
-      <Modal
-        show={SHMOKE}
-        onHide={Shmoke_close}
-        dialogClassName="Shmoke_modal_body"
-      >
+
+      {/* session add modal  */}
+      <Modal show={SHMOKE} onHide={Shmoke_close} size="md">
         <Modal.Header closeButton className="border-0">
           <Modal.Title className="fs-15 inter-bold">
             Start a New SHMOKE Seshsion!
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="green-bg mt-2 shession-oval w-100 border-0 d-flex align-items-center justify-content-between">
+          <div className="green-bg shession-oval w-100">
             <div>
-              <h1 className="fs-13 inter-semi black text-start">SHMOKE</h1>
-              <p className="fs-11 inter mt-1">
+              <h1 className="sessionName">
+                {smokeModal === "smoke" && "SHMOKE"}
+                {smokeModal === "match" && "match"}
+              </h1>
+              <p className="sessionSb00 mt-1">
                 Invite a buddy for a chill sesh.
               </p>
             </div>
-            <img alt="" src={angle_right} className=" angle-med" />
           </div>
-          <h1 className="black_text_lg mt-2">Seshsion Name</h1>
-          <div>
-            <Form.Control
-              placeholder="Enter seshion name"
-              aria-label="Enter seshion name"
-              aria-describedby="basic-addon1"
-              className="radius_12 mt-2 light_text text_area py-2 position-relative"
-            />
-          </div>
-          <div className="d-flex align-items-center mt-3 justify-content-between">
-            <div className="three_select">
-              <p className="inter fs-14">Sesh Type</p>
-              <Form.Select
-                aria-label="Default select example"
-                className="radius_12 text_area py-2 light_text"
-              >
-                <option className="">Select</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </Form.Select>
+          <Form>
+            <Form.Group className="mt-1 mainInp00">
+              <Form.Label className="labelHead00">Seshsion Name</Form.Label>
+              <Form.Control
+                placeholder="Enter seshion name"
+                aria-describedby="basic-addon1"
+                className="radius_12 text_area"
+              />
+            </Form.Group>
+
+            <div className="d-flex align-items-center mt-2 justify-content-between">
+              <Form.Group className="mainInp00 w-100">
+                <Form.Label className="labelHead00">Sesh Type</Form.Label>
+                <Form.Select
+                  aria-label="Default select example"
+                  className="radius_12 text_area w-100"
+                >
+                  <option className="">Select</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group className="mainInp00 w-100 mx-2">
+                <Form.Label className="labelHead00">Strain</Form.Label>
+                <Form.Select
+                  aria-label="Default select example"
+                  className="radius_12 text_area w-100"
+                >
+                  <option className="">Select</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group className="mainInp00 w-100">
+                <Form.Label className="labelHead00">Utensils</Form.Label>
+                <Form.Select
+                  aria-label="Default select example"
+                  className="radius_12 text_area w-100"
+                >
+                  <option className="">Select</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </Form.Select>
+              </Form.Group>
             </div>
-            <div className="three_select">
-              <p className="inter fs-14">Strain</p>
-              <Form.Select
-                aria-label="Default select example"
-                className="radius_12 text_area py-2 light_text"
-              >
-                <option className="">Select</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </Form.Select>
+            <div className="position-relative mainInp00">
+              <Form.Label className="labelHead00">Location</Form.Label>
+
+              <Form.Control
+                placeholder="Choose location"
+                aria-label="Choose location"
+                aria-describedby="basic-addon1"
+                className="radius_12 text_area"
+              />
+              <img src={Pinpoint} alt="" className="pinpoint" />
             </div>
-            <div className="three_select">
-              <p className="inter fs-14">Utensils</p>
-              <Form.Select
-                aria-label="Default select example"
-                className="radius_12 text_area py-2 light_text"
-              >
-                <option className="">Select</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </Form.Select>
-            </div>
-          </div>
-          <p className="mt-2">Location</p>
-          <div className=" position-relative">
-            <Form.Control
-              placeholder="Choose location"
-              aria-label="Choose location"
-              aria-describedby="basic-addon1"
-              className="radius_12 text_area mt-2 light_text py-2"
-            />
-            <img src={Pinpoint} alt="" className="pinpoint" />
-          </div>
-          <p className="mt-2">Date & Time</p>
-          <div className="d-flex align-items-center justify-content-between">
-            <div className="two_select">
-              <Form.Select
-                aria-label="Default select example"
-                className="radius_12 text_area py-2 light_text"
-              >
-                <option className="">Select</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </Form.Select>
-            </div>
-            <div className="two_select">
-              <Form.Select
-                aria-label="Default select example"
-                className="radius_12 text_area py-2 light_text"
-              >
-                <option className="">Select</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </Form.Select>
-            </div>
-          </div>
-          <p className="mt-2">Description</p>
-          <div>
-            <Form.Control
-              as="textarea"
-              aria-label="With textarea"
-              className="mt-1 text_area"
-              Rows={4}
-            />
-          </div>
-          <p className="mt-2">Invite Buddies</p>
-          <div>
-            <Form.Control
-              placeholder="@"
-              aria-label="@"
-              aria-describedby="basic-addon1"
-              className="py-2"
-            />
-          </div>
+
+            <Form.Group className="mt-1 mainInp00">
+              <Form.Label className="labelHead00">Date & Time</Form.Label>
+              <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center form-control radius_12">
+                  <DatePicker
+                    selected={selectedDate}
+                    onChange={handleDateChange}
+                    dateFormat="MMMM d, yyyy"
+                    className="border-0 w-100"
+                    placeholderText="Select Date"
+                  />
+                  <img src={downIcon} alt="" />
+                </div>
+
+                <div className="position-relative">
+                  <Form.Control
+                    type="text"
+                    value={date}
+                    placeholder="time"
+                    style={{ fontSize: "14px", zIndex: "10" }}
+                    className="mb-0 position-relative"
+                  />
+                  <Form.Control
+                    type="time"
+                    placeholder="address"
+                    onChange={(e) => setdate(e.target.value)}
+                    className="position-absolute mb-0 top-0 bottom-0"
+                    style={{ fontSize: "14px", opacity: 0, zIndex: "100" }}
+                  />
+                </div>
+              </div>
+            </Form.Group>
+            <Form.Group className="mt-1 mainInp00">
+              <Form.Label className="labelHead00">Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                aria-label="With textarea"
+                className="mt-1 text_area radius_12"
+                Rows={4}
+              />
+            </Form.Group>
+            <Form.Group className="mt-1 mainInp00">
+              <Form.Label className="labelHead00">Invite Buddies</Form.Label>
+              <Form.Control
+                placeholder="@"
+                aria-label="@"
+                aria-describedby="basic-addon1"
+                className="text_area radius_12"
+                value={inputValue}
+                onChange={handleInputChange}
+              />
+              <div className="mainSearch000">
+                {suggestions.map((user) => (
+                  <div
+                    className="d-flex align-items-center mb-2"
+                    key={user.id}
+                    onClick={() => handleSuggestionClick(user)}
+                  >
+                    <img
+                      className="searcimg00"
+                      src={user.image}
+                      alt={user.name}
+                    />
+                    <div className="d-flex flex-column ms-1">
+                      <h4 className="userNamesearc00">{user.name}</h4>
+                      <h4 className="userdessearc00">{user.des}</h4>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div>
+                {selectedUsers.map((user) => (
+                  <span key={user.id}>
+                    <img
+                      src={user.image}
+                      alt={user.name}
+                      width="20"
+                      height="20"
+                    />
+                    {user.name}
+                  </span>
+                ))}
+              </div>
+            </Form.Group>
+          </Form>
         </Modal.Body>
         <Modal.Footer className="border-0">
           <Button className="btn-primary" onClick={showSuccess}>
@@ -410,6 +504,7 @@ const Createpost = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
       <Modal
         show={Success}
         size="sm"

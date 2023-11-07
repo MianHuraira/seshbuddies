@@ -148,7 +148,6 @@ a {
   box-shadow: 0px 0px 0px 3px #bfe9c5 !important;
 }
 
-
 p {
   margin: 0 !important;
   padding: 0 !important;
@@ -204,6 +203,18 @@ h1 {
 .custom_control {
   border: 1px solid #eaebf0 !important;
   border-radius: 12px !important;
+}
+
+/* form control place holder  */
+
+.mainInp00 input::placeholder {
+  color: #979f9d !important;
+  font-family: "inter-regular";
+  font-size: 12px;
+}
+
+.form-label{
+  margin-bottom: 3px !important;
 }
 
 @media (min-width: 1400px) {
