@@ -411,26 +411,42 @@ const Createpost = () => {
               />
             </Form.Group>
 
-            <div className="d-flex align-items-center mt-2 justify-content-between">
+            <div
+              className={`d-grid ${
+                smokeModal === "match" || smokeModal === "drop" ? "dualR" : "singlR"
+              } mt-2`}
+            >
               <Form.Group className="mainInp00 w-100">
                 <Form.Label className="labelHead00">Sesh Type</Form.Label>
                 <Form.Select
                   aria-label="Default select example"
-                  className="radius_12 text_area w-100"
+                  className="radius_12 text_area w-100 selctClr"
                 >
-                  <option className="">Select</option>
+                  <option>Select</option>
                   <option value="1">One</option>
                   <option value="2">Two</option>
                   <option value="3">Three</option>
                 </Form.Select>
               </Form.Group>
-              <Form.Group className="mainInp00 w-100 mx-2">
+              <Form.Group className="mainInp00 w-100">
                 <Form.Label className="labelHead00">Strain</Form.Label>
                 <Form.Select
                   aria-label="Default select example"
-                  className="radius_12 text_area w-100"
+                  className="radius_12 text_area w-100 selctClr"
                 >
-                  <option className="">Select</option>
+                  <option>Select</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group className={`mainInp00 w-100 ${smokeModal === "match" || smokeModal === "drop" ? "d-block" : "d-none"}`}>
+                <Form.Label className="labelHead00">Grams</Form.Label>
+                <Form.Select
+                  aria-label="Default select example"
+                  className="radius_12 text_area w-100 selctClr"
+                >
+                  <option>Select</option>
                   <option value="1">One</option>
                   <option value="2">Two</option>
                   <option value="3">Three</option>
@@ -440,9 +456,9 @@ const Createpost = () => {
                 <Form.Label className="labelHead00">Utensils</Form.Label>
                 <Form.Select
                   aria-label="Default select example"
-                  className="radius_12 text_area w-100"
+                  className="radius_12 text_area w-100 selctClr"
                 >
-                  <option className="">Select</option>
+                  <option>Select</option>
                   <option value="1">One</option>
                   <option value="2">Two</option>
                   <option value="3">Three</option>

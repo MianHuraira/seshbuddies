@@ -914,6 +914,19 @@
 .smoBg {
   background-color: rgba(255, 99, 123, 0.2);
 }
+.selctClr {
+  color: #979f9d !important;
+}
+
+.singlR {
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+.dualR {
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
 /* __for you css___ */
