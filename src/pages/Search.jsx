@@ -33,6 +33,8 @@ const Search = () => {
   const handleModalClick = (tab) => {
     setActiveModalTab(tab);
   };
+
+  
   return (
     <div>
       <Container className="top_padd" fluid="xxl">
@@ -42,7 +44,7 @@ const Search = () => {
           </Col>
           <Col lg="6" className="main_height no_scrollbar ps-5 overflow-y-auto">
             <ul
-              className="nav nav-tabs ModalNav mb-2 p-2"
+              className="nav nav-tabs border-0 mb-2 p-2"
               style={{ borderRadius: "999px" }}
             >
               <li className="nav-item search_tab">

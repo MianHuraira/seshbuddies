@@ -70,7 +70,7 @@ const Header = () => {
               alt=""
             />
             <Form.Control
-              type="email"
+              type="text"
               className="hide_fcontrol d-none d-lg-block"
               placeholder="nickname, hashtag, music..."
             />

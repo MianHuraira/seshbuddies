@@ -365,7 +365,7 @@ const Createpost = () => {
       </Modal>
 
       {/* session add modal  */}
-      <Modal show={SHMOKE} onHide={Shmoke_close} size="md">
+      <Modal show={SHMOKE} centered onHide={Shmoke_close} size="md">
         <Modal.Header closeButton className="border-0">
           <Modal.Title className="fs-15 inter-bold">
             Start a New SHMOKE Seshsion!
