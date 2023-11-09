@@ -346,6 +346,7 @@ const Createpost = () => {
         </div>
       </div>
 
+      {/* add new post */}
       <Modal
         dialogClassName="rating_modal"
         show={createpost}
@@ -413,7 +414,9 @@ const Createpost = () => {
 
             <div
               className={`d-grid ${
-                smokeModal === "match" || smokeModal === "drop" ? "dualR" : "singlR"
+                smokeModal === "match" || smokeModal === "drop"
+                  ? "dualR"
+                  : "singlR"
               } mt-2`}
             >
               <Form.Group className="mainInp00 w-100">
@@ -440,7 +443,13 @@ const Createpost = () => {
                   <option value="3">Three</option>
                 </Form.Select>
               </Form.Group>
-              <Form.Group className={`mainInp00 w-100 ${smokeModal === "match" || smokeModal === "drop" ? "d-block" : "d-none"}`}>
+              <Form.Group
+                className={`mainInp00 w-100 ${
+                  smokeModal === "match" || smokeModal === "drop"
+                    ? "d-block"
+                    : "d-none"
+                }`}
+              >
                 <Form.Label className="labelHead00">Grams</Form.Label>
                 <Form.Select
                   aria-label="Default select example"

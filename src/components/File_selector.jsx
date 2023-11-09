@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
-import Uploadimg from "../assets/logo/icons/uploadphoto.svg" 
+import Uploadimg from "../assets/logo/icons/uploadphoto.svg";
 const FileSelector = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const handleChange = (event) => {
@@ -12,7 +12,7 @@ const FileSelector = () => {
       return null;
     }
     return (
-      <Container>
+      <Container className="imgH00">
         <Row>
           {selectedFiles.map((file, index) => {
             const colSize = selectedFiles.length === 1 ? 12 : 6;
@@ -76,22 +76,34 @@ const FileSelector = () => {
   };
   return (
     <div className="file-selector">
-        <Form.Control as="textarea" aria-label="With textarea"rows={6}  className="mb-3 text_area"/>
-        {showFiles()}
-    {selectedFiles.length === 0 ? <span class="btn input-button btn-file">
-            <img src={Uploadimg} alt="" className="upload_img mt-4"/>
-            <h1 className="fs-14 black_text_lg inter-medium mt-1">Add Photos/Videos</h1>
-            <p className="light_text fs-13">or drag and drop</p>
-            
-        <Form.Control multiple onChange={handleChange}  type="file" />
-        </span>:  <span class="btn btn-file d-flex align-items-center justify-content-center">
-            <div className="d-flex align-items-center justify-content-center">
-            <img src={Uploadimg} alt="" className="mt-1 me-1"/>
-            <h1 className="fs-14 black_text_lg inter-medium mt-1">Add Photos/Videos</h1>
-            </div>
-        <Form.Control multiple onChange={handleChange}  type="file" />
-        </span>}
-          
+      <Form.Control
+        as="textarea"
+        aria-label="With textarea"
+        rows={6}
+        className="mb-3 text_area"
+      />
+      {showFiles()}
+      {selectedFiles.length === 0 ? (
+        <span class="btn input-button btn-file">
+          <img src={Uploadimg} alt="" className="upload_img mt-4" />
+          <h1 className="fs-14 black_text_lg inter-medium mt-1">
+            Add Photos/Videos
+          </h1>
+          <p className="light_text fs-13">or drag and drop</p>
+
+          <Form.Control multiple onChange={handleChange} type="file" />
+        </span>
+      ) : (
+        <span class="btn btn-file d-flex align-items-center justify-content-center">
+          <div className="d-flex align-items-center justify-content-center">
+            <img src={Uploadimg} alt="" className="mt-1 me-1" />
+            <h1 className="fs-14 black_text_lg inter-medium mt-1">
+              Add Photos/Videos
+            </h1>
+          </div>
+          <Form.Control multiple onChange={handleChange} type="file" />
+        </span>
+      )}
     </div>
   );
 };
