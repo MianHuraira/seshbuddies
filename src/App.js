@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./App.css";
 import "./assets/css/style.css";
 import Router from "./Routes/Router";

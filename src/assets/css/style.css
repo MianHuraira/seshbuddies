@@ -879,26 +879,41 @@
   border-radius: 10px;
   background: var(--project-colours-white, #fff);
   box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.24);
-  width: 20rem;
+  width: 12rem;
   margin: auto;
   padding: 10px;
+  max-height: 14rem;
+  overflow: auto;
+  transform: translateX(-50%);
+  top: -232%;
+  left: 50%;
+  position: absolute;
 }
-.searcimg00{
+.searcimg00 {
   width: 30px;
   height: 30px;
   border-radius: 50%;
 }
-.userNamesearc00{
+.userNamesearc00 {
   font-size: 13px;
   font-family: "inter-regular";
   color: #000000;
 }
-.userdessearc00{
+.userdessearc00 {
   color: #00000080;
   font-family: "inter-light";
   font-size: 11px;
 }
 
+.matchBg {
+  background-color: rgba(254, 160, 81, 0.2);
+}
+.dropBg {
+  background-color: rgba(13, 122, 250, 0.2);
+}
+.smoBg {
+  background-color: rgba(255, 99, 123, 0.2);
+}
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
 /* __for you css___ */
@@ -1448,12 +1463,11 @@
 }
 .yourBuddyBtn2 {
   width: 49.2%;
-  border: none;
   border-radius: 999px;
   border: 1px solid #dbd8db;
-  background-color: white;
   padding: 8px 10px;
-  font-family: inter-medium;
+  font-family: "inter-medium";
+  color: #006835;
   font-size: 13px;
   margin-right: 5px;
 }

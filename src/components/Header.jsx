@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import { useState, React } from "react";
 import "../assets/css/style.css";
 import { Form, Navbar } from "react-bootstrap";

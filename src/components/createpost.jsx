@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import edit from "../assets/logo/icons/edit.svg";
 import angle_right from "../assets/logo/icons/angle_right.svg";
 import Pinpoint from "../assets/logo/icons/pinpoint.svg";
@@ -20,24 +20,31 @@ const Createpost = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [date, setdate] = useState("");
 
+  // mention code start
+
   const [inputValue, setInputValue] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
+  const inputRef = useRef();
 
   const userSuggestions = [
     { id: 1, name: "John Doe", image: user1, des: "Toronto, CA" },
-    { id: 2, name: "Jane Smith", image: user2, des: "Guadalajara, MX" },
+    { id: 2, name: "Ahmad Ali", image: user2, des: "Guadalajara, MX" },
+    { id: 3, name: "Abuzar", image: user1, des: "Philadelphia, USA" },
+    { id: 4, name: "Jane Sarmad", image: user2, des: "San Diego, USA" },
+    { id: 5, name: "Atif Smit", image: user1, des: "Los Angeles, USA" },
+    { id: 6, name: "Huraira", image: user2, des: "Puebla, MX" },
   ];
-
   const handleInputChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
 
-    // Check if the input contains "@" and filter suggestions
     if (value.includes("@")) {
-      const keyword = value.split("@")[1];
+      const keywords = value.split("@").slice(1);
       const filteredSuggestions = userSuggestions.filter((user) =>
-        user.name.toLowerCase().includes(keyword.toLowerCase())
+        keywords.some((keyword) =>
+          user.name.toLowerCase().includes(keyword.toLowerCase())
+        )
       );
       setSuggestions(filteredSuggestions);
     } else {
@@ -47,11 +54,23 @@ const Createpost = () => {
 
   const handleSuggestionClick = (user) => {
     const mention = `@${user.name} `;
-    setInputValue(inputValue.replace(/@[^@]+$/, mention));
     setSelectedUsers([...selectedUsers, user]);
+    setInputValue((prevValue) => {
+      // Remove the last word starting with "@"
+      const words = prevValue.trim().split(/\s+/);
+      words.pop();
+
+      // Append the mention to the input value
+      return [...words, mention].join(" ");
+    });
     setSuggestions([]);
+    inputRef.current.focus();
   };
 
+  const shouldShowSuggestions =
+    inputValue.includes("@") && suggestions.length > 0;
+
+  // ///// mentionn code end
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -279,7 +298,13 @@ const Createpost = () => {
           </div>
           <img alt="" src={angle_right} className=" angle-med" />
         </div>
-        <div className="blue-bg mt-2 shession-oval d-flex align-items-center justify-content-between">
+        <div
+          onClick={() => {
+            Shmoke_open();
+            setSmokeModal("drop");
+          }}
+          className="blue-bg mt-2 shession-oval d-flex align-items-center justify-content-between"
+        >
           <div>
             <h1
               style={{ color: allPath ? "white" : "" }}
@@ -296,7 +321,13 @@ const Createpost = () => {
           </div>
           <img alt="" src={angle_right} className=" angle-med" />
         </div>
-        <div className="pink-bg mt-2 shession-oval d-flex align-items-center justify-content-between">
+        <div
+          onClick={() => {
+            Shmoke_open();
+            setSmokeModal("smo");
+          }}
+          className="pink-bg mt-2 shession-oval d-flex align-items-center justify-content-between"
+        >
           <div>
             <h1
               style={{ color: allPath ? "white" : "" }}
@@ -340,14 +371,33 @@ const Createpost = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="green-bg shession-oval w-100">
+          <div
+            className={` ${
+              smokeModal === "match"
+                ? "matchBg"
+                : "green-bg" && smokeModal === "drop"
+                ? "dropBg"
+                : "green-bg" && smokeModal === "smo"
+                ? "smoBg"
+                : "green-bg"
+            }  shession-oval w-100`}
+          >
             <div>
               <h1 className="sessionName">
                 {smokeModal === "smoke" && "SHMOKE"}
-                {smokeModal === "match" && "match"}
+                {smokeModal === "match" && "MATCH"}
+                {smokeModal === "drop" && "DROP"}
+                {smokeModal === "smo" && "SMO"}
               </h1>
               <p className="sessionSb00 mt-1">
-                Invite a buddy for a chill sesh.
+                {/* Invite a buddy for a chill sesh. */}
+                {smokeModal === "smoke" && "Invite a buddy for a chill sesh."}
+                {smokeModal === "match" &&
+                  "Find a buddy to match your strain and vibe."}
+                {smokeModal === "drop" &&
+                  "Running low? Invite buddies to contribute."}
+                {smokeModal === "smo" &&
+                  "Out of stash? Request a 'Smoke Me Out.'"}
               </p>
             </div>
           </div>
@@ -401,7 +451,6 @@ const Createpost = () => {
             </div>
             <div className="position-relative mainInp00">
               <Form.Label className="labelHead00">Location</Form.Label>
-
               <Form.Control
                 placeholder="Choose location"
                 aria-label="Choose location"
@@ -452,49 +501,38 @@ const Createpost = () => {
                 Rows={4}
               />
             </Form.Group>
-            <Form.Group className="mt-1 mainInp00">
+            <Form.Group className="mt-1 mainInp00 position-relative">
               <Form.Label className="labelHead00">Invite Buddies</Form.Label>
               <Form.Control
-                placeholder="@"
-                aria-label="@"
+                placeholder="Write your message..."
+                aria-label="Write your message..."
                 aria-describedby="basic-addon1"
                 className="text_area radius_12"
                 value={inputValue}
                 onChange={handleInputChange}
+                ref={inputRef}
               />
-              <div className="mainSearch000">
-                {suggestions.map((user) => (
-                  <div
-                    className="d-flex align-items-center mb-2"
-                    key={user.id}
-                    onClick={() => handleSuggestionClick(user)}
-                  >
-                    <img
-                      className="searcimg00"
-                      src={user.image}
-                      alt={user.name}
-                    />
-                    <div className="d-flex flex-column ms-1">
-                      <h4 className="userNamesearc00">{user.name}</h4>
-                      <h4 className="userdessearc00">{user.des}</h4>
+              {shouldShowSuggestions && (
+                <div className="mainSearch000">
+                  {suggestions.map((user) => (
+                    <div
+                      className="suggestion-item mb-2 d-flex align-items-center"
+                      onClick={() => handleSuggestionClick(user)}
+                      key={user.id}
+                    >
+                      <img
+                        className="searcimg00 me-2"
+                        src={user.image}
+                        alt={user.name}
+                      />
+                      <div className="d-flex flex-column">
+                        <h4 className="userNamesearc00">{user.name}</h4>
+                        <h5 className="userdessearc00">{user.des}</h5>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-
-              <div>
-                {selectedUsers.map((user) => (
-                  <span key={user.id}>
-                    <img
-                      src={user.image}
-                      alt={user.name}
-                      width="20"
-                      height="20"
-                    />
-                    {user.name}
-                  </span>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -532,7 +570,12 @@ const Createpost = () => {
             have been sent.
           </p>
           <div className="d-flex align-items-center justify-content-between mt-4 pb-3">
-            <button className="yourBuddyBtn2 bg-transparent">Go to Home</button>
+            <NavLink
+              to={"/"}
+              className="text-center yourBuddyBtn2 bg-transparent"
+            >
+              Go to Home
+            </NavLink>
             <button className="yourBuddyBtn2 btnGreen">View Details</button>
           </div>
         </Modal.Body>
