@@ -959,6 +959,14 @@
   font-family: "inter-light";
   font-size: 17px;
 }
+.explore a.active{
+  color: #32B744;
+} 
+.explore a.active svg path{
+  fill: #32B744;
+} 
+
+
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
 /* __for you css___ */

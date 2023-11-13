@@ -20,6 +20,10 @@ const Chat = lazy(() => import("../pages/messages/message2"));
 const Reels = lazy(() => import("../pages/Reels"));
 const Sessions = lazy(() => import("../pages/Sessions"));
 const LiveStream = lazy(() => import("../pages/LiveStream"));
+const Privacy = lazy(() => import("../pages/Privacy"));
+const AcountNotification = lazy(() => import("../pages/AcountNotification"));
+const AcountSuport = lazy(() => import("../pages/AcountSuport"));
+const AcountAbout = lazy(() => import("../pages/AcountAbout"));
 // for test
 
 const Test = lazy(() => import("../pages/Registration/CreateName"));
@@ -109,6 +113,22 @@ const Router = () => {
         {
           path: "/live_stream",
           element: <LiveStream />,
+        },
+        {
+          path: "/privacy",
+          element: <Privacy />,
+        },
+        {
+          path: "/acountNoti",
+          element: <AcountNotification />,
+        },
+        {
+          path: "/acountSuport",
+          element: <AcountSuport />,
+        },
+        {
+          path: "/acountAbout",
+          element: <AcountAbout />,
         },
         {
           path: "*",
