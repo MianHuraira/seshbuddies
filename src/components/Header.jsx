@@ -11,6 +11,10 @@ import logoWhite from "../assets/logo/logo_white.svg";
 import LogoTextWhite from "../assets/logo/logo_text_white.svg";
 import SearchIcon from "../assets/icons/search_icon.svg";
 import SearchWhite from "../assets/icons/search_icon_white.svg";
+import { FaClock, FaSearch } from "react-icons/fa";
+import RecentIcon from "../assets/icons/recentIcon.svg";
+import UpLeftArrow from "../assets/icons/upLeftArrow.svg";
+import CrossIcon from "../assets/icons/blackCross.svg";
 
 import Profile from "./Profile";
 
@@ -36,6 +40,75 @@ const Header = () => {
     chngBg = "nav_gbg";
   }
 
+  const [query, setQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [recentSearches, setRecentSearches] = useState([]);
+  const suggestionsData = [
+    "suggestion1",
+    "suggestion2",
+    "apple",
+    "asad",
+    "ahmad",
+  ];
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+
+    let filteredSuggestions = [];
+
+    if (value.trim() !== "") {
+      // Combine recent searches and suggestions
+      const combinedSuggestions = [
+        ...recentSearches.map((search) => search.text),
+        ...suggestionsData,
+      ];
+
+      filteredSuggestions = combinedSuggestions.filter((suggestion) =>
+        suggestion.toLowerCase().includes(value.toLowerCase())
+      );
+    }
+
+    setQuery(value);
+    setSuggestions(filteredSuggestions);
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    const isRecentSearch = recentSearches.some(
+      (search) => search.text === suggestion
+    );
+
+    if (isRecentSearch) {
+      // Handle the click on recent search (e.g., perform a special action)
+      console.log("Clicked on recent search:", suggestion);
+    } else {
+      // Handle the click on regular suggestion
+      console.log("Clicked on suggestion:", suggestion);
+    }
+
+    // Check if the suggestion is already in recent searches
+    const isAlreadyInRecentSearches = recentSearches.some(
+      (search) => search.text === suggestion
+    );
+
+    // If the suggestion is not already in recent searches, add it to recent searches
+    if (!isAlreadyInRecentSearches) {
+      setRecentSearches((prevSearches) => [
+        { text: suggestion, time: new Date() },
+        ...prevSearches,
+      ]);
+    }
+
+    setQuery("");
+    setSuggestions([]);
+  };
+
+  const handleRemoveRecentSearch = (text) => {
+    const updatedRecentSearches = recentSearches.filter(
+      (search) => search.text !== text
+    );
+    setRecentSearches(updatedRecentSearches);
+  };
+
   return (
     <>
       <Navbar expand="lg" className={`nav_bg ${chngBg} nav_bar`}>
@@ -55,25 +128,69 @@ const Header = () => {
             </NavLink>
           </Navbar.Brand>
           {/* search div */}
+          <div className="mainS00 position-relative me-2">
+            <NavLink
+              to={"/search"}
+              style={{
+                backgroundColor: allPath ? "rgba(45, 61, 56, 0.3)" : "",
+                width: "100%",
+              }}
+              className="search_div"
+            >
+              <img
+                className="icon_size_tab search_icon me-2"
+                src={allPath ? SearchWhite : SearchIcon}
+                alt=""
+              />
+              <Form.Control
+                type="text"
+                className="hide_fcontrol d-none d-lg-block"
+                placeholder="nickname, hashtag, music..."
+                value={query}
+                onChange={handleInputChange}
+              />
+            </NavLink>
 
-          <NavLink
-            to={"/search"}
-            style={{
-              backgroundColor: allPath ? "rgba(45, 61, 56, 0.3)" : "",
-            }}
-            className="search_div"
-          >
-            <img
-              className="icon_size_tab search_icon me-2"
-              src={allPath ? SearchWhite : SearchIcon}
-              alt=""
-            />
-            <Form.Control
-              type="email"
-              className="hide_fcontrol d-none d-lg-block"
-              placeholder="nickname, hashtag, music..."
-            />
-          </NavLink>
+            {suggestions.length > 0 && (
+              <div className="searchDiv00">
+                {suggestions.map((suggestion, index) => {
+                  const isRecentSearch = recentSearches.some(
+                    (search) => search.text === suggestion
+                  );
+                  return (
+                    <p
+                      className="d-flex align-items-center mb-2"
+                      key={index}
+                      onClick={() => handleSuggestionClick(suggestion)}
+                    >
+                      <div className="reIcon00">
+                        <img
+                          src={isRecentSearch ? RecentIcon : SearchIcon}
+                          alt=""
+                        />
+                      </div>
+                      <h5  className="ms-2 suggText00">{suggestion}</h5>
+                      {isRecentSearch ? (
+                        <img
+                          onClick={() => handleRemoveRecentSearch(suggestion)}
+                          className="ms-auto cursorP"
+                          src={CrossIcon}
+                          alt=""
+                        />
+                      ) : (
+                        <img
+                          className="ms-auto cursorP"
+                          src={UpLeftArrow}
+                          alt=""
+                        />
+                      )}
+                    </p>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
           <div className="blank_div mx-2"></div>
           <div className={` ${allPath ? "item_nav" : "clr_chng nav_item"} `}>
             <NavLink

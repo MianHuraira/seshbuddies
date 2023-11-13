@@ -936,6 +936,29 @@
   font-size: 14px;
   color: #6c7774;
 }
+.searchDiv00 {
+  border-radius: 0px 0px 12px 12px;
+  background: var(--project-colours-white, #fff);
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+  padding: 10px;
+  width: 100%;
+  position: absolute;
+  margin-top: 10px;
+}
+.reIcon00 {
+  background-color: #f6f3f7;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+}
+.suggText00 {
+  color: #000000;
+  font-family: "inter-light";
+  font-size: 17px;
+}
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
 /* __for you css___ */
@@ -1794,11 +1817,16 @@
     position: relative;
   }
   .search_div {
-    width: 45px;
+    width: 45px !important;
     height: 45px;
     justify-content: center;
     margin-left: auto;
     margin-right: 16px;
+  }
+  .mainS00 {
+    margin-left: auto !important;
+    width: 40px;
+    height: 40px;
   }
   .search_div img {
     margin-right: 0px !important;
