@@ -576,7 +576,7 @@
   border: none !important;
   border-radius: 999px !important;
   height: 100%;
-  color: #2D3D38 !important;
+  color: #2d3d38 !important;
   font-family: "inter-medium";
 }
 .sign_tab .nav-link {
@@ -930,6 +930,11 @@
 .imgH00 {
   max-height: 255px;
   overflow: auto;
+}
+.cont_edit00 {
+  font-family: "inter-light";
+  font-size: 14px;
+  color: #6c7774;
 }
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
@@ -1614,11 +1619,6 @@
   position: absolute;
   right: 12px;
   bottom: 14px;
-}
-
-.edit_profile_modal {
-  max-width: 625px;
-  min-width: 370px;
 }
 
 .alert_Success_img {

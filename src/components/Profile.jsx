@@ -12,10 +12,7 @@ const Profile = () => {
 
   let allPath = false;
 
-  if (
-    getPath === "/live_stream" ||
-    getPath === "/reels"
-  ) {
+  if (getPath === "/live_stream" || getPath === "/reels") {
     allPath = true;
   }
   return (

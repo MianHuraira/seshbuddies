@@ -12,10 +12,7 @@ const UserProfile = () => {
           <Col lg="3" className=" overflow-hidden">
             <ProfileSettings />
           </Col>
-          <Col
-            lg="6"
-            className="main_height no_scrollbar ps-5 overflow-y-auto"
-          >
+          <Col lg="6" className="main_height no_scrollbar ps-5 overflow-y-auto">
             <MyProfile />
           </Col>
           <Col lg="3" className=" overflow-hidden">

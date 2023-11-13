@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-
 import { useState, React } from "react";
 import "../assets/css/style.css";
 import { Form, Navbar } from "react-bootstrap";
@@ -70,7 +69,7 @@ const Header = () => {
               alt=""
             />
             <Form.Control
-              type="text"
+              type="email"
               className="hide_fcontrol d-none d-lg-block"
               placeholder="nickname, hashtag, music..."
             />

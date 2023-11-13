@@ -65,7 +65,7 @@ const MyProfile = () => {
             <div className="d-flex">
               <div className="align_center flex-column B-right">
                 <button className="border-0 bg-white">
-                  <h1 className="">150</h1>
+                  <h1>150</h1>
                   <p>Posts</p>
                 </button>
               </div>
@@ -275,7 +275,6 @@ const MyProfile = () => {
         show={Edit}
         onHide={Profile_close}
         centered
-        size="lg"
         dialogClassName="edit_profile_modal"
       >
         <Modal.Header closeButton className="px-3 py-2 m-0 border-0 Modal_btn">
@@ -283,95 +282,81 @@ const MyProfile = () => {
             Edit profile
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body className="align_center flex-column">
-          <p className="mt-2 text-start inter w-100 mb-1">Name</p>
-          <div className="d-flex align-items-center w-100 justify-content-between">
-            <div className="two_select w-100">
+        <Modal.Body>
+          <label className="labelHead00 form-label">Name</label>
+          <Form.Control
+            placeholder="Name"
+            aria-label="Recipient's username"
+            aria-describedby="basic-addon2"
+            className="radius_12 text_area form-control"
+          />
+          <div className="mt-2 d-flex align-items-center">
+            <Form.Group className="w-100">
+              <label className="labelHead00 form-label">Phone Number</label>
               <Form.Control
-                placeholder="John Doe"
+                placeholder="Phone"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
-                className="radius_12 text_area py-2 inter light_text"
+                className="radius_12 text_area form-control"
               />
-            </div>
+            </Form.Group>
+            <Form.Group className="w-100 ms-2">
+              <label className="labelHead00 form-label">Email Address</label>
+              <Form.Control
+                placeholder="Enter Email"
+                aria-label="Recipient's username"
+                aria-describedby="basic-addon2"
+                className="radius_12 text_area form-control"
+              />
+            </Form.Group>
           </div>
-          <div className="d-flex align-items-center w-100 justify-content-between">
-            <div className="two_select">
-              <p className="mt-2 text-start inter w-100 mb-1">Phone Number</p>
-              <Form.Control
-                placeholder="+1 316 322 0000"
-                aria-label="Recipient's username"
-                aria-describedby="basic-addon2"
-                className="radius_12 text_area py-2 inter light_text"
-              />
-            </div>
-            <div className="two_select">
-              <p className="mt-2 text-start inter w-100 mb-1">Email Address</p>
-              <Form.Control
-                placeholder="mailsesh@SESHBUDDIES.io"
-                aria-label="Recipient's username"
-                aria-describedby="basic-addon2"
-                className="radius_12 text_area py-2 inter light_text"
-              />
-            </div>
-          </div>
-          <div className="d-flex align-items-center w-100 justify-content-between">
-            <div className="two_select w-100">
-              <p className="mt-2 text-start inter w-100 mb-1">Username</p>
-              <Form.Control
-                placeholder="John Doe"
-                aria-label="Recipient's username"
-                aria-describedby="basic-addon2"
-                className="radius_12 text_area py-2 inter light_text"
-              />
-            </div>
-          </div>
-          <div className="align_center me-auto mt-3">
+          <label className="labelHead00 form-label mt-2">Username</label>
+          <Form.Control
+            placeholder="User Name"
+            aria-label="Recipient's username"
+            aria-describedby="basic-addon2"
+            className="radius_12 text_area form-control"
+          />
+          <div className="d-flex mt-2">
             <p className="black_text_lg fs-16 inter">
               SESHBUDDIES.io/@SESHBUDDIES
             </p>
             <img src={Copy} alt="" className="ms-1" style={{ width: "20px" }} />
           </div>
-          <div className="w-100">
-            <p className=" fs-15 inter-light text-left mt-2 inter mb-3">
-              Usernames can contain only letters, numbers, underscores, and
-              periods. Changing your username will also change your profile
-              link.
-            </p>
-            <p className=" fs-15 inter-light text-left mt-2 inter mb-3">
-              You can change your username once every 30 days.
-            </p>
-          </div>
-          <div className="d-flex align-items-center w-100 justify-content-between">
-            <div className="two_select">
-              <p className="mt-2 text-start w-100 mb-1 inter">Date of birth</p>
+          <p className="cont_edit00 mt-2">
+            Usernames can contain only letters, numbers, underscores, and
+            periods. Changing your username will also change your profile link.
+          </p>
+          <p className="cont_edit00 mt-3">
+            You can change your username once every 30 days.
+          </p>
+          <div className="d-flex align-items-center mt-2">
+            <Form.Group class="w-100">
+              <label className="labelHead00 form-label">Date of birth</label>
+              <Form.Select
+                aria-label="Default select example"
+                className="radius_12 text_area selctClr form-control"
+              >
+                <option>Select</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </Form.Select>
+            </Form.Group>
 
-              <Form.Select
-                aria-label="Default select example"
-                className="radius_12 text_area py-2 inter light_text"
-              >
-                <option className="">Select</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </Form.Select>
-            </div>
-            <div className="two_select position-relative">
-              <p className="mt-2 text-start w-100 mb-1 inter">Location</p>
-              <Form.Select
-                aria-label="Default select example"
-                className="radius_12 inter text_area py-2 light_text"
-              >
-                <option className="">Select</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </Form.Select>
+            <Form.Group className="w-100 ms-2 position-relative">
+              <label className="labelHead00 form-label">Location</label>
+              <Form.Control
+                placeholder="Location"
+                aria-label="Recipient's username"
+                aria-describedby="basic-addon2"
+                className="radius_12 text_area form-control"
+              />
               <img src={Pinpoint} alt="" className="pinpoint" />
-            </div>
+            </Form.Group>
           </div>
           <div className="two_select w-100">
-            <p className="mt-2 text-start w-100 mb-1 inter  ">Bio</p>
+            <label className="labelHead00 form-label">Bio</label>
             <Form.Control
               as="textarea"
               aria-label="With textarea"
@@ -380,12 +365,12 @@ const MyProfile = () => {
             />
           </div>
           <div className="two_select w-100">
-            <p className="mt-2 text-start w-100 mb-1 inter">URL</p>
+            <label className="labelHead00 form-label">URL</label>
             <Form.Control
               placeholder="https://"
               aria-label="Recipient's username"
               aria-describedby="basic-addon2"
-              className="radius_12 text_area inter py-2 light_text"
+              className="radius_12 text_area"
             />
           </div>
         </Modal.Body>
