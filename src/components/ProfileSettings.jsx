@@ -1,14 +1,4 @@
 import React from "react";
-import angle_right from "../assets/logo/icons/angle_right.svg";
-import User from "../assets/icons/single_user.png";
-import lock from "../assets/icons/lock.png";
-import sheild from "../assets/icons/sheild.png";
-import bell_icon from "../assets/icons/bell_icon.png";
-import flag from "../assets/icons/flag.png";
-import support from "../assets/icons/support_message.png";
-import info_full from "../assets/icons/info_icon_full.png";
-import bin from "../assets/icons/bin_icon.png";
-import logout from "../assets/icons/logout_icon.png";
 import { NavLink } from "react-router-dom";
 const ProfileSettings = () => {
   return (

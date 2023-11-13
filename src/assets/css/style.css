@@ -965,7 +965,11 @@
 .explore a.active svg path{
   fill: #32B744;
 } 
-
+.titleN00{
+  color: #000000;
+  font-family: "inter-medium";
+  font-size: 16px;
+}
 
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
