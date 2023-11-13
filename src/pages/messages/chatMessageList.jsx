@@ -12,7 +12,7 @@ import { Spinner } from "react-bootstrap";
 import { Fragment } from "react";
 import SendIcon from "../../assets/icons/send_icon.svg";
 import { AiOutlinePlus } from "react-icons/ai";
-import { BsImage  , BsThreeDots} from "react-icons/bs";
+import { BsImage, BsThreeDots } from "react-icons/bs";
 
 const ChatMessageList = ({
   chatDetail,
@@ -180,7 +180,7 @@ const ChatMessageList = ({
           </div>
           <div className="d-flex align-items-center justify-content-between w-100 my-2">
             <h5 className="chatName000">BlazeMaster</h5>
-            <BsThreeDots style={{color:"#000000"}} />
+            <BsThreeDots style={{ color: "#000000" }} />
           </div>
           <div className="ps-3">
             <h5 className="chat_detail fs_09">{chatDetail?.name}</h5>
@@ -205,10 +205,10 @@ const ChatMessageList = ({
       <form onSubmit={sendMessage}>
         <div className="position-absolute ps-2 bottom-0 d-flex align-items-center w-100">
           <div className="me-3">
-            <AiOutlinePlus style={{ fontSize: "30px", cursor:"pointer" }} />
+            <AiOutlinePlus style={{ fontSize: "30px", cursor: "pointer" }} />
           </div>
           <div>
-            <BsImage style={{ fontSize: "30px" ,cursor:"pointer" }} />
+            <BsImage style={{ fontSize: "30px", cursor: "pointer" }} />
           </div>
           <div className="d-flex w-100 my-3 mx-3">
             <div className="position-relative chatInp000 w-100 me-1">

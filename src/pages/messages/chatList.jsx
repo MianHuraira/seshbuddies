@@ -51,7 +51,7 @@ const ChatList = ({
         style={{ cursor: "pointer", padding: "0.6rem 0rem" }}
       >
         <div
-          className={`d-flex align-items-center chat-list-link px-2 py-2 w-100 ${
+          className={`d-flex align-items-center chat-list-link px-3 py-2 w-100 ${
             isActive ? "active" : ""
           }`}
         >

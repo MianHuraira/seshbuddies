@@ -225,20 +225,15 @@ const Message2 = () => {
         <div className="bg-lightgray">
           <div>
             <div className="chat_grid">
-              <div className={`chat_screen`}>
+              <div
+                className={`chat_screen ${!showChat ? "" : "d_chat_none"} []`}
+              >
                 <div className="pb-1">
                   <div className="d-flex align-items-center justify-content-between px-3">
                     <h4 className="my-4  msg_text">Messages</h4>
                     <div className="d-flex align-items-center">
                       <div className="clos_chat_btn">
-                        <IoBagOutline />
-                      </div>
-                      <div className="logomark_chat mx-2">
-                        <img src={logoMarck} alt="" />
-                        <h3>940</h3>
-                      </div>
-                      <div className="clos_chat_btn">
-                        <FaBars />
+                        <Search />
                       </div>
                     </div>
                   </div>
@@ -254,7 +249,7 @@ const Message2 = () => {
                     />
                   </div>
                   <hr style={{ color: "#EDEEF0" }} className="my-1" />
-                  <div className="chat_height_contol scrolbar px-3">
+                  <div className="chat_height_contol scrolbar">
                     {
                       <>
                         {chatlist?.map((chat, index) => (

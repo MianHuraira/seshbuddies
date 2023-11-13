@@ -53,7 +53,7 @@
 
 .chat_grid {
   display: grid;
-  grid-template-columns: 0.5fr 1fr 0.5fr;
+  grid-template-columns: 0.4fr 1fr 0.5fr;
   /* gap: 1rem; */
 }
 
@@ -67,8 +67,8 @@
 }
 
 .chat_profile_img {
-  width: 3.3rem;
-  height: 3.3rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50% 50%;
   object-fit: cover;
   object-position: center;
@@ -375,9 +375,9 @@
 }
 .main_searchD {
   background-color: #f5f4f7;
-  margin-left: 16px;
-  border-radius: 20px 0px 0px 20px;
+  border-radius: 20px;
   padding: 3px 0px;
+  margin: 8px;
 }
 .main_searchD input {
   background-color: transparent !important;
@@ -386,7 +386,7 @@
 .chat_detail00 {
   color: #908c95 !important;
   font-family: "inter-light";
-  font-size: 15px;
+  font-size: 12px;
 }
 .chat_name00 {
   color: var(--head-color);
@@ -399,8 +399,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  width: 4rem;
-  height: 4rem;
+  width: 3.5rem;
+  height: 3.5rem;
 }
 .active_user00 {
   background-color: #27b973;
@@ -550,13 +550,13 @@
   height: 2rem;
   justify-content: center;
   align-items: center;
-  color: var(--black);
+  color: #000000;
   display: none;
 }
 
 .d_left_button:hover {
   background: var(--dart-secondary2);
-  color: var(--white);
+  color: #2ea73e;
 }
 
 @media (max-width: 768px) {
@@ -577,5 +577,4 @@
 .chat-list-link:focus,
 .chat-list-link.active {
   background-color: #eef5f2;
-  border-radius: 0.6rem;
 }
