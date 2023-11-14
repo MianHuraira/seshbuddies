@@ -18,7 +18,9 @@ import CrossIcon from "../assets/icons/blackCross.svg";
 import StatusChange from "../assets/icons/StatusChange.svg";
 import Profile from "./Profile";
 
-import SideMessage from "../components/side_message";
+import RedUpModal  from "../components/RedUpModal"
+
+
 
 const Header = () => {
   const [activeNavLink, setActiveNavLink] = useState("home");
@@ -31,6 +33,16 @@ const Header = () => {
 
   const handleStatusChangeClick = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   const location = useLocation();
@@ -344,7 +356,8 @@ const Header = () => {
                 />
               </svg>
             </NavLink>
-            <img src={StatusChange} className="d-lg-none d-block me-3" alt="" />
+            <img onClick={handleOpenModal} src={StatusChange} className="d-lg-none d-block me-3" alt="" />
+            <RedUpModal show={showModal} handleClose={handleCloseModal} />
             <Profile />
           </div>
         </div>

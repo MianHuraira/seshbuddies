@@ -6,11 +6,9 @@ import avatar1 from "../assets/logo/Avatar.svg";
 import avatar2 from "../assets/logo/Avatar2.svg";
 import avatar3 from "../assets/logo/Avatar3.svg";
 import avatar4 from "../assets/logo/Avatar4.svg";
-import { Button, Modal } from "react-bootstrap";
-import RedsUp from "../assets/logo/icons/redsUp.svg";
-import Holding from "../assets/logo/icons/holding.svg";
-import Dry from "../assets/logo/icons/dry.svg";
 import { Link, useLocation } from "react-router-dom";
+
+import RedUpModal from "../components/RedUpModal";
 const SideMessage = () => {
   const location = useLocation();
 
@@ -20,9 +18,16 @@ const SideMessage = () => {
   if (getPath === "/live_stream" || getPath === "/reels") {
     allPath = true;
   }
-  const [Status, ChangeStatus] = useState(false);
-  const StatusBtnOpen = () => ChangeStatus(true);
-  const StatusBtnClose = () => ChangeStatus(false);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <div>
@@ -82,11 +87,12 @@ const SideMessage = () => {
         </div>
         <button
           style={{ color: allPath ? "#32B744" : "" }}
-          onClick={StatusBtnOpen}
+          onClick={handleOpenModal}
           className="fs-15 bg-transparent border-0 inter-semi ms-auto my-auto"
         >
           Change
         </button>
+        <RedUpModal show={showModal} handleClose={handleCloseModal} />
       </div>
       <div className="d-flex mb-3 justify-content-between align-items-center">
         <p className="inter fs-15 l-black">Suggested for you</p>
@@ -311,71 +317,6 @@ const SideMessage = () => {
         © 2023 SESHBUDDIES Social NETWORK CORPORATION.
       </div>
       {/* ___modal___ */}
-      <Modal
-        show={Status}
-        size="md"
-        onHide={StatusBtnClose}
-        dialogClassName="rating_modal"
-        centered
-      >
-        <Modal.Header
-          closeButton
-          className="px-4 hide_fcontrol py-2 likes_modal_head"
-        >
-          <Modal.Title className="mx-auto black_text_lg inter-bold fs-16 mt-1 ">
-            Know Your Availability!
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body
-          className="pb-4"
-          style={{ background: "rgba(238, 245, 242, 1)" }}
-        >
-          <button className="changeStateBtn state_border mt-1 mb-3 d-flex align-items-center justify-content-center text-left">
-            <img
-              alt=""
-              src={RedsUp}
-              style={{ width: "57px" }}
-              className="me-2"
-            />
-            <div className="">
-              <h1 className="fs-16 inter-semi">Re'd Up</h1>
-              <p className=" height-20 mt-1 fs-15 inter-light">
-                You’re full of greens and ready for Seshsions! Invite or get
-                invited.
-              </p>
-            </div>
-          </button>
-          {/* ___________ */}
-          <button className="changeStateBtn my-3 d-flex align-items-center justify-content-center text-left">
-            <img
-              alt=""
-              src={Holding}
-              style={{ width: "57px" }}
-              className="me-2"
-            />
-            <div className="">
-              <h1 className="fs-16 inter-semi">Holding</h1>
-              <p className=" height-20 mt-1 fs-15 inter-light">
-                You’re running low. Be picky with your Seshsions or look for a
-                match!
-              </p>
-            </div>
-          </button>
-          {/* ___________ */}
-          <button className="changeStateBtn mt-3 mb-4 d-flex align-items-center justify-content-center text-left">
-            <img alt="" src={Dry} style={{ width: "57px" }} className="me-2" />
-            <div className="">
-              <h1 className="fs-16 inter-semi">Dry</h1>
-              <p className=" height-20 mt-1 fs-15 inter-light">
-                You’re out! Look for generous buddies or wait till you re-up.
-              </p>
-            </div>
-          </button>
-          <Button className="btn-primary" style={{ padding: "12px 0" }}>
-            Confirm
-          </Button>
-        </Modal.Body>
-      </Modal>
     </div>
   );
 };
