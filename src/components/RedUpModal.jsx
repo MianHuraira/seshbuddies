@@ -6,9 +6,20 @@ import Holding from "../assets/logo/icons/holding.svg";
 import Dry from "../assets/logo/icons/dry.svg";
 
 const RedUpModal = ({ show, handleClose }) => {
+  const handleConfirmClick = () => {
+    handleClose();
+  };
   return (
     <>
       <Modal show={show} size="md" onHide={handleClose} centered>
+        <Modal.Header
+          closeButton
+          className="px-4 hide_fcontrol py-2 likes_modal_head"
+        >
+          <Modal.Title className="mx-auto black_text_lg inter-bold fs-16 mt-1 ">
+            Know Your Availability!
+          </Modal.Title>
+        </Modal.Header>
         <Modal.Body
           className="pb-4"
           style={{ background: "rgba(238, 245, 242, 1)" }}
@@ -54,7 +65,11 @@ const RedUpModal = ({ show, handleClose }) => {
               </p>
             </div>
           </button>
-          <Button className="btn-primary" style={{ padding: "12px 0" }}>
+          <Button
+            onClick={handleConfirmClick}
+            className="btn-primary"
+            style={{ padding: "12px 0" }}
+          >
             Confirm
           </Button>
         </Modal.Body>
