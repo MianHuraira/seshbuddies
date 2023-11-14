@@ -12,8 +12,8 @@ const AcountSuport = () => {
           <Col lg="3" className=" overflow-hidden">
             <ProfileSettings />
           </Col>
-          <Col lg="6">
-            <div className="bg-white h-100 p-4 radius_14">
+          <Col lg="6" className="ps-5">
+            <div className="bg-white h-100 p-4 radius_24">
               <div className="account_head pb-2">
                 <p className="text-center black_text_lg inter-bold fs-16">
                   Support

@@ -54,6 +54,9 @@ a {
 .radius_14 {
   border-radius: 14px !important;
 }
+.radius_24 {
+  border-radius: 24px !important;
+}
 /* ___width___ */
 .w-95 {
   width: 95%;

@@ -4,7 +4,7 @@ const ProfileSettings = () => {
   return (
     <div className="ms-5 pb-5">
       <h1 className="inter-bold fs-14 mb-4 mt-3">Settings and privacy</h1>
-      <div className="explore">
+      <div className="explore sidActive">
         <p className="semibold  l-black inter-medium fs-14">
           Security & Privacy
         </p>
@@ -108,7 +108,7 @@ const ProfileSettings = () => {
           </div>
         </div>
       </div>
-      <div className="explore">
+      <div className="explore sidActive">
         <p className="semibold  l-black inter-medium my-3 fs-14">
           Content & Display
         </p>
@@ -147,7 +147,7 @@ const ProfileSettings = () => {
           </svg>
         </NavLink>
       </div>
-      <div className="explore">
+      <div className="explore sidActive">
         <p className="semibold  l-black inter-medium fs-14">Support & About</p>
         <div className="black_text_lg d-flex justify-content-between mt-3">
           <div className="d-flex align-items-center justify-content-center">
@@ -250,7 +250,7 @@ const ProfileSettings = () => {
           </svg>
         </NavLink>
       </div>
-      <div className="explore mt-3">
+      <div className="explore sidActive mt-3">
         <p className="semibold  l-black inter-medium fs-14">Account</p>
         <div className="black_text_lg d-flex justify-content-between mt-3">
           <div className="d-flex align-items-center justify-content-center">
