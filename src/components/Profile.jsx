@@ -21,12 +21,8 @@ const Profile = () => {
         id="nav-dropdown-dark-example"
         title={
           <div className="d-flex align-items-center">
-            <div className="me-3 position-relative">
-              <img
-                className="profile_img d-none d-lg-block"
-                src={Profile_img}
-                alt=""
-              />
+            <div className="me-2 position-relative">
+              <img className="profile_img" src={Profile_img} alt="" />
               <img className="status_icon" src={Status_icon} alt="" />
             </div>
             <h5
@@ -38,16 +34,13 @@ const Profile = () => {
           </div>
         }
         menuVariant="dark"
-        className="m-2 main_drop_na"
+        className="me-2 main_drop_na"
         align={"end"}
       >
-        <NavDropdown.Item>Action</NavDropdown.Item>
         <NavDropdown.Item>
           <NavLink to={"/profile"}>Settings</NavLink>
         </NavDropdown.Item>
-        <NavDropdown.Item>Something</NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item>Separated link</NavDropdown.Item>
+        <NavDropdown.Item>Log Out</NavDropdown.Item>
       </NavDropdown>
     </>
   );

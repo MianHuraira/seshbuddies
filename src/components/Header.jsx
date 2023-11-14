@@ -15,14 +15,22 @@ import { FaClock, FaSearch } from "react-icons/fa";
 import RecentIcon from "../assets/icons/recentIcon.svg";
 import UpLeftArrow from "../assets/icons/upLeftArrow.svg";
 import CrossIcon from "../assets/icons/blackCross.svg";
-
+import StatusChange from "../assets/icons/StatusChange.svg";
 import Profile from "./Profile";
+
+import SideMessage from "../components/side_message";
 
 const Header = () => {
   const [activeNavLink, setActiveNavLink] = useState("home");
 
   const handleNavLinkClick = (navLinkId) => {
     setActiveNavLink(navLinkId);
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleStatusChangeClick = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   const location = useLocation();
@@ -169,7 +177,7 @@ const Header = () => {
                           alt=""
                         />
                       </div>
-                      <h5  className="ms-2 suggText00">{suggestion}</h5>
+                      <h5 className="ms-2 suggText00">{suggestion}</h5>
                       {isRecentSearch ? (
                         <img
                           onClick={() => handleRemoveRecentSearch(suggestion)}
@@ -301,7 +309,7 @@ const Header = () => {
               style={{
                 backgroundColor: allPath ? "rgba(45, 61, 56, 0.26)" : "",
               }}
-              className="icon_div me-3"
+              className="icon_div mx-3"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -336,6 +344,7 @@ const Header = () => {
                 />
               </svg>
             </NavLink>
+            <img src={StatusChange} className="d-lg-none d-block me-3" alt="" />
             <Profile />
           </div>
         </div>

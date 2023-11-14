@@ -562,6 +562,7 @@
 }
 .main_height {
   height: 100vh;
+  margin-bottom: 40px;
 }
 
 /* search css */
@@ -1826,9 +1827,6 @@
     width: auto !important;
     padding: 10px 10px !important;
     box-shadow: none !important;
-  }
-  .status_icon {
-    position: relative;
   }
   .search_div {
     width: 45px !important;

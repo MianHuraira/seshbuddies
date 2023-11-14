@@ -20,10 +20,14 @@ const Home = () => {
     <div>
       <Container className="top_padd" fluid="xxl">
         <Row className="w-100 h-100 p-0">
-          <Col lg="3" className=" overflow-hidden">
+          <Col lg="3" md="3" className=" overflow-hidden">
             <Createpost />
           </Col>
-          <Col lg="6" className="main_height no_scrollbar ps-5 overflow-y-auto">
+          <Col
+            lg="6"
+            md="9"
+            className="main_height no_scrollbar gx-5 overflow-y-auto"
+          >
             <div className="py-2 overflow-auto">
               <TopStory />
             </div>
@@ -38,7 +42,7 @@ const Home = () => {
               <FollowBuddies />
             </div>
           </Col>
-          <Col lg="3" className=" overflow-hidden">
+          <Col lg="3" className="overflow-hidden d-lg-block d-none">
             <SideMessage />
           </Col>
         </Row>
