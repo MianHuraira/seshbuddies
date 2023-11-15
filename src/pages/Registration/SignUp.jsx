@@ -1,31 +1,96 @@
+/* eslint-disable no-unused-vars */
 import { React, useState } from "react";
 import { Form } from "react-bootstrap";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Spinner from "react-bootstrap/Spinner";
 import VarifyCode from "./VerifyCode";
+import axios from "axios";
 
 const SignUp = () => {
   const [activeTab, setActiveTab] = useState("tab1");
-  const tabClick = (tab) => {
-    setActiveTab(tab);
-  };
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [showVerifyCode, setShowVerifyCode] = useState(false);
-  const handleOnChange = (value, country, e, formattedValue) => {
-    setPhoneNumber(value);
+  const [verifyCodeTitle, setVerifyCodeTitle] = useState("");
+  const [otp, setOtp] = useState("");
+  const [detail, setDetail] = useState("");
+  const [keyProp, setKeyProp] = useState("");
+
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+
+  const handlePhoneChange = (value, country, e, formattedValue) => {
+    const fullPhoneNumber = `+${value.replace(/\D/g, "")}`;
+    setPhone(fullPhoneNumber);
     setIsValid(formattedValue.length === country.format.length);
   };
 
-  const [verifyCodeTitle, setVerifyCodeTitle] = useState("");
-  const phonSub = (title) => {
-    setIsValid(true);
-    // Show the VerifyCode component
-    setShowVerifyCode(true);
-    setVerifyCodeTitle(title);
-    // Optionally, you can hide the "singUpDiv" using CSS or by toggling a class
+  const handleEmailChange = (e) => {
+    const emailValue = e.target.value;
+
+    // Simple email validation - you may want to use a more robust solution
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidEmail = emailRegex.test(emailValue);
+
+    setEmail(emailValue);
+    setIsValid(isValidEmail);
   };
+
+  const tabClick = (tab) => {
+    setActiveTab(tab);
+  };
+
+  // post data api
+
+  const handleSendCode = () => {
+    let requestData;
+    let title;
+    let currentDetail = "";
+    let keyP;
+
+    if (activeTab === "tab1") {
+      // Phone tab
+      requestData = { phone };
+      title = "Enter 5-digit code";
+      keyP = "number";
+      currentDetail = phone;
+    } else if (activeTab === "tab2") {
+      // Email tab
+      requestData = { email };
+      title = "Enter verification code";
+      keyP = "gmail";
+      currentDetail = email;
+    }
+
+    setIsButtonClicked(true);
+
+    axios
+      .post(`${global.BASEURL}users/send-code`, requestData)
+      .then((res) => {
+        const result = res.data.code;
+        setOtp(result);
+
+        const resultSuccess = res.data.success === true;
+        console.log(resultSuccess);
+
+        // Set other states
+        setIsValid(true);
+        setVerifyCodeTitle(title);
+        setDetail(currentDetail);
+        setKeyProp(keyP);
+
+        // Conditionally set setShowVerifyCode based on resultSuccess
+        if (resultSuccess) {
+          setShowVerifyCode(true);
+        }
+      })
+      .catch((error) => {
+        console.error("Error sending code: ", error);
+        // Handle error, maybe show a toast message
+      });
+  };
+
   return (
     <>
       <div
@@ -58,114 +123,96 @@ const SignUp = () => {
           {/* content area */}
 
           <div className="tab-content mt-2">
-            <div
-              className={`tab-pane ${activeTab === "tab1" ? "active" : ""}`}
-              id="tab1"
-            >
+            {activeTab === "tab1" && (
               <PhoneInput
                 className="phon_inp mt-4"
                 country={"pk"}
                 enableAreaCodes={true}
                 enableSearch={true}
                 disableSearchIcon={true}
-                value={phoneNumber}
-                onChange={handleOnChange}
+                value={phone}
+                onChange={handlePhoneChange}
               />
+            )}
 
-              <h5 className="sb_head mt-3">
-                By continuing, you agree to SESHBUDDIES’s
-                <span style={{ color: "#2D3D38", fontFamily: "inter-bold", margin:"5px" }}>
-                  Terms of Service
-                </span>
-                and confirm that you have read SESHBUDDIES’s
-                <span style={{ color: "#2D3D38", fontFamily: "inter-bold" ,margin:"5px" }}>
-                  Privacy Policy
-                </span>
-              </h5>
+            {activeTab === "tab2" && (
+              <Form className="mt-4">
+                <Form.Group
+                  className="mb-3 shadow_def"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Control
+                    className="custom_control"
+                    type="email"
+                    placeholder="Email address"
+                    value={email}
+                    onChange={handleEmailChange}
+                  />
+                </Form.Group>
+              </Form>
+            )}
 
-              <button
-                disabled={!isValid}
-                onClick={() => phonSub("Enter 5-digit code")}
-                className={
-                  isValid
-                    ? "btn_default phon_inp mt-4"
-                    : "btn_disable phon_inp mt-4"
-                }
+            <h5 className="sb_head mt-3">
+              By continuing, you agree to SESHBUDDIES’s
+              <span
+                style={{
+                  color: "#2D3D38",
+                  fontFamily: "inter-bold",
+                  margin: "5px",
+                }}
               >
-                Send Code
-                <Spinner
-                  className={isValid ? "d-block" : "d-none"}
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                    float: "right",
-                    marginTop: "3px",
-                    borderWidth: "0.15em",
-                  }}
-                  animation="border"
-                  role="status"
-                >
-                  <span className="visually-hidden">Loading...</span>
-                </Spinner>
-              </button>
-            </div>
-            {/* <VarifyCode />  */}
-            <div
-              className={`tab-pane ${activeTab === "tab2" ? "active" : ""}`}
-              id="tab2"
+                Terms of Service
+              </span>
+              and confirm that you have read SESHBUDDIES’s
+              <span
+                style={{
+                  color: "#2D3D38",
+                  fontFamily: "inter-bold",
+                  margin: "5px",
+                }}
+              >
+                Privacy Policy
+              </span>
+            </h5>
+            <button
+              disabled={!isValid}
+              onClick={handleSendCode}
+              className={
+                isValid
+                  ? "btn_default phon_inp mt-4"
+                  : "btn_disable phon_inp mt-4"
+              }
             >
-              <>
-                <Form className="mt-4">
-                  <Form.Group
-                    className="mb-3 shadow_def"
-                    controlId="exampleForm.ControlInput1"
-                  >
-                    <Form.Control
-                      className="custom_control"
-                      type="email"
-                      placeholder="Email address"
-                    />
-                  </Form.Group>
-                </Form>
-
-                <h5 className="sb_head mt-3">
-                By continuing, you agree to SESHBUDDIES’s
-                <span style={{ color: "#2D3D38", fontFamily: "inter-bold", margin:"5px" }}>
-                  Terms of Service
-                </span>
-                and confirm that you have read SESHBUDDIES’s
-                <span style={{ color: "#2D3D38", fontFamily: "inter-bold" ,margin:"5px" }}>
-                  Privacy Policy
-                </span>
-              </h5>
-
-                <button
-                  onClick={() => phonSub("Verify your email")}
-                  className="btn_default phon_inp mt-4"
-                >
-                  Send Code
-                  <Spinner
-                    className={isValid ? "d-block" : "d-none"}
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      float: "right",
-                      marginTop: "3px",
-                      borderWidth: "0.15em",
-                    }}
-                    animation="border"
-                    role="status"
-                  >
-                    <span className="visually-hidden">Loading...</span>
-                  </Spinner>
-                </button>
-              </>
-            </div>
+              Send Code
+              <Spinner
+                className={
+                  isButtonClicked ? (isValid ? "d-block" : "d-none") : "d-none"
+                }
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  float: "right",
+                  marginTop: "3px",
+                  borderWidth: "0.15em",
+                }}
+                animation="border"
+                role="status"
+              >
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </button>
           </div>
         </div>
       </div>
 
-      {showVerifyCode && <VarifyCode title={verifyCodeTitle} />}
+      {showVerifyCode && (
+        <VarifyCode
+          otp={otp}
+          keyP={keyProp}
+          detail={detail}
+          title={verifyCodeTitle}
+        />
+      )}
     </>
   );
 };

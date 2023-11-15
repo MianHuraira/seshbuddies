@@ -30,7 +30,7 @@ const Login = () => {
               <Form.Control
                 className="login_inp p-2 radius_12"
                 type="email"
-                placeholder="Enter your email or username ok"
+                placeholder="Enter your email or username"
               />
             </Form.Group>
 

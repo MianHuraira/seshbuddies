@@ -81,6 +81,7 @@ const CreatPass = () => {
     if (type === "Weak" && progress > 0) return "#EFD01D";
     return "#ED6054";
   };
+  console.log(password);
 
   const isPassword8Characters = password.length >= 8;
 

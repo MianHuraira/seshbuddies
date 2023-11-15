@@ -10,6 +10,14 @@ import HeaderSecound from "../src/components/Header_secound";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
+  // api start point
+
+  useEffect(() => {
+    global.BASEURL = "https://sushbuddies.onrender.com/api/";
+  }, []);
+
+  // //////
+
   const location = useLocation();
   let getPath = location.pathname;
 

@@ -2,11 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
 import CreatPas from "./CreatPass";
 import errorIcon from "../../assets/icons/error_icon.png";
-const VerifyCode = ({ title }) => {
+import axios from "axios";
+
+const VerifyCode = ({ title, otp, detail, keyP }) => {
   const [code, setCode] = useState(["", "", "", "", ""]);
   const codeInputs = [useRef(), useRef(), useRef(), useRef(), useRef()];
   const [currentPage, setCurrentPage] = useState("verify");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [initialOtp, setInitialOtp] = useState(otp);
 
   const handleCodeChange = (e, index) => {
     const value = e.target.value;
@@ -26,7 +30,7 @@ const VerifyCode = ({ title }) => {
           codeInputs[index + 1].current.focus();
         } else if (index === 4 && value !== "") {
           const enteredCode = newCode.join("");
-          if (enteredCode === "22222") {
+          if (enteredCode === initialOtp) {
             setCurrentPage("createPass");
           } else {
             setErrorMessage("Incorrect code");
@@ -62,7 +66,29 @@ const VerifyCode = ({ title }) => {
   }, [timer]);
 
   const handleResendCode = () => {
-    setTimer(5);
+    // Determine whether it's a phone or email resend
+    let requestData;
+    if (keyP === "number") {
+      // Phone resend
+      requestData = { phone: detail };
+    } else if (keyP === "gmail") {
+      // Email resend
+      requestData = { email: detail };
+    }
+
+    // Resend the code
+    axios
+      .post(`${global.BASEURL}users/send-code`, requestData)
+      .then((res) => {
+        const resp = res.data.code;
+        setInitialOtp(resp);
+      })
+      .catch((error) => {
+        console.error("Error resending code: ", error);
+        // Handle error, maybe show a toast message
+      });
+
+    setTimer(50);
     setShowResendLink(false);
   };
 
@@ -77,7 +103,7 @@ const VerifyCode = ({ title }) => {
               <h4 className="f_head">{title}</h4>
               <h5 className="mt-2 sb_head">
                 Your code was sent to
-                <span style={{ color: "#32B744" }}>+44 12345678 </span>
+                <span style={{ color: "#32B744" }}> {detail}</span>
               </h5>
               <Form>
                 <Form.Group className="mt-3 d-flex align-items-center me-2">
@@ -106,7 +132,11 @@ const VerifyCode = ({ title }) => {
                     Didn’t get a code?
                     <span
                       onClick={handleResendCode}
-                      style={{ color: "#32B744", cursor: "pointer" }}
+                      style={{
+                        color: "#32B744",
+                        cursor: "pointer",
+                        marginLeft: "5px",
+                      }}
                     >
                       Resend Code
                     </span>
