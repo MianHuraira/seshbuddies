@@ -56,7 +56,7 @@ const VerifyCode = ({ title, otp, detail, keyP }) => {
     }
   };
 
-  const [timer, setTimer] = useState(5);
+  const [timer, setTimer] = useState(50);
   const [showResendLink, setShowResendLink] = useState(false);
 
   useEffect(() => {
