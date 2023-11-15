@@ -268,7 +268,7 @@ const Createpost = () => {
             </h1>
             <p
               style={{ color: allPath ? "white" : "" }}
-              className="fs-11 inter mt-1"
+              className="fs-11 inter mt-1 text_l"
             >
               Invite a buddy for a chill sesh.
             </p>
@@ -314,7 +314,7 @@ const Createpost = () => {
             </h1>
             <p
               style={{ color: allPath ? "white" : "" }}
-              className="fs-11 inter mt-1"
+              className="fs-11 inter mt-1 text_l"
             >
               Running low? Invite buddies to contribute.
             </p>
@@ -337,7 +337,7 @@ const Createpost = () => {
             </h1>
             <p
               style={{ color: allPath ? "white" : "" }}
-              className="fs-11 inter mt-1"
+              className="fs-11 inter mt-1 text_l"
             >
               Out of stash? Request a 'Smoke Me Out.'
             </p>

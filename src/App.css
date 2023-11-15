@@ -219,6 +219,9 @@ h1 {
   font-family: "inter-regular";
   font-size: 12px;
 }
+.text_l{
+  text-align: left !important;
+}
 
 .form-label{
   margin-bottom: 3px !important;

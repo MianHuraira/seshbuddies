@@ -19,6 +19,8 @@ const SideMessage = () => {
     allPath = true;
   }
 
+
+  // moodal code red up 
   const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = () => {
