@@ -6,6 +6,9 @@ import "react-phone-input-2/lib/style.css";
 import Spinner from "react-bootstrap/Spinner";
 import VarifyCode from "./VerifyCode";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignUp = () => {
   const [activeTab, setActiveTab] = useState("tab1");
@@ -72,7 +75,7 @@ const SignUp = () => {
         setOtp(result);
 
         const resultSuccess = res.data.success === true;
-        console.log(resultSuccess);
+        toast.success("Code Send successfully");
 
         // Set other states
         setIsValid(true);
@@ -87,12 +90,13 @@ const SignUp = () => {
       })
       .catch((error) => {
         console.error("Error sending code: ", error);
-        // Handle error, maybe show a toast message
+        toast.error("Error sending code.");
       });
   };
 
   return (
     <>
+    <ToastContainer />
       <div
         className={`singUpDiv main_div_login ${showVerifyCode ? "d-none" : ""}`}
       >

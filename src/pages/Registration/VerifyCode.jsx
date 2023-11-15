@@ -43,6 +43,16 @@ const VerifyCode = ({ title, otp, detail, keyP }) => {
 
         return newCode;
       });
+    } else if (e.keyCode === 8) {
+      // Handle backspace
+      if (value === "" && index > 0) {
+        codeInputs[index - 1].current.focus();
+      } else if (index > 0) {
+        codeInputs[index - 1].current.focus();
+      }
+    } else if (/^\d*$/.test(value) && index < 4) {
+      // Handle typing a number
+      codeInputs[index + 1].current.focus();
     }
   };
 
@@ -85,6 +95,7 @@ const VerifyCode = ({ title, otp, detail, keyP }) => {
       })
       .catch((error) => {
         console.error("Error resending code: ", error);
+
         // Handle error, maybe show a toast message
       });
 
