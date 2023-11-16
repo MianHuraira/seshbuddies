@@ -6,9 +6,9 @@ import "react-phone-input-2/lib/style.css";
 import Spinner from "react-bootstrap/Spinner";
 import VarifyCode from "./VerifyCode";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
   const [activeTab, setActiveTab] = useState("tab1");
@@ -74,29 +74,32 @@ const SignUp = () => {
         const result = res.data.code;
         setOtp(result);
 
-        const resultSuccess = res.data.success === true;
-        toast.success("Code Send successfully");
+        const resultSuccess = res.data.success;
 
-        // Set other states
-        setIsValid(true);
-        setVerifyCodeTitle(title);
-        setDetail(currentDetail);
-        setKeyProp(keyP);
-
-        // Conditionally set setShowVerifyCode based on resultSuccess
         if (resultSuccess) {
           setShowVerifyCode(true);
+          toast.success("Code Send successfully");
+
+          // Set other states
+          setIsValid(true);
+          setVerifyCodeTitle(title);
+          setDetail(currentDetail);
+          setKeyProp(keyP);
         }
       })
       .catch((error) => {
         console.error("Error sending code: ", error);
-        toast.error("Error sending code.");
+        toast.error(error.response.data.message);
+      })
+      .finally(() => {
+        // This block will execute regardless of success or error
+        setIsButtonClicked(false);
       });
   };
 
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <div
         className={`singUpDiv main_div_login ${showVerifyCode ? "d-none" : ""}`}
       >

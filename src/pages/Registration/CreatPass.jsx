@@ -1,17 +1,21 @@
+/* eslint-disable no-unused-vars */
 import { React, useState } from "react";
 import { Form } from "react-bootstrap";
 import openEye from "../../assets/icons/open_eye.svg";
 import closeEye from "../../assets/icons/close_eye.svg";
-import CreateName from "./CreateName";
 
-const CreatPass = () => {
+import PassCode from "./PassCode";
+
+const CreatPass = ({ keyP, detail }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [inputType, setInputType] = useState("password");
   const [isLetterAndNumberValid, setIsLetterAndNumberValid] = useState(false);
   const [specialCa, setSpecialCa] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
 
-  const [showCreateName, setShowCreateName] = useState(false);
+  const [showPassCode, setShowPassCode] = useState(false);
+  // prop sent data
+  const [passCreate, setPassCreate] = useState("");
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -81,18 +85,19 @@ const CreatPass = () => {
     if (type === "Weak" && progress > 0) return "#EFD01D";
     return "#ED6054";
   };
-  console.log(password);
 
   const isPassword8Characters = password.length >= 8;
 
   const handleNextButtonClick = () => {
-    setShowCreateName(true);
+    setShowPassCode(true);
+    setPassCreate(password);
   };
 
   return (
     <>
-      {showCreateName ? (
-        <CreateName />
+      {showPassCode ? (
+        // <CreateName passCreate={passCreate} keyP={keyP} detail={detail} />
+        <PassCode passCreate={passCreate} keyP={keyP} detail={detail} />
       ) : (
         <div className="main_div_login">
           <div className="login_main p-4">

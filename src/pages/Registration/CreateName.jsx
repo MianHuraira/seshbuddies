@@ -5,29 +5,70 @@ import { NavLink } from "react-router-dom";
 import CheckIcon from "../../assets/icons/checkIcon.svg";
 import CrossIcon from "../../assets/icons/crossIcon.svg";
 
-const CreateName = () => {
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+
+const CreateName = ({ passCreate, detail, keyP, passCode }) => {
   const [nickname, setNickname] = useState("");
   const maxCharacterLimit = 30;
 
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
 
-  // Function to update the character count
   const handleNicknameChange = (event) => {
     const input = event.target.value;
+
+    // Check if the input length is within the allowed range (6 to 30 characters)
     if (input.length <= maxCharacterLimit) {
       setNickname(input);
     }
   };
 
-  const isButtonEnabled = nickname.length > 0;
+  console.log("pass", passCreate, keyP, detail, passCode);
+
+  const isButtonEnabled =
+    nickname.length >= 6 && nickname.length <= maxCharacterLimit;
 
   const handleConfirmation = () => {
-    setIsConfirmed(true);
+    const dataToSend = {
+      password: passCreate,
+      username: nickname,
+      passcode: passCode,
+    };
+
+    // Determine the key based on keyP value and update the dataToSend accordingly
+    if (keyP === "number") {
+      dataToSend.phone = detail;
+    } else if (keyP === "gmail") {
+      dataToSend.email = detail;
+    }
+
+    // Send data to the server
+    axios
+      .post(`${global.BASEURL}users/signup`, dataToSend)
+      .then((res) => {
+        // Handle success
+        setIsConfirmed(true);
+
+        // Show success toast
+        toast.success("Account created successfully!");
+      })
+      .catch((error) => {
+        // Handle error
+        console.error("Error creating account: ", error);
+
+        // Show error toast
+        toast.error(error.response.data.message);
+
+        // You might want to handle other error-related logic here
+      });
   };
 
   return (
     <>
+      <ToastContainer />
       <div className="main_div_login">
         <div className={`login_main p-4`}>
           {isConfirmed ? (
@@ -76,7 +117,7 @@ const CreateName = () => {
                     />
                     <img
                       className="pass_img"
-                      src={nickname  === "admin" ? CheckIcon : CrossIcon}
+                      src={isButtonEnabled ? CheckIcon : CrossIcon}
                       alt=""
                     />
                   </div>
@@ -91,7 +132,9 @@ const CreateName = () => {
 
               <button
                 onClick={handleConfirmation}
-                className={`btn_${ nickname === "admin" ? "default" : "disable" } phon_inp mt-4`}
+                className={`btn_${
+                  isButtonEnabled ? "default" : "disable"
+                } phon_inp mt-4`}
                 disabled={!isButtonEnabled}
               >
                 Confirm

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
 import CreatPas from "./CreatPass";
@@ -11,6 +12,12 @@ const VerifyCode = ({ title, otp, detail, keyP }) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [initialOtp, setInitialOtp] = useState(otp);
+
+  // prop for create pass
+
+  const [verificationSuccess, setVerificationSuccess] = useState(false);
+
+
 
   const handleCodeChange = (e, index) => {
     const value = e.target.value;
@@ -32,6 +39,7 @@ const VerifyCode = ({ title, otp, detail, keyP }) => {
           const enteredCode = newCode.join("");
           if (enteredCode === initialOtp) {
             setCurrentPage("createPass");
+            setVerificationSuccess(true);
           } else {
             setErrorMessage("Incorrect code");
           }
@@ -95,8 +103,6 @@ const VerifyCode = ({ title, otp, detail, keyP }) => {
       })
       .catch((error) => {
         console.error("Error resending code: ", error);
-
-        // Handle error, maybe show a toast message
       });
 
     setTimer(50);
@@ -160,7 +166,7 @@ const VerifyCode = ({ title, otp, detail, keyP }) => {
           </div>
         </>
       ) : currentPage === "createPass" ? (
-        <CreatPas />
+        <CreatPas detail={detail} keyP={keyP} />
       ) : null}
     </>
   );

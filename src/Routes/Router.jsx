@@ -26,7 +26,7 @@ const AcountSuport = lazy(() => import("../pages/AcountSuport"));
 const AcountAbout = lazy(() => import("../pages/AcountAbout"));
 // for test
 
-const Test = lazy(() => import("../pages/Registration/VerifyCode"));
+const Test = lazy(() => import("../pages/Registration/PassCode"));
 const Router = () => {
   return (
     <Suspense
