@@ -4,13 +4,14 @@ import DoneLogo from "../../assets/icons/doneLogo.png";
 import { NavLink } from "react-router-dom";
 import CheckIcon from "../../assets/icons/checkIcon.svg";
 import CrossIcon from "../../assets/icons/crossIcon.svg";
-
+import { useAuth } from "../AuthContext";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
 const CreateName = ({ passCreate, detail, keyP, passCode }) => {
+  const { login } = useAuth();
   const [nickname, setNickname] = useState("");
   const maxCharacterLimit = 30;
 
@@ -25,8 +26,6 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
       setNickname(input);
     }
   };
-
-  console.log("pass", passCreate, keyP, detail, passCode);
 
   const isButtonEnabled =
     nickname.length >= 6 && nickname.length <= maxCharacterLimit;
@@ -50,7 +49,11 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
       .post(`${global.BASEURL}users/signup`, dataToSend)
       .then((res) => {
         // Handle success
+        login();
         setIsConfirmed(true);
+
+        localStorage.setItem("userData", JSON.stringify(dataToSend));
+        localStorage.setItem("isConfirmed", true);
 
         // Show success toast
         toast.success("Account created successfully!");

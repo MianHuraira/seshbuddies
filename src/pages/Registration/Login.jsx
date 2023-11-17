@@ -1,22 +1,110 @@
+/* eslint-disable no-unused-vars */
 import { React, useState } from "react";
 import { Form } from "react-bootstrap";
 import openEye from "../../assets/icons/open_eye.svg";
 import closeEye from "../../assets/icons/close_eye.svg";
 import GoogleIcon from "../../assets/icons/google_icon.svg";
 import AppleIcon from "../../assets/icons/apple_icon.svg";
+import Spinner from "react-bootstrap/Spinner";
 import { NavLink } from "react-router-dom";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../AuthContext";
 
 const Login = () => {
+  const [activeTab, setActiveTab] = useState("tab1");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [inputType, setInputType] = useState("password");
+  const [email, setEmail] = useState("");
+  const [isValid, setIsValid] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [password, setPassword] = useState("");
+  const { login } = useAuth();
+
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
     setInputType(passwordVisible ? "password" : "text");
   };
+
+  const tabClick = (tab) => {
+    setActiveTab(tab);
+  };
+
+  const handleEmailChange = (e) => {
+    const emailValue = e.target.value;
+
+    // Simple email validation - you may want to use a more robust solution
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidEmail = emailRegex.test(emailValue);
+
+    setEmail(emailValue);
+    setIsValid(isValidEmail);
+  };
+  const handlePhone = (value, country, e, formattedValue) => {
+    const fullPhoneNumber = `+${value.replace(/\D/g, "")}`;
+    setPhone(fullPhoneNumber);
+    setIsValid(formattedValue.length === country.format.length);
+  };
+
+  // api login
+
+  const loginHandle = () => {
+    let requestData;
+    let currentDetail = "";
+
+    if (!isValidPassword()) {
+      // Password is required
+      toast.error("Password is required");
+      return;
+    }
+
+    if (activeTab === "tab1") {
+      // Phone tab
+      requestData = { phone, password };
+      currentDetail = phone;
+    } else if (activeTab === "tab2") {
+      // Email tab
+      requestData = { email, password };
+      currentDetail = email;
+    }
+    setIsButtonClicked(true);
+
+    axios
+      .post(`${global.BASEURL}auth`, requestData)
+      .then((res) => {
+        const resultSuccess = res.data.user;
+        localStorage.setItem("userData", JSON.stringify(resultSuccess));
+        toast.success("Login Successfully");
+        login();
+        navigate("/home");
+      })
+      .catch((error) => {
+        console.error("Error sending code: ", error);
+        toast.error(error.response.data.message);
+      })
+      .finally(() => {
+        // This block will execute regardless of success or error
+        setIsButtonClicked(false);
+      });
+  };
+
+  const isValidPassword = () => {
+    return password.trim().length > 0;
+  };
+
   return (
     <>
+      <ToastContainer />
       <div className="main_div_login">
         <div className="login_main p-4">
           <h3 className="f_head">Login</h3>
@@ -24,51 +112,113 @@ const Login = () => {
             Welcome back! Log in and let’s get seshed!
           </h5>
 
-          {/* form start */}
-          <Form className="w-100 mt-4">
-            <Form.Group className="mb-4" controlId="formBasicEmail">
-              <Form.Control
-                className="login_inp p-2 radius_12"
-                type="email"
-                placeholder="Enter your email or username"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-4" controlId="formBasicPassword">
-              <div
-                className={`d-flex align-items-center login_inp p-2 ${
-                  isInputFocused ? "focused" : ""
-                }`}
+          <ul className="nav nav-tabs nav-tabs-main mt-3 p-1">
+            <li className="nav-item sign_tab nav-item-main w-50">
+              <button
+                className={`nav-link ${activeTab === "tab1" ? "active" : ""}`}
+                onClick={() => tabClick("tab1")}
               >
-                <Form.Control
-                  className="hide_fcontrol p-0"
-                  type={inputType}
-                  placeholder="Enter password"
-                  onFocus={() => setIsInputFocused(true)}
-                  onBlur={() => setIsInputFocused(false)}
+                Phone
+              </button>
+            </li>
+            <li className="nav-item sign_tab nav-item-main w-50">
+              <button
+                className={`nav-link ${activeTab === "tab2" ? "active" : ""}`}
+                onClick={() => tabClick("tab2")}
+              >
+                Email
+              </button>
+            </li>
+          </ul>
+
+          <div className="tab-content w-100">
+            <Form>
+              {activeTab === "tab1" && (
+                <PhoneInput
+                  className="phon_inp w-100 mt-4"
+                  country={"pk"}
+                  enableAreaCodes={true}
+                  enableSearch={true}
+                  disableSearchIcon={true}
+                  value={phone}
+                  onChange={handlePhone}
                 />
-                <img
-                  className="pass_img"
-                  src={passwordVisible ? openEye : closeEye}
-                  alt=""
-                  onClick={togglePasswordVisibility}
-                />
+              )}
+
+              {activeTab === "tab2" && (
+                <Form.Group
+                  className="shadow_def mt-4"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Control
+                    className="custom_control"
+                    type="email"
+                    placeholder="Email address"
+                    value={email}
+                    onChange={handleEmailChange}
+                  />
+                </Form.Group>
+              )}
+
+              <Form.Group className="mb-4 mt-4" controlId="formBasicPassword">
+                <div
+                  className={`d-flex align-items-center login_inp p-2 ${
+                    isInputFocused ? "focused" : ""
+                  }`}
+                >
+                  <Form.Control
+                    className="hide_fcontrol p-0"
+                    type={inputType}
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    onFocus={() => setIsInputFocused(true)}
+                    onBlur={() => setIsInputFocused(false)}
+                  />
+                  <img
+                    className="pass_img"
+                    src={passwordVisible ? openEye : closeEye}
+                    alt=""
+                    onClick={togglePasswordVisibility}
+                  />
+                </div>
+              </Form.Group>
+              <h4 className="for_text">Forgot Password?</h4>
+              <div
+                disabled={!isValid}
+                onClick={loginHandle}
+                className={
+                  isValid
+                    ? "btn_default text-center phon_inp mt-4"
+                    : "btn_disable text-center phon_inp mt-4"
+                }
+                type="submit"
+              >
+                Login
+                {isButtonClicked ? (
+                  <Spinner
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      float: "right",
+                      marginTop: "3px",
+                      borderWidth: "0.15em",
+                    }}
+                    animation="border"
+                    role="status"
+                  >
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                ) : (
+                  ""
+                )}
               </div>
-            </Form.Group>
+            </Form>
+          </div>
 
-            <h4 className="for_text">Forgot Password?</h4>
-            <NavLink
-              to={"/home"}
-              className="mt-4 text-center btn_default"
-              type="submit"
-            >
-              Login
-            </NavLink>
-          </Form>
+          {/* <h4 className="mt-4 mb-4 sb_head">OR CONTINUE WITH</h4> */}
 
-          <h4 className="mt-4 mb-4 sb_head">OR CONTINUE WITH</h4>
-
-          <button type="btn" className="login_btn_div border_btn_l mt-2">
+          {/* <button type="btn" className="login_btn_div border_btn_l mt-2">
             <div className="d-flex align-items-center">
               <img className="social_iconStart" src={GoogleIcon} alt="" />
               <h4 className="btn_login_text ms-2">Login with Google</h4>
@@ -79,14 +229,14 @@ const Login = () => {
               <img className="social_iconStart" src={AppleIcon} alt="" />
               <h4 className="btn_login_text ms-2">Login with Apple ID</h4>
             </div>
-          </button>
+          </button> */}
           <div className="mt-4">
             <h5
               style={{ color: "#02150F" }}
               className="login_text d-flex align-items-center"
             >
               Already have an account?
-              <NavLink className="nav_text ms-2" to={"/signUp"}>
+              <NavLink className="nav_text ms-2" to={"/age_varifi"}>
                 Sign up
               </NavLink>
             </h5>

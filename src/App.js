@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import HeaderSecound from "../src/components/Header_secound";
 // bootstrap css
 import "bootstrap/dist/css/bootstrap.min.css";
+import { AuthProvider } from "./pages/AuthContext";
 
 function App() {
   // api start point
@@ -42,17 +43,19 @@ function App() {
   }, [getPath]);
 
   return (
-    <div className="App">
-      {getPath === "/" ||
-      getPath === "/login" ||
-      getPath === "/age_varifi" ||
-      getPath === "/signUp" ? (
-        <HeaderSecound />
-      ) : (
-        <Header />
-      )}
-      <Router />
-    </div>
+    <AuthProvider>
+      <div className="App">
+        {getPath === "/" ||
+        getPath === "/login" ||
+        getPath === "/age_varifi" ||
+        getPath === "/signUp" ? (
+          <HeaderSecound />
+        ) : (
+          <Header />
+        )}
+        <Router />
+      </div>
+    </AuthProvider>
   );
 }
 

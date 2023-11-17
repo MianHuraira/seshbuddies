@@ -1,13 +1,22 @@
+/* eslint-disable no-unused-vars */
 import { React, useState } from "react";
 import whiteLogo from "../../assets/logo/logo_white.svg";
 import { Button, Form } from "react-bootstrap";
 import ErrorIcon from "../../assets/icons/error_icon.png";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+import { ToastContainer, toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const AgeVarification = () => {
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
   const [year, setYear] = useState("");
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleMonthChange = (e) => {
     const value = e.target.value;
@@ -55,9 +64,32 @@ const AgeVarification = () => {
       }
     }
   };
+  const AgeVarifiy = () => {
+    // Check if any of the input fields is empty
+    if (!month || !day || !year) {
+      setError("Please fill in all date fields.");
+      toast.error("Please fill in all date fields.");
+      return;
+    }
+
+    const currentYear = new Date().getFullYear();
+    const age = currentYear - parseInt(year, 10);
+
+    if (age < 18) {
+      setError("Sorry, you must be at least 18 years old.");
+      toast.error("Sorry, you must be at least 18 years old.");
+    } else {
+      setError("");
+      toast.success("You are now eligible to sign up!");
+      navigate("/signUp");
+      // Perform signup or navigation to signup page here
+      // e.g., you can redirect to the signup page using your routing mechanism
+    }
+  };
 
   return (
     <>
+      <ToastContainer />
       <div className="main_verifi_div">
         <div className="child_varif">
           <img
@@ -84,7 +116,7 @@ const AgeVarification = () => {
                 <Form.Control
                   style={{ width: "5rem" }}
                   placeholder="MM"
-                  className={`age_inp ${error ? 'erorborder' : ''}`}
+                  className={`age_inp ${error ? "erorborder" : ""}`}
                   onChange={handleMonthChange}
                   maxLength="2"
                   value={month}
@@ -96,7 +128,7 @@ const AgeVarification = () => {
                 <Form.Control
                   style={{ width: "5rem" }}
                   placeholder="DD"
-                  className={`age_inp ${error ? 'erorborder' : ''}`}
+                  className={`age_inp ${error ? "erorborder" : ""}`}
                   onChange={handleDayChange}
                   maxLength="2"
                   id="dayInput"
@@ -107,7 +139,7 @@ const AgeVarification = () => {
               <Form.Group className="mb-3">
                 <Form.Control
                   placeholder="YYYY"
-                  className={`age_inp ${error ? 'erorborder' : ''}`}
+                  className={`age_inp ${error ? "erorborder" : ""}`}
                   onChange={handleYearChange}
                   maxLength="4"
                   id="yearInput"
@@ -133,7 +165,7 @@ const AgeVarification = () => {
             </h5>
 
             <div className="d-flex align-items-center mt-5 mb-3">
-              <Button variant="primary" type="submit">
+              <Button onClick={AgeVarifiy} variant="primary" type="button">
                 I Agree
               </Button>
               <button type="btn" className="dec_btn ms-3">

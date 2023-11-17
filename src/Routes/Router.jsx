@@ -1,6 +1,8 @@
 import React, { lazy, Suspense } from "react";
-import { useRoutes } from "react-router-dom";
+import { useRoutes, Navigate } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
+import { useAuth } from "../pages/AuthContext";
+
 const NotFound = lazy(() => import("../pages/PageNoteFound"));
 const Profile = lazy(() => import("../pages/UserProfile"));
 const StartUp = lazy(() => import("../pages/StartUp"));
@@ -28,6 +30,8 @@ const AcountAbout = lazy(() => import("../pages/AcountAbout"));
 
 const Test = lazy(() => import("../pages/Registration/PassCode"));
 const Router = () => {
+  const { isAuthenticated } = useAuth();
+
   return (
     <Suspense
       fallback={
@@ -47,88 +51,96 @@ const Router = () => {
         },
         {
           path: "/home",
-          element: <Home />,
+          element: isAuthenticated ? <Home /> : <Navigate to="/" />,
         },
         {
           path: "/users",
-          element: <Users />,
+          element: isAuthenticated ? <Users /> : <Navigate to="/" />,
         },
         {
           path: "/login",
           element: <Login />,
         },
         {
+          path: "/signUp",
+          element: <SignUp />,
+        },
+        {
           path: "/buddies",
-          element: <YourBuddies />,
+          element: isAuthenticated ? <YourBuddies /> : <Navigate to="/" />,
         },
         {
           path: "/age_varifi",
           element: <Age />,
         },
-        {
-          path: "/signUp",
-          element: <SignUp />,
-        },
 
         {
           path: "/foryou",
-          element: <ForYou />,
+          element: isAuthenticated ? <ForYou /> : <Navigate to="/" />,
         },
         {
           path: "/pending",
-          element: <Pending />,
+          element: isAuthenticated ? <Pending /> : <Navigate to="/" />,
         },
         {
           path: "/Foubuddiespending",
-          element: <FourBuddiesPending />,
+          element: isAuthenticated ? (
+            <FourBuddiesPending />
+          ) : (
+            <Navigate to="/" />
+          ),
         },
         {
           path: "/profile",
-          element: <Profile />,
+          element: isAuthenticated ? <Profile /> : <Navigate to="/" />,
         },
         {
           path: "/account",
-          element: <Account />,
+          element: isAuthenticated ? <Account /> : <Navigate to="/" />,
         },
         {
           path: "/notification",
-          element: <Notification />,
+          element: isAuthenticated ? <Notification /> : <Navigate to="/" />,
         },
         {
           path: "/search",
-          element: <Search />,
+          element: isAuthenticated ? <Search /> : <Navigate to="/" />,
         },
         {
           path: "/chat",
-          element: <Chat />,
+          element: isAuthenticated ? <Chat /> : <Navigate to="/" />,
         },
         {
           path: "/reels",
-          element: <Reels />,
+          element: isAuthenticated ? <Reels /> : <Navigate to="/" />,
         },
         {
           path: "/sessions",
-          element: <Sessions />,
+          element: isAuthenticated ? <Sessions /> : <Navigate to="/" />,
         },
         {
           path: "/live_stream",
-          element: <LiveStream />,
+          element: isAuthenticated ? <LiveStream /> : <Navigate to="/" />,
         },
         {
           path: "/privacy",
-          element: <Privacy />,
+          element: isAuthenticated ? <Privacy /> : <Navigate to="/" />,
         },
         {
           path: "/acountNoti",
-          element: <AcountNotification />,
+          element: isAuthenticated ? (
+            <AcountNotification />
+          ) : (
+            <Navigate to="/" />
+          ),
         },
         {
           path: "/acountSuport",
-          element: <AcountSuport />,
+          element: isAuthenticated ? <AcountSuport /> : <Navigate to="/" />,
         },
         {
           path: "/acountAbout",
-          element: <AcountAbout />,
+          element: isAuthenticated ? <AcountAbout /> : <Navigate to="/" />,
         },
         {
           path: "*",
