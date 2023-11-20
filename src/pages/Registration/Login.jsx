@@ -83,7 +83,7 @@ const Login = () => {
       .post(`${global.BASEURL}auth`, requestData)
       .then((res) => {
         const resultSuccess = res.data.user;
-        localStorage.setItem("userData", JSON.stringify(resultSuccess));
+        localStorage.setItem("meraname", JSON.stringify(resultSuccess));
         toast.success("Login Successfully");
         login();
         navigate("/home");
@@ -101,6 +101,8 @@ const Login = () => {
   const isValidPassword = () => {
     return password.trim().length > 0;
   };
+
+  const isAgeVerified = localStorage.getItem("isAgeVerified") === "true";
 
   return (
     <>
@@ -183,7 +185,9 @@ const Login = () => {
                   />
                 </div>
               </Form.Group>
-              <h4 className="for_text">Forgot Password?</h4>
+              <NavLink to={"/forget_pass"} className="for_text d-block text-center ">
+                Forgot Password?
+              </NavLink>
               <div
                 disabled={!isValid}
                 onClick={loginHandle}
@@ -234,9 +238,15 @@ const Login = () => {
               className="login_text d-flex align-items-center"
             >
               Already have an account?
-              <NavLink className="nav_text ms-2" to={"/age_varifi"}>
-                Sign up
-              </NavLink>
+              {isAgeVerified ? (
+                <NavLink className="nav_text ms-2" to={"/signUp"}>
+                  Sign up
+                </NavLink>
+              ) : (
+                <NavLink className="nav_text ms-2" to={"/age_varifi"}>
+                  Sign up
+                </NavLink>
+              )}
             </h5>
           </div>
         </div>

@@ -5,19 +5,18 @@ import CreatPas from "./CreatPass";
 import errorIcon from "../../assets/icons/error_icon.png";
 import axios from "axios";
 
-const VerifyCode = ({ title, otp, detail, keyP }) => {
+const VerifyCode = ({ title, otp, detail, keyP, forget , token }) => {
   const [code, setCode] = useState(["", "", "", "", ""]);
   const codeInputs = [useRef(), useRef(), useRef(), useRef(), useRef()];
   const [currentPage, setCurrentPage] = useState("verify");
   const [errorMessage, setErrorMessage] = useState("");
 
   const [initialOtp, setInitialOtp] = useState(otp);
+  console.log("as" , token);
 
   // prop for create pass
 
   const [verificationSuccess, setVerificationSuccess] = useState(false);
-
-
 
   const handleCodeChange = (e, index) => {
     const value = e.target.value;
@@ -94,9 +93,16 @@ const VerifyCode = ({ title, otp, detail, keyP }) => {
       requestData = { email: detail };
     }
 
+    let apiUrl;
+    if (forget) {
+      apiUrl = "forget-password";
+    } else {
+      apiUrl = "send-code";
+    }
+
     // Resend the code
     axios
-      .post(`${global.BASEURL}users/send-code`, requestData)
+      .post(`${global.BASEURL}users/${apiUrl}`, requestData)
       .then((res) => {
         const resp = res.data.code;
         setInitialOtp(resp);
@@ -166,7 +172,7 @@ const VerifyCode = ({ title, otp, detail, keyP }) => {
           </div>
         </>
       ) : currentPage === "createPass" ? (
-        <CreatPas detail={detail} keyP={keyP} />
+        <CreatPas detail={detail} keyP={keyP} forget={true} token={token} />
       ) : null}
     </>
   );

@@ -3,20 +3,26 @@ import { React, useState } from "react";
 import { Form } from "react-bootstrap";
 import openEye from "../../assets/icons/open_eye.svg";
 import closeEye from "../../assets/icons/close_eye.svg";
-
+import axios from "axios";
 import PassCode from "./PassCode";
+import Spinner from "react-bootstrap/Spinner";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
-const CreatPass = ({ keyP, detail }) => {
+
+
+const CreatPass = ({ keyP, detail, forget, token }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [inputType, setInputType] = useState("password");
   const [isLetterAndNumberValid, setIsLetterAndNumberValid] = useState(false);
   const [specialCa, setSpecialCa] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
-
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [showPassCode, setShowPassCode] = useState(false);
+  const navigate = useNavigate();
   // prop sent data
   const [passCreate, setPassCreate] = useState("");
-
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
     setInputType(passwordVisible ? "password" : "text");
@@ -93,6 +99,28 @@ const CreatPass = ({ keyP, detail }) => {
     setPassCreate(password);
   };
 
+  const handleForget = () => {
+    const requestData = {
+      password: password,
+      token: token,
+    };
+    setIsButtonClicked(true);
+
+    axios
+      .put(`${global.BASEURL}users/update-password`, requestData)
+      .then((res) => {
+        const resp = res.data.message;
+        toast(resp);
+        navigate("/home")
+      })
+      .catch((error) => {
+        console.error("Error resending code: ", error);
+      })
+      .finally(() => {
+        // This block will execute regardless of success or error
+        setIsButtonClicked(false);
+      });
+  };
   return (
     <>
       {showPassCode ? (
@@ -217,15 +245,43 @@ const CreatPass = ({ keyP, detail }) => {
                 Password strength: {validationStatus}{" "}
               </h5>
 
-              <button
-                className={`btn_${
-                  validationStatus === "Strong" ? "default" : "disable"
-                } phon_inp mt-4`}
-                onClick={handleNextButtonClick}
-                disabled={validationStatus !== "Strong"}
-              >
-                Next
-              </button>
+              {forget ? (
+                <button
+                  className={`btn_${
+                    validationStatus === "Strong" ? "default" : "disable"
+                  } phon_inp mt-4`}
+                  onClick={handleForget}
+                  type="button"
+                  disabled={validationStatus !== "Strong"}
+                >
+                  {isButtonClicked ? (
+                    <Spinner
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        marginTop: "3px",
+                        borderWidth: "0.15em",
+                      }}
+                      animation="border"
+                      role="status"
+                    >
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  ) : (
+                    "Next to"
+                  )}
+                </button>
+              ) : (
+                <button
+                  className={`btn_${
+                    validationStatus === "Strong" ? "default" : "disable"
+                  } phon_inp mt-4`}
+                  onClick={handleNextButtonClick}
+                  disabled={validationStatus !== "Strong"}
+                >
+                  Next
+                </button>
+              )}
             </Form>
           </div>
         </div>

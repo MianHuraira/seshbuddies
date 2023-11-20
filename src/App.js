@@ -48,6 +48,7 @@ function App() {
         {getPath === "/" ||
         getPath === "/login" ||
         getPath === "/age_varifi" ||
+        getPath === "/forget_pass" ||
         getPath === "/signUp" ? (
           <HeaderSecound />
         ) : (

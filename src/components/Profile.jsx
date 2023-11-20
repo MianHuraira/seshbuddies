@@ -6,13 +6,13 @@ import Status_icon from "../assets/icons/status_icon.png";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
-
+import { useAuth } from "../pages/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const { logout } = useAuth();
   let getPath = location.pathname;
 
   let allPath = false;
@@ -25,7 +25,7 @@ const Profile = () => {
 
   useEffect(() => {
     // Retrieve user data from local storage
-    const storedUserData = localStorage.getItem("userData");
+    const storedUserData = localStorage.getItem("meraname");
 
     if (storedUserData) {
       // Parse the JSON data
@@ -34,13 +34,10 @@ const Profile = () => {
     }
   }, []);
   const handleLogout = () => {
-    // Clear local storage to log out the user
-    localStorage.removeItem("userData");
-
-    // Show logout success toast
+    localStorage.removeItem("meraname");
+    logout();
     toast.success("Logout Successfully", {
       onClose: () => {
-        // Navigate to the home page after the toast is closed
         navigate("/");
       },
     });
