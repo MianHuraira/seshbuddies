@@ -27,6 +27,8 @@ const AcountNotification = lazy(() => import("../pages/AcountNotification"));
 const AcountSuport = lazy(() => import("../pages/AcountSuport"));
 const AcountAbout = lazy(() => import("../pages/AcountAbout"));
 const ForgetPass = lazy(() => import("../pages/Registration/ForgetPass"));
+// const SideBar = lazy(() => import("../components/SideBar"));
+
 // for test
 
 const Test = lazy(() => import("../pages/Registration/PassCode"));

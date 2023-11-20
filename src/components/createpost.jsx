@@ -107,7 +107,7 @@ const Createpost = () => {
   const Shmoke_close = () => shmoke(false);
 
   return (
-    <div className="">
+    <div>
       <button
         onClick={Post_open}
         className="oval w-100 d-flex align-items-center justify-content-center"
