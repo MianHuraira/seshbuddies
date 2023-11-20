@@ -9,8 +9,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-
-
+import { useAuth } from "../AuthContext";
 
 const CreatPass = ({ keyP, detail, forget, token }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -21,6 +20,7 @@ const CreatPass = ({ keyP, detail, forget, token }) => {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [showPassCode, setShowPassCode] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
   // prop sent data
   const [passCreate, setPassCreate] = useState("");
   const togglePasswordVisibility = () => {
@@ -99,6 +99,10 @@ const CreatPass = ({ keyP, detail, forget, token }) => {
     setPassCreate(password);
   };
 
+  // login api
+
+ 
+
   const handleForget = () => {
     const requestData = {
       password: password,
@@ -110,14 +114,39 @@ const CreatPass = ({ keyP, detail, forget, token }) => {
       .put(`${global.BASEURL}users/update-password`, requestData)
       .then((res) => {
         const resp = res.data.message;
-        toast(resp);
-        navigate("/home")
+        loginHandle();
+        // toast.success(resp);
       })
       .catch((error) => {
         console.error("Error resending code: ", error);
       })
-      .finally(() => {
-        // This block will execute regardless of success or error
+      
+  };
+
+  const loginHandle = () => {
+    let requestData = {};
+
+    if (keyP === "number") {
+      requestData.phone = detail;
+    } else if (keyP === "gmail") {
+      requestData.email = detail;
+    }
+
+    requestData.password = password;
+
+    axios
+      .post(`${global.BASEURL}auth`, requestData)
+      .then((res) => {
+        const resultSuccess = res.data.user;
+        localStorage.setItem("meraname", JSON.stringify(resultSuccess));
+        toast.success("Login Successfully");
+        login();
+        navigate("/home");
+      })
+      .catch((error) => {
+        console.error("Error sending code: ", error);
+        toast.error(error.response.data.message);
+      }).finally(() => {
         setIsButtonClicked(false);
       });
   };
@@ -268,7 +297,7 @@ const CreatPass = ({ keyP, detail, forget, token }) => {
                       <span className="visually-hidden">Loading...</span>
                     </Spinner>
                   ) : (
-                    "Next to"
+                    "Next"
                   )}
                 </button>
               ) : (
