@@ -194,13 +194,11 @@ const Login = () => {
                 }
                 type="submit"
               >
-                Login
                 {isButtonClicked ? (
                   <Spinner
                     style={{
                       width: "20px",
                       height: "20px",
-                      float: "right",
                       marginTop: "3px",
                       borderWidth: "0.15em",
                     }}
@@ -210,7 +208,7 @@ const Login = () => {
                     <span className="visually-hidden">Loading...</span>
                   </Spinner>
                 ) : (
-                  ""
+                  "Login"
                 )}
               </div>
             </Form>

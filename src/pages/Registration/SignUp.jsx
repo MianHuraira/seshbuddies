@@ -89,7 +89,7 @@ const SignUp = () => {
       })
       .catch((error) => {
         console.error("Error sending code: ", error);
-        toast.error(error.response.data.message);
+        toast.error("Already Added");
       })
       .finally(() => {
         // This block will execute regardless of success or error
@@ -190,23 +190,22 @@ const SignUp = () => {
                   : "btn_disable phon_inp mt-4"
               }
             >
-              Send Code
-              <Spinner
-                className={
-                  isButtonClicked ? (isValid ? "d-block" : "d-none") : "d-none"
-                }
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  float: "right",
-                  marginTop: "3px",
-                  borderWidth: "0.15em",
-                }}
-                animation="border"
-                role="status"
-              >
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
+              {isButtonClicked ? (
+                <Spinner
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                    marginTop: "3px",
+                    borderWidth: "0.15em",
+                  }}
+                  animation="border"
+                  role="status"
+                >
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              ) : (
+                "Send Code"
+              )}
             </button>
           </div>
         </div>

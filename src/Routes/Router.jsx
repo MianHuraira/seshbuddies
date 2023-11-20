@@ -31,7 +31,7 @@ const AcountAbout = lazy(() => import("../pages/AcountAbout"));
 const Test = lazy(() => import("../pages/Registration/PassCode"));
 const Router = () => {
   const { isAuthenticated } = useAuth();
-
+  const isAgeVerified = localStorage.getItem("isAgeVerified") === "true";
   return (
     <Suspense
       fallback={
@@ -63,7 +63,7 @@ const Router = () => {
         },
         {
           path: "/signUp",
-          element: <SignUp />,
+          element: isAgeVerified ? <SignUp /> : <Navigate to="/age_varifi" />,
         },
         {
           path: "/buddies",

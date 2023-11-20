@@ -4,7 +4,7 @@ import whiteLogo from "../../assets/logo/logo_white.svg";
 import { Button, Form } from "react-bootstrap";
 import ErrorIcon from "../../assets/icons/error_icon.png";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,NavLink } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 
@@ -75,15 +75,18 @@ const AgeVarification = () => {
     const currentYear = new Date().getFullYear();
     const age = currentYear - parseInt(year, 10);
 
-    if (age < 18) {
-      setError("Sorry, you must be at least 18 years old.");
-      toast.error("Sorry, you must be at least 18 years old.");
-    } else {
+    if (age >= 18) {
       setError("");
       toast.success("You are now eligible to sign up!");
+
+      // Store the flag in local storage or state indicating successful age verification
+      localStorage.setItem("isAgeVerified", "true");
+
+      // Redirect to the SignUp page
       navigate("/signUp");
-      // Perform signup or navigation to signup page here
-      // e.g., you can redirect to the signup page using your routing mechanism
+    } else {
+      setError("Sorry, you must be at least 18 years old.");
+      toast.error("Sorry, you must be at least 18 years old.");
     }
   };
 
@@ -168,9 +171,9 @@ const AgeVarification = () => {
               <Button onClick={AgeVarifiy} variant="primary" type="button">
                 I Agree
               </Button>
-              <button type="btn" className="dec_btn ms-3">
+              <NavLink to={"/"} type="button" className="dec_btn text-center ms-3">
                 Decline
-              </button>
+              </NavLink>
             </div>
           </Form>
         </div>
