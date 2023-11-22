@@ -14,7 +14,7 @@ function App() {
   // api start point
 
   useEffect(() => {
-    global.BASEURL = "https://sushbuddies.onrender.com/api/";
+    global.BASEURL = "https://sushbuddies.onrender.com/api";
   }, []);
 
   // //////

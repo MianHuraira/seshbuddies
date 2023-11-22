@@ -46,7 +46,7 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
 
     // Send data to the server
     axios
-      .post(`${global.BASEURL}users/signup`, dataToSend)
+      .post(`${global.BASEURL}/users/signup`, dataToSend)
       .then((res) => {
         // Handle success
         login();

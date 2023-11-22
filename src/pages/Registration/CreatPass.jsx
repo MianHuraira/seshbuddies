@@ -111,7 +111,7 @@ const CreatPass = ({ keyP, detail, forget, token }) => {
     setIsButtonClicked(true);
 
     axios
-      .put(`${global.BASEURL}users/update-password`, requestData)
+      .put(`${global.BASEURL}/users/update-password`, requestData)
       .then((res) => {
         const resp = res.data.message;
         loginHandle();
@@ -135,7 +135,7 @@ const CreatPass = ({ keyP, detail, forget, token }) => {
     requestData.password = password;
 
     axios
-      .post(`${global.BASEURL}auth`, requestData)
+      .post(`${global.BASEURL}/auth`, requestData)
       .then((res) => {
         const resultSuccess = res.data.user;
         localStorage.setItem("meraname", JSON.stringify(resultSuccess));

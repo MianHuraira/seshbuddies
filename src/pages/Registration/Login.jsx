@@ -80,7 +80,7 @@ const Login = () => {
     setIsButtonClicked(true);
 
     axios
-      .post(`${global.BASEURL}auth`, requestData)
+      .post(`${global.BASEURL}/auth`, requestData)
       .then((res) => {
         const resultSuccess = res.data.user;
         localStorage.setItem("meraname", JSON.stringify(resultSuccess));

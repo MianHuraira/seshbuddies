@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import girl from "../assets/logo/orange-girl.svg";
 import stars from "../assets/logo/icons/star.svg";
 import dots from "../assets/logo/icons/3dots.svg";
@@ -21,13 +21,22 @@ import alert_success from "../assets/logo/alert-success.svg";
 import icon_info from "../assets/logo/icons/icn-info.svg";
 import icon_start from "../assets/logo/icons/icn-eye-off.svg";
 import { Link } from "react-router-dom";
-import Video from "../assets/video/startUpVideo.mp4";
-
+import staticImg from "../assets/images/started_img_bg.png";
+// swiper
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
+import axios from "axios";
+import Spinner from "react-bootstrap/Spinner";
 const Story = () => {
   const [Likes, setShow] = useState(false);
   const Likes_btn_close = () => setShow(false);
   const Likes_btn_open = () => setShow(true);
   const [liked, setLiked] = useState(false);
+  // data get
+  const [getData, setGetData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleLike = () => {
     setLiked(!liked);
@@ -61,231 +70,202 @@ const Story = () => {
   const handleClose = () => setComent(false);
   const comentModal = () => setComent(true);
 
+  // api get post start
+
+  const getPost = async () => {
+    try {
+      const res = await axios.get(global.BASEURL + "/post/all", {
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTRjOTBkYWZiMTk2ZTAyMzk1NGY2ZjciLCJpYXQiOjE2OTk1MTY2MzR9.tTvS58eQrcHTyr2DElEtnr4kYxiEpfJQBjo7NgmRbbA",
+        },
+      });
+      const resultGet = res.data.posts;
+      setGetData(resultGet);
+    } catch (error) {
+      console.log(error, "error");
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getPost();
+  }, []);
+
+  // api get post ended
+
   return (
     <>
-      <div className="bg-white mt-3 radius_12 mb-4 overflow-hidden">
-        <div className="px-3">
-          <div className="d-flex justify-content-between mt-2">
-            <Link to={"/users"} className="d-flex align-items-center">
-              <div className="position-relative">
-                <img alt="" src={girl} className="message-dp" />
-                <img alt="" src={status_icon} className="status_plus" />
-              </div>
-              <div className="status ms-2">
-                <p style={{ color: "#252525" }} className="inter-semi fs-15">
-                  steve.brown
-                </p>
-                <h1 className="fs-14 align_center green-txt inter">
-                  New York, USA<span>.</span>
-                  <p className="ms-1 black_text_md inter-light ">5 min</p>
-                </h1>
-              </div>
-            </Link>
-
-            <div className="d-flex justify-content-center align-items-center">
-              <div className="d-flex align-items-start me-3 justify-content-center">
-                <img alt="" src={stars} className="rating-star" />
-                <h1 className="black_text_md_bold ms-1">
-                  4.9
-                  <button
-                    className="border-0 bg-transparent"
-                    onClick={report_btn_open}
-                  >
-                    <img alt="" src={dots} className="ms-2" />
-                  </button>
-                </h1>
-              </div>
-            </div>
-          </div>
-          <div className="d-flex justify-content-evenly mt-3">
-            <div className="d-flex desc align-items-center justify-content-center">
-              <img alt="" src={stars} className="inter rating-star" />
-              <p className="ms-1 inter fs-11">Quality</p>
-              <p className="ms-1 green-txt inter fs-11">4.9</p>
-            </div>
-            <div className="d-flex desc align-items-center justify-content-center">
-              <img alt="" src={stars} className="inter rating-star" />
-              <p className="ms-1 inter fs-11">Quality</p>
-              <p className="ms-1 green-txt inter fs-11">4.5</p>
-            </div>
-            <div className="d-flex desc align-items-center justify-content-center">
-              <img alt="" src={stars} className="inter rating-star" />
-              <p className="ms-1 inter fs-11">Rollies</p>
-              <p className="ms-1 green-txt inter fs-11">4.0</p>
-            </div>
-          </div>
-          <p className="black_text_md mt-2 ms-1">
-            Just tried the new Pineapple Express strain. 10/10 would recommend!
-            🍍🔥
-          </p>
-          <div className="m-auto mt-2">
-            <img
-              onClick={comentModal}
-              alt=""
-              src={pineapple}
-              className="story_img mb-2"
-            />
-            <div className="d-flex justify-content-between pb-1">
-              <div className="d-flex">
-                <p
-                  onClick={Likes_btn_open}
-                  className="inherit black_text_md cursorP align_center"
-                >
-                  <img alt="" src={likes} className="ms-2 me-1" />
-                  541
-                </p>
-              </div>
-              <div className="d-flex">
-                <p className="me-2 light_text_sm">26 Comments</p>
-                <p className="me-2 light_text_sm">87 Shares</p>
-                <p className="me-2 light_text_sm">2.5k Views</p>
-              </div>
-            </div>
-          </div>
+      {loading ? (
+        <div className="text-center">
+          <Spinner
+            style={{
+              width: "20px",
+              height: "20px",
+              marginTop: "3px",
+              borderWidth: "0.15em",
+            }}
+            animation="border"
+            role="status"
+          >
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
         </div>
-        <Row className="w-100 h-100 p-0 border-top m-auto">
-          <Col sm="4" className="like_btn">
-            <div
-              onClick={handleLike}
-              className="bg-white cursorP d-flex align-items-center justify-content-center"
-            >
-              <img
-                style={{ width: "20px", height: "20px" }}
-                alt=""
-                src={liked ? greenLeaf : like_btn}
-                className="me-3"
-              />
-              {liked ? "Liked" : "Like"}
-            </div>
-          </Col>
+      ) : (
+        getData.map((data) => (
+          <div className="bg-white mt-3 radius_12 mb-4 overflow-hidden">
+            <div className="px-3">
+              <div className="d-flex justify-content-between mt-2">
+                <Link to={"/users"} className="d-flex align-items-center">
+                  <div className="position-relative">
+                    <img alt="" src={girl} className="message-dp" />
+                    <img alt="" src={status_icon} className="status_plus" />
+                  </div>
+                  <div className="status ms-2">
+                    <p
+                      style={{ color: "#252525" }}
+                      className="inter-semi fs-15"
+                    >
+                      {data?.user?.username}
+                    </p>
+                    <h1 className="fs-14 align_center green-txt inter">
+                      {data?.location?.location} {<span>.</span>}
+                      <p className="ms-1 black_text_md inter-light ">5 min</p>
+                    </h1>
+                  </div>
+                </Link>
 
-          <Col onClick={comentModal} sm="4" className="like_btn">
-            <div className="bg-white cursorP d-flex align-items-center justify-content-center">
-              <img alt="" src={comment_btn} className="me-3" />
-              Comment
-            </div>
-          </Col>
-
-          <Col sm="4" className="like_btn border-0">
-            <button className="bg-white cursorP d-flex align-items-center justify-content-center">
-              <img alt="" src={share_btn} className="me-3" />
-              Share
-            </button>
-          </Col>
-        </Row>
-      </div>
-      <div className="bg-white mt-3 radius_12 mb-4 overflow-hidden">
-        <div className="px-3">
-          <div className="d-flex justify-content-between mt-2">
-            <Link to={"/users"} className="d-flex align-items-center">
-              <div className="position-relative">
-                <img alt="" src={girl} className="message-dp" />
-                <img alt="" src={status_icon} className="status_plus" />
+                <div className="d-flex justify-content-center align-items-center">
+                  <div className="d-flex align-items-start me-3 justify-content-center">
+                    <img alt="" src={stars} className="rating-star" />
+                    <h1 className="black_text_md_bold ms-1">
+                      {data?.user.rating}
+                      <button
+                        className="border-0 bg-transparent"
+                        onClick={report_btn_open}
+                      >
+                        <img alt="" src={dots} className="ms-2" />
+                      </button>
+                    </h1>
+                  </div>
+                </div>
               </div>
-              <div className="status ms-2">
-                <p style={{ color: "#252525" }} className="inter-semi fs-15">
-                  steve.brown
-                </p>
-                <h1 className="fs-14 align_center green-txt inter">
-                  New York, USA<span>.</span>
-                  <p className="ms-1 black_text_md inter-light ">5 min</p>
-                </h1>
+              <div className="d-flex justify-content-evenly mt-3">
+                <div className="d-flex desc align-items-center justify-content-center">
+                  <img alt="" src={stars} className="inter rating-star" />
+                  <p className="ms-1 inter fs-11">Quality</p>
+                  <p className="ms-1 green-txt inter fs-11">4.9</p>
+                </div>
+                <div className="d-flex desc align-items-center justify-content-center">
+                  <img alt="" src={stars} className="inter rating-star" />
+                  <p className="ms-1 inter fs-11">Quality</p>
+                  <p className="ms-1 green-txt inter fs-11">4.5</p>
+                </div>
+                <div className="d-flex desc align-items-center justify-content-center">
+                  <img alt="" src={stars} className="inter rating-star" />
+                  <p className="ms-1 inter fs-11">Rollies</p>
+                  <p className="ms-1 green-txt inter fs-11">4.0</p>
+                </div>
               </div>
-            </Link>
-
-            <div className="d-flex justify-content-center align-items-center">
-              <div className="d-flex align-items-start me-3 justify-content-center">
-                <img alt="" src={stars} className="rating-star" />
-                <h1 className="black_text_md_bold ms-1">
-                  4.9
-                  <button
-                    className="border-0 bg-transparent"
-                    onClick={report_btn_open}
-                  >
-                    <img alt="" src={dots} className="ms-2" />
-                  </button>
-                </h1>
-              </div>
-            </div>
-          </div>
-          <div className="d-flex justify-content-evenly mt-3">
-            <div className="d-flex desc align-items-center justify-content-center">
-              <img alt="" src={stars} className="inter rating-star" />
-              <p className="ms-1 inter fs-11">Quality</p>
-              <p className="ms-1 green-txt inter fs-11">4.9</p>
-            </div>
-            <div className="d-flex desc align-items-center justify-content-center">
-              <img alt="" src={stars} className="inter rating-star" />
-              <p className="ms-1 inter fs-11">Quality</p>
-              <p className="ms-1 green-txt inter fs-11">4.5</p>
-            </div>
-            <div className="d-flex desc align-items-center justify-content-center">
-              <img alt="" src={stars} className="inter rating-star" />
-              <p className="ms-1 inter fs-11">Rollies</p>
-              <p className="ms-1 green-txt inter fs-11">4.0</p>
-            </div>
-          </div>
-          <p className="black_text_md mt-2 ms-1">
-            Just tried the new Pineapple Express strain. 10/10 would recommend!
-            🍍🔥
-          </p>
-          <div className="m-auto mt-2">
-            <video
-              controls
-              onClick={comentModal}
-              className="story_img mb-2"
-              src={Video}
-            />
-
-            <div className="d-flex justify-content-between pb-1">
-              <div className="d-flex">
-                <p
-                  onClick={Likes_btn_open}
-                  className="inherit black_text_md cursorP align_center"
+              <p className="black_text_md mt-2 ms-1">{data?.text}</p>
+              <div className="m-auto mt-2">
+                <Swiper
+                  pagination={true}
+                  modules={[Pagination]}
+                  className="swiper00"
                 >
-                  <img alt="" src={likes} className="ms-2 me-1" />
-                  541
-                </p>
-              </div>
-              <div className="d-flex">
-                <p className="me-2 light_text_sm">26 Comments</p>
-                <p className="me-2 light_text_sm">87 Shares</p>
-                <p className="me-2 light_text_sm">2.5k Views</p>
+                  {data?.images?.map((item, index) => (
+                    <SwiperSlide key={index}>
+                      <img
+                        loading="lazy"
+                        onClick={comentModal}
+                        alt=""
+                        src={global.BASEURL + "/" + item}
+                        className="story_img mb-2"
+                      />
+                    </SwiperSlide>
+                  ))}
+                  {data?.video && data.video.length > 0 ? (
+                    <SwiperSlide>
+                      <video
+                        controls
+                        onClick={comentModal}
+                        className="story_img mb-2"
+                        src={global.BASEURL + data?.video}
+                      />
+                    </SwiperSlide>
+                  ) : data?.images && data.images.length === 0 ? (
+                    <SwiperSlide>
+                      <img
+                        onClick={comentModal}
+                        alt=""
+                        src={staticImg}
+                        className="story_img mb-2"
+                      />
+                    </SwiperSlide>
+                  ) : null}
+                </Swiper>
+
+                <div className="d-flex justify-content-between pb-1 mt-2">
+                  <div className="d-flex">
+                    <p
+                      onClick={Likes_btn_open}
+                      className="inherit black_text_md cursorP align_center"
+                    >
+                      <img alt="" src={likes} className="ms-2 me-1" />
+                      <h5 className="postD">{data?.TotalLikes}</h5>
+                    </p>
+                  </div>
+                  <div className="d-flex">
+                    <p className="me-2 postD">{data?.comments} Comments</p>
+                    <p className="me-2 postD">{data?.shares} Shares</p>
+                    <p className="me-2 postD">{data?.views} Views</p>
+                  </div>
+                </div>
               </div>
             </div>
+            <Row className="w-100 h-100 p-0 border-top m-auto">
+              <Col lg="4" sm="4" xs="4" className="like_btn">
+                <div
+                  onClick={handleLike}
+                  className="bg-white cursorP d-flex align-items-center justify-content-center"
+                >
+                  <img
+                    style={{ width: "20px", height: "20px" }}
+                    alt=""
+                    src={liked ? greenLeaf : like_btn}
+                    className="me-2"
+                  />
+                  {liked ? "Like" : "Like"}
+                </div>
+              </Col>
+
+              <Col
+                onClick={comentModal}
+                lg="4"
+                sm="4"
+                xs="4"
+                className="like_btn"
+              >
+                <div className="bg-white cursorP d-flex align-items-center justify-content-center">
+                  <img alt="" src={comment_btn} className="me-2" />
+                  Comment
+                </div>
+              </Col>
+
+              <Col lg="4" sm="4" xs="4" className="like_btn border-0">
+                <button className="bg-white cursorP d-flex align-items-center justify-content-center">
+                  <img alt="" src={share_btn} className="me-2" />
+                  Share
+                </button>
+              </Col>
+            </Row>
           </div>
-        </div>
-        <Row className="w-100 h-100 p-0 border-top m-auto">
-          <Col sm="4" className="like_btn">
-            <div
-              onClick={handleLike}
-              className="bg-white cursorP d-flex align-items-center justify-content-center"
-            >
-              <img
-                style={{ width: "20px", height: "20px" }}
-                alt=""
-                src={liked ? greenLeaf : like_btn}
-                className="me-3"
-              />
-              {liked ? "Liked" : "Like"}
-            </div>
-          </Col>
-
-          <Col onClick={comentModal} sm="4" className="like_btn">
-            <div className="bg-white cursorP d-flex align-items-center justify-content-center">
-              <img alt="" src={comment_btn} className="me-3" />
-              Comment
-            </div>
-          </Col>
-
-          <Col sm="4" className="like_btn border-0">
-            <button className="bg-white cursorP d-flex align-items-center justify-content-center">
-              <img alt="" src={share_btn} className="me-3" />
-              Share
-            </button>
-          </Col>
-        </Row>
-      </div>
+        ))
+      )}
 
       {/* _____likes_modal___ */}
       <Modal
@@ -508,7 +488,7 @@ const Story = () => {
                   </p>
                   <div className="m-auto mt-2">
                     <img alt="" src={pineapple} className="story_img mb-2" />
-                    <div className="d-flex justify-content-between pb-1">
+                    <div className="d-flex justify-content-between pb-1 mt-2">
                       <div className="d-flex">
                         <p
                           onClick={Likes_btn_open}
@@ -538,7 +518,7 @@ const Story = () => {
                         src={liked ? greenLeaf : like_btn}
                         className="me-3"
                       />
-                      {liked ? "Liked" : "Like"}
+                      {liked ? "Like" : "Like"}
                     </div>
                   </Col>
 

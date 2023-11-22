@@ -69,7 +69,7 @@ const ForgetPass = () => {
     setIsButtonClicked(true);
 
     axios
-      .post(`${global.BASEURL}users/forget-password`, requestData)
+      .post(`${global.BASEURL}/users/forget-password`, requestData)
       .then((res) => {
         const result = res.data.code;
         setOtp(result);

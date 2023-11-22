@@ -69,7 +69,7 @@ const SignUp = () => {
     setIsButtonClicked(true);
 
     axios
-      .post(`${global.BASEURL}users/send-code`, requestData)
+      .post(`${global.BASEURL}/users/send-code`, requestData)
       .then((res) => {
         const result = res.data.code;
         setOtp(result);

@@ -102,7 +102,7 @@ const VerifyCode = ({ title, otp, detail, keyP, forget , token }) => {
 
     // Resend the code
     axios
-      .post(`${global.BASEURL}users/${apiUrl}`, requestData)
+      .post(`${global.BASEURL}/users/${apiUrl}`, requestData)
       .then((res) => {
         const resp = res.data.code;
         setInitialOtp(resp);

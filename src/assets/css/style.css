@@ -994,6 +994,55 @@
   font-family: "inter-regular";
 }
 
+/* swiper css  */
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+/* .swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+.swiper00 .swiper-slide {
+  width: 100% !important;
+  background: black;
+  border-radius: 8px !important;
+}
+.swiper00 .swiper-slide img {
+  height: 100%;
+  object-fit: contain !important;
+  border-radius: 0px !important;
+}
+.swiper00 .swiper-pagination {
+  display: block !important;
+}
+.swiper00 .swiper-pagination .swiper-pagination-bullet {
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.swiper00 .swiper-pagination .swiper-pagination-bullet-active {
+  background: white !important;
+}
+.swiper00 .swiper-wrapper {
+  height: 23rem !important;
+}
+
+/* ////////// */
+
+
+.postD{
+  color: #606770;
+  font-family: "inter-regular";
+  font-size: 11px;
+}
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
 /* __for you css___ */
@@ -1055,8 +1104,9 @@
 .story_img {
   width: 100%;
   height: 23.75rem;
+  /* height: 100%; */
   border-radius: 8px;
-  object-fit: cover;
+  object-fit: contain;
 }
 .border-top {
   border-right: 1px solid rgb(231, 231, 231);
