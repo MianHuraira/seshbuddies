@@ -102,8 +102,6 @@ const CreatPass = ({ keyP, detail, forget, token }) => {
 
   // login api
 
- 
-
   const handleForget = () => {
     const requestData = {
       password: password,
@@ -120,8 +118,7 @@ const CreatPass = ({ keyP, detail, forget, token }) => {
       })
       .catch((error) => {
         console.error("Error resending code: ", error);
-      })
-      
+      });
   };
 
   const loginHandle = () => {
@@ -147,7 +144,8 @@ const CreatPass = ({ keyP, detail, forget, token }) => {
       .catch((error) => {
         console.error("Error sending code: ", error);
         toast.error(error.response.data.message);
-      }).finally(() => {
+      })
+      .finally(() => {
         setIsButtonClicked(false);
       });
   };

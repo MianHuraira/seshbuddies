@@ -82,7 +82,7 @@ const Login = () => {
     axios
       .post(`${global.BASEURL}/auth`, requestData)
       .then((res) => {
-        const resultSuccess = res.data.user;
+        const resultSuccess = res.data;
         localStorage.setItem("meraname", JSON.stringify(resultSuccess));
         toast.success("Login Successfully");
         login();

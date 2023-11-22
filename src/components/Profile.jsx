@@ -20,7 +20,6 @@ const Profile = () => {
   if (getPath === "/live_stream" || getPath === "/reels") {
     allPath = true;
   }
-
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
@@ -31,10 +30,12 @@ const Profile = () => {
       // Parse the JSON data
       const parsedUserData = JSON.parse(storedUserData);
       setUserData(parsedUserData);
+      
     }
   }, []);
   const handleLogout = () => {
     localStorage.removeItem("meraname");
+    localStorage.removeItem("true");
     logout();
     toast.success("Logout Successfully", {
       onClose: () => {
@@ -54,12 +55,12 @@ const Profile = () => {
               <img className="profile_img" src={Profile_img} alt="" />
               <img className="status_icon" src={Status_icon} alt="" />
             </div>
-            {userData && userData.username && (
+            {userData.user && userData.user.username && (
               <h5
                 style={{ color: allPath ? "white" : "" }}
                 className="me-2 user_name0 d-none d-lg-block"
               >
-                {userData.username}
+                {userData.user.username}
               </h5>
             )}
           </div>

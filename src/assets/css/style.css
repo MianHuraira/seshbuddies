@@ -1009,9 +1009,11 @@
   justify-content: center;
   align-items: center;
 } */
+.swiper00 {
+  background-color: black;
+}
 .swiper00 .swiper-slide {
   width: 100% !important;
-  background: black;
   border-radius: 8px !important;
 }
 .swiper00 .swiper-slide img {

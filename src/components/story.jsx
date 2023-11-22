@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import girl from "../assets/logo/orange-girl.svg";
 import stars from "../assets/logo/icons/star.svg";
@@ -33,14 +34,12 @@ const Story = () => {
   const [Likes, setShow] = useState(false);
   const Likes_btn_close = () => setShow(false);
   const Likes_btn_open = () => setShow(true);
-  const [liked, setLiked] = useState(false);
+  const [likedPosts, setLikedPosts] = useState({});
   // data get
   const [getData, setGetData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const handleLike = () => {
-    setLiked(!liked);
-  };
+  // user detail get
 
   const showSuccess = () => {
     setReport(false);
@@ -66,34 +65,88 @@ const Story = () => {
   };
 
   const [coment, setComent] = useState(false);
+  const [postData, setPostData] = useState(null);
 
   const handleClose = () => setComent(false);
-  const comentModal = () => setComent(true);
+  const comentModal = (postData) => {
+    console.log(postData);
+    setPostData(postData);
+    setComent(true);
+  };
+
+  const [resultData, setResultData] = useState({});
+  useEffect(() => {
+    // Retrieve user data from local storage
+    const storedUserData = localStorage.getItem("meraname");
+
+    if (storedUserData) {
+      // Parse the JSON data
+      const parsedUserData = JSON.parse(storedUserData);
+      setResultData(parsedUserData);
+    }
+  }, []);
 
   // api get post start
 
   const getPost = async () => {
     try {
+      if (!resultData.token) {
+        console.error("Token is missing.");
+        return;
+      }
       const res = await axios.get(global.BASEURL + "/post/all", {
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTRjOTBkYWZiMTk2ZTAyMzk1NGY2ZjciLCJpYXQiOjE2OTk1MTY2MzR9.tTvS58eQrcHTyr2DElEtnr4kYxiEpfJQBjo7NgmRbbA",
+          "x-auth-token": resultData.token,
         },
       });
       const resultGet = res.data.posts;
       setGetData(resultGet);
+      const finalR = res.data.success;
+      if (finalR) {
+        setLoading(false);
+      } else {
+        setLoading(true);
+      }
     } catch (error) {
       console.log(error, "error");
       throw error;
     } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
     getPost();
-  }, []);
+  }, [resultData]);
+
+  const handleLike = async (postId) => {
+    try {
+      const resp = await axios.post(
+        `${global.BASEURL}/post/${postId}/like`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": resultData.token,
+          },
+        }
+      );
+      const { success } = resp.data;
+
+      if (success) {
+        setLikedPosts((prevLikedPosts) => ({
+          ...prevLikedPosts,
+          [postId]: !prevLikedPosts[postId],
+        }));
+      }
+    } catch (error) {
+      console.log(error, "error");
+      throw error;
+    } finally {
+      getPost();
+      setLoading(false);
+    }
+  };
 
   // api get post ended
 
@@ -181,7 +234,7 @@ const Story = () => {
                     <SwiperSlide key={index}>
                       <img
                         loading="lazy"
-                        onClick={comentModal}
+                        onClick={() => comentModal(data)}
                         alt=""
                         src={global.BASEURL + "/" + item}
                         className="story_img mb-2"
@@ -192,7 +245,7 @@ const Story = () => {
                     <SwiperSlide>
                       <video
                         controls
-                        onClick={comentModal}
+                        onClick={() => comentModal(data)}
                         className="story_img mb-2"
                         src={global.BASEURL + data?.video}
                       />
@@ -200,7 +253,7 @@ const Story = () => {
                   ) : data?.images && data.images.length === 0 ? (
                     <SwiperSlide>
                       <img
-                        onClick={comentModal}
+                        onClick={() => comentModal(data)}
                         alt=""
                         src={staticImg}
                         className="story_img mb-2"
@@ -230,21 +283,25 @@ const Story = () => {
             <Row className="w-100 h-100 p-0 border-top m-auto">
               <Col lg="4" sm="4" xs="4" className="like_btn">
                 <div
-                  onClick={handleLike}
+                  onClick={() => handleLike(data?._id)}
                   className="bg-white cursorP d-flex align-items-center justify-content-center"
                 >
                   <img
                     style={{ width: "20px", height: "20px" }}
                     alt=""
-                    src={liked ? greenLeaf : like_btn}
+                    src={
+                      likedPosts[data?._id] || data?.likes
+                        ? greenLeaf
+                        : like_btn
+                    }
                     className="me-2"
                   />
-                  {liked ? "Like" : "Like"}
+                  Like
                 </div>
               </Col>
 
               <Col
-                onClick={comentModal}
+                onClick={() => comentModal(data)}
                 lg="4"
                 sm="4"
                 xs="4"
@@ -419,7 +476,7 @@ const Story = () => {
       {/* coment modal start */}
 
       <Modal show={coment} onHide={handleClose} size="lg" centered>
-        <Modal.Body className="p-0">
+        <Modal.Body>
           <Row>
             <Col
               className="p-0"
@@ -439,10 +496,11 @@ const Story = () => {
                           style={{ color: "#252525" }}
                           className="inter-semi fs-15"
                         >
-                          steve.brown
+                          {postData?.user?.username}
                         </p>
                         <h1 className="fs-14 align_center green-txt inter">
-                          New York, USA<span>.</span>
+                          {postData?.user?.location?.location}
+                          <span>.</span>
                           <p className="ms-1 black_text_md inter-light ">
                             5 min
                           </p>
@@ -454,7 +512,7 @@ const Story = () => {
                       <div className="d-flex align-items-start me-3 justify-content-center">
                         <img alt="" src={stars} className="rating-star" />
                         <h1 className="black_text_md_bold ms-1">
-                          4.9
+                          {postData?.user?.rating}
                           <button
                             className="border-0 bg-transparent"
                             onClick={report_btn_open}
@@ -482,12 +540,41 @@ const Story = () => {
                       <p className="ms-1 green-txt inter fs-11">4.0</p>
                     </div>
                   </div>
-                  <p className="black_text_md mt-2 ms-1">
-                    Just tried the new Pineapple Express strain. 10/10 would
-                    recommend! 🍍🔥
-                  </p>
+                  <p className="black_text_md mt-2 ms-1">{postData?.text}</p>
                   <div className="m-auto mt-2">
-                    <img alt="" src={pineapple} className="story_img mb-2" />
+                    <Swiper
+                      pagination={true}
+                      modules={[Pagination]}
+                      className="swiper00"
+                    >
+                      {postData?.images?.map((item, index) => (
+                        <SwiperSlide key={index}>
+                          <img
+                            loading="lazy"
+                            alt=""
+                            src={global.BASEURL + "/" + item}
+                            className="story_img mb-2"
+                          />
+                        </SwiperSlide>
+                      ))}
+                      {postData?.video && postData.video.length > 0 ? (
+                        <SwiperSlide>
+                          <video
+                            controls
+                            className="story_img mb-2"
+                            src={global.BASEURL + postData?.video}
+                          />
+                        </SwiperSlide>
+                      ) : postData?.images && postData.images.length === 0 ? (
+                        <SwiperSlide>
+                          <img
+                            alt=""
+                            src={staticImg}
+                            className="story_img mb-2"
+                          />
+                        </SwiperSlide>
+                      ) : null}
+                    </Swiper>
                     <div className="d-flex justify-content-between pb-1 mt-2">
                       <div className="d-flex">
                         <p
@@ -495,7 +582,7 @@ const Story = () => {
                           className="inherit black_text_md cursorP align_center"
                         >
                           <img alt="" src={likes} className="ms-2 me-1" />
-                          541
+                          {postData?.TotalLikes}
                         </p>
                       </div>
                       <div className="d-flex">
@@ -508,18 +595,20 @@ const Story = () => {
                 </div>
                 <Row className="w-100 h-100 p-0 border-top m-auto">
                   <Col lg="6" className="like_btn">
-                    <div
-                      onClick={handleLike}
-                      className="bg-white cursorP d-flex align-items-center justify-content-center"
-                    >
-                      <img
-                        style={{ width: "20px", height: "20px" }}
-                        alt=""
-                        src={liked ? greenLeaf : like_btn}
-                        className="me-3"
-                      />
-                      {liked ? "Like" : "Like"}
-                    </div>
+                  <div
+                  onClick={() => handleLike(postData?._id)}
+                  className="bg-white cursorP d-flex align-items-center justify-content-center"
+                >
+                  <img
+                    style={{ width: "20px", height: "20px" }}
+                    alt=""
+                    src={
+                      likedPosts[postData?._id] || postData?.likes ? greenLeaf  : like_btn
+                    }
+                    className="me-2"
+                  />
+                  Like
+                </div>
                   </Col>
 
                   <Col lg="6" className="like_btn border-0">
@@ -533,10 +622,10 @@ const Story = () => {
             </Col>
             <Col lg="6">
               <div className="d-flex flex-column justify-content-between">
-                <div className="d-flex justify-content-between align-items-center mt-3 mb-3">
+                <div className="d-flex justify-content-between align-items-center mt-2">
                   <h1 className="black_text_lg">35 Comments</h1>
                   <button
-                    className="border-0 btn-close px-3 hide_fcontrol"
+                    className="border-0 btn-close hide_fcontrol"
                     onClick={handleClose}
                   ></button>
                 </div>
