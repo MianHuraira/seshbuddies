@@ -28,6 +28,7 @@ const CreatPass = ({ keyP, detail, forget, token }) => {
     setInputType(passwordVisible ? "password" : "text");
   };
 
+  console.log(token);
   const [password, setPassword] = useState("");
   const [progress, setProgress] = useState(0);
   const [validationStatus, setValidationStatus] = useState("Weak");
@@ -271,10 +272,10 @@ const CreatPass = ({ keyP, detail, forget, token }) => {
                 ></div>
               </div>
               <h5 className="mt-3 passs_cont_o">
-                Password strength: {validationStatus}{" "}
+                Password oo strength: {validationStatus}{" "}
               </h5>
 
-              {forget ? (
+              {token ? (
                 <button
                   className={`btn_${
                     validationStatus === "Strong" ? "default" : "disable"
@@ -297,7 +298,7 @@ const CreatPass = ({ keyP, detail, forget, token }) => {
                       <span className="visually-hidden">Loading...</span>
                     </Spinner>
                   ) : (
-                    "Next"
+                    "Change Password"
                   )}
                 </button>
               ) : (

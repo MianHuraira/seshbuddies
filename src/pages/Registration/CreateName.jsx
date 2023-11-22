@@ -7,7 +7,7 @@ import CrossIcon from "../../assets/icons/crossIcon.svg";
 import { useAuth } from "../AuthContext";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-
+import Spinner from "react-bootstrap/Spinner";
 import "react-toastify/dist/ReactToastify.css";
 
 const CreateName = ({ passCreate, detail, keyP, passCode }) => {
@@ -17,6 +17,7 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
 
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
 
   const handleNicknameChange = (event) => {
     const input = event.target.value;
@@ -43,6 +44,7 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
     } else if (keyP === "gmail") {
       dataToSend.email = detail;
     }
+    setIsButtonClicked(true);
 
     // Send data to the server
     axios
@@ -52,7 +54,7 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
         login();
         setIsConfirmed(true);
 
-        localStorage.setItem("userData", JSON.stringify(dataToSend));
+        localStorage.setItem("meraname", JSON.stringify(dataToSend));
         localStorage.setItem("isConfirmed", true);
 
         // Show success toast
@@ -61,11 +63,11 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
       .catch((error) => {
         // Handle error
         console.error("Error creating account: ", error);
-
-        // Show error toast
         toast.error(error.response.data.message);
-
-        // You might want to handle other error-related logic here
+      })
+      .finally(() => {
+        // This block will execute regardless of success or error
+        setIsButtonClicked(false);
       });
   };
 
@@ -140,7 +142,22 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
                 } phon_inp mt-4`}
                 disabled={!isButtonEnabled}
               >
-                Confirm
+                {isButtonClicked ? (
+                  <Spinner
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      marginTop: "3px",
+                      borderWidth: "0.15em",
+                    }}
+                    animation="border"
+                    role="status"
+                  >
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                ) : (
+                  "Confirm"
+                )}
               </button>
             </section>
           )}
