@@ -1,9 +1,9 @@
 import React from "react";
 
 import { Button, Modal } from "react-bootstrap";
-import RedsUp from "../assets/logo/icons/redsUp.svg";
-import Holding from "../assets/logo/icons/holding.svg";
-import Dry from "../assets/logo/icons/dry.svg";
+import RedsUp from "../../assets/logo/icons/redsUp.svg";
+import Holding from "../../assets/logo/icons/holding.svg";
+import Dry from "../../assets/logo/icons/dry.svg";
 
 const RedUpModal = ({ show, handleClose }) => {
   const handleConfirmClick = () => {

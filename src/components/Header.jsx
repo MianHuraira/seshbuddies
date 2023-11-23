@@ -18,9 +18,7 @@ import CrossIcon from "../assets/icons/blackCross.svg";
 import StatusChange from "../assets/icons/StatusChange.svg";
 import Profile from "./Profile";
 
-import RedUpModal  from "../components/RedUpModal"
-
-
+import RedUpModal  from "./Modal/RedUpModal"
 
 const Header = () => {
   const [activeNavLink, setActiveNavLink] = useState("home");

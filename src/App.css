@@ -226,6 +226,10 @@ h1 {
 .form-label{
   margin-bottom: 3px !important;
 }
+.skelton_main{
+  height: 100% !important;
+  line-height: inherit !important;
+}
 
 @media (min-width: 1400px) {
   .nav_bg .container-xxl {

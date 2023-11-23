@@ -8,7 +8,7 @@ import avatar3 from "../assets/logo/Avatar3.svg";
 import avatar4 from "../assets/logo/Avatar4.svg";
 import { Link, useLocation } from "react-router-dom";
 
-import RedUpModal from "../components/RedUpModal";
+import RedUpModal from "./Modal/RedUpModal";
 const SideMessage = () => {
   const location = useLocation();
 

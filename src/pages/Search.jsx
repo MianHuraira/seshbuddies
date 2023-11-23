@@ -6,7 +6,7 @@ import Createpost from "../components/createpost";
 import SideMessage from "../components/side_message";
 import { Container, Modal } from "react-bootstrap";
 import CommentModal from "../components/comment_modal";
-import Story from "../components/story";
+import Story from "../components/PostAll";
 import reel_girl from "../assets/logo/reel_girl.svg";
 import girl from "../assets/logo/orange-girl.svg";
 import avatar from "../assets/logo/Avatar.svg";

@@ -4,13 +4,12 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Createpost from "../components/createpost";
 import SideMessage from "../components/side_message";
-// import Story from "../components/story";
 import TopStory from "../components/top_story";
 import WatchReels from "../components/watch_reels";
 import FollowBuddies from "../components/follow_buddies";
 import { Container, Modal } from "react-bootstrap";
 import CommentModal from "../components/comment_modal";
-import Story from "../components/story";
+import PostAll from "../components/PostAll";
 
 const Home = () => {
   const [show, setShow] = useState(false);
@@ -32,7 +31,7 @@ const Home = () => {
               <TopStory />
             </div>
             <div>
-              <Story handleShow={handleShow} show={show} />
+              <PostAll handleShow={handleShow} show={show} />
             </div>
             <h1 className="fs-16 inter-semi mb-3 ms-3">Watch Reels</h1>
             <div className=" overflow-auto">
@@ -62,7 +61,7 @@ const Home = () => {
               className="p-0"
               style={{ borderRight: "1px solid lightgray" }}
             >
-              <Story />
+              <PostAll />
             </Col>
             <Col sm={6} className="p-0">
               <CommentModal handleClose={handleClose} />

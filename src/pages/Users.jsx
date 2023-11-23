@@ -12,7 +12,7 @@ import clip from "../assets/logo/icons/clip.svg";
 import post_wind from "../assets/logo/icons/post_wind.svg";
 import video from "../assets/logo/icons/video.svg";
 import star_element from "../assets/logo/icons/star_element.svg";
-import Story from "../components/story";
+import Story from "../components/PostAll";
 import Reels from "../components/Reels";
 import Ratings from "../components/Ratings";
 import girl from "../assets/logo/orange-girl.svg";
