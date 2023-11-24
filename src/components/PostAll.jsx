@@ -34,10 +34,12 @@ const PostAll = () => {
   const [follow, setFollow] = useState(false);
   const [getData, setGetData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [commentLoad, setCommentLoad] = useState(true);
   const [reportModal, setReportModal] = useState(false);
   const [coment, setComent] = useState(false);
   const [postData, setPostData] = useState(null);
   const [resultData, setResultData] = useState({});
+  const [commentGet, setCommentGet] = useState([]);
 
   // report modal
   const reportOpenModal = () => {
@@ -61,6 +63,7 @@ const PostAll = () => {
     getComment(id);
     setPostData(postData);
     setComent(true);
+    setCommentLoad(true);
   };
 
   const handleClose = () => {
@@ -80,7 +83,6 @@ const PostAll = () => {
 
   // api get comments
   const getComment = async (idPost) => {
-    console.log("post", idPost);
     try {
       const resp = await axios.get(
         global.BASEURL + `/comments/all/${idPost}/`,
@@ -91,7 +93,15 @@ const PostAll = () => {
           },
         }
       );
-      console.log("no", resp.data.posts);
+      const ComentResult = resp.data.posts;
+
+      setCommentGet(ComentResult);
+
+      if (resp) {
+        setCommentLoad(false);
+      } else {
+        setCommentLoad(true);
+      }
     } catch (error) {
       console.log(error, "error");
       throw error;
@@ -112,6 +122,7 @@ const PostAll = () => {
       });
       const resultGet = res.data.posts;
       setGetData(resultGet);
+
       const finalR = res.data.success;
       if (finalR) {
         setLoading(false);
@@ -160,6 +171,10 @@ const PostAll = () => {
   // api get post ended
 
   const processText = (text) => {
+    if (!text) {
+      return null; // or handle the absence of text in some way
+    }
+
     const regex = /(#\w+)|(@\w+)/g;
     const parts = text.split(regex);
 
@@ -388,7 +403,14 @@ const PostAll = () => {
 
       {/* post coment modal */}
 
-      <PostComments isOpen={coment} onClose={handleClose} postData={postData} />
+      <PostComments
+        isOpen={coment}
+        onClose={handleClose}
+        postData={postData}
+        commentResult={commentGet}
+        commentLoad={commentLoad}
+        processText={processText}
+      />
 
       <PostReport isOpen={reportModal} onClose={reportModalClose} />
 

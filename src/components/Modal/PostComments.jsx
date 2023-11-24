@@ -10,7 +10,6 @@ import greenLeaf from "../../assets/icons/greenLeaf.svg";
 import share_btn from "../../assets/logo/icons/share.svg";
 import { Row, Col, Modal, Form } from "react-bootstrap";
 import status_icon from "../../assets/logo/icons/Status_Icon.svg";
-import avatar from "../../assets/logo/yellow_girl.svg";
 import heart from "../../assets/logo/icons/heart.svg";
 import union from "../../assets/logo/icons/union.svg";
 import emoji from "../../assets/logo/icons/emoji.svg";
@@ -18,6 +17,10 @@ import comment_upload from "../../assets/logo/icons/comment_upload.svg";
 import Colapse from "../colapse";
 import { Link } from "react-router-dom";
 import staticImg from "../../assets/images/started_img_bg.png";
+import Moment from "react-moment";
+import Picker from "emoji-picker-react";
+// import 'moment-timezone';
+
 // swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -25,14 +28,35 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import PostReport from "./PostReport";
 import ImageLoader from "../ImageLoader";
+import Spinner from "react-bootstrap/Spinner";
+import axios from "axios";
 
-const PostComments = ({ isOpen, onClose, postData }) => {
+const PostComments = ({
+  isOpen,
+  onClose,
+  postData,
+  commentResult = [],
+  commentLoad,
+  processText,
+}) => {
   const [Likes, setShow] = useState(false);
   const Likes_btn_close = () => setShow(false);
   const [likedPosts, setLikedPosts] = useState({});
   const Likes_btn_open = () => setShow(true);
-
   const [report, setReport] = useState(false);
+  const [commentValue, setCommentValue] = useState("");
+  const [resultData, setResultData] = useState({});
+  const [sentComment, setSentComment] = useState(false);
+  const [showPicker, setShowPicker] = useState(false);
+
+  const onEmojiClick = (event, emojiObject) => {
+    commentValue((prevInput) => prevInput + emojiObject.emoji);
+    setShowPicker(false);
+  };
+
+  const handleCommentChange = (event) => {
+    setCommentValue(event.target.value);
+  };
 
   // report modal open
   const reportHandleModal = () => {
@@ -43,6 +67,49 @@ const PostComments = ({ isOpen, onClose, postData }) => {
     setReport(false);
   };
 
+  // coment post api
+
+  useEffect(() => {
+    // Retrieve user data from local storage
+    const storedUserData = localStorage.getItem("meraname");
+
+    if (storedUserData) {
+      // Parse the JSON data
+      const parsedUserData = JSON.parse(storedUserData);
+      setResultData(parsedUserData);
+    }
+  }, []);
+  const postComment = async (postId) => {
+    try {
+      if (!resultData.token) {
+        return;
+      }
+
+      setSentComment(true); // Start the spinner when the API call begins
+
+      const response = await axios.post(
+        global.BASEURL + `/comments/create/${postId}/`,
+        {
+          text: commentValue,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": resultData.token,
+          },
+        }
+      );
+
+      // Do something with the response if needed
+    } catch (error) {
+      console.log(error, "error");
+      // Handle the error as needed
+    } finally {
+      setSentComment(false);
+      setCommentValue("");
+      document.getElementById("comment_feild").value = "";
+    }
+  };
   return (
     <>
       <Modal show={isOpen} onHide={onClose} size="lg" centered>
@@ -130,7 +197,9 @@ const PostComments = ({ isOpen, onClose, postData }) => {
                       <p className="ms-1 green-txt inter fs-11">4.0</p>
                     </div>
                   </div>
-                  <p className="black_text_md mt-2 ms-1">{postData?.text}</p>
+                  <p className="black_text_md mt-2 ms-1">
+                    {processText(postData?.text)}
+                  </p>
                   <div className="m-auto mt-2">
                     <Swiper
                       pagination={true}
@@ -139,7 +208,10 @@ const PostComments = ({ isOpen, onClose, postData }) => {
                     >
                       {postData?.images?.map((item, index) => (
                         <SwiperSlide key={index}>
-                          <ImageLoader imageUrl={global.BASEURL + "/" + item} classes={"story_img mb-2"} />
+                          <ImageLoader
+                            imageUrl={global.BASEURL + "/" + item}
+                            classes={"story_img mb-2"}
+                          />
                           {/* <img
                             loading="lazy"
                             alt=""
@@ -217,170 +289,88 @@ const PostComments = ({ isOpen, onClose, postData }) => {
             </Col>
             <Col lg="6">
               <div className="d-flex flex-column justify-content-between">
-                <div className="d-flex justify-content-between align-items-center mt-2">
-                  <h1 className="black_text_lg">35 Comments</h1>
+                <div className="d-flex justify-content-between align-items-center h-100 mt-2">
+                  <h1 className="black_text_lg">
+                    {!commentLoad ? commentResult.length : ""}
+                  </h1>
                   <button
                     className="border-0 btn-close hide_fcontrol"
                     onClick={onClose}
                   ></button>
                 </div>
                 <div className="pt-3 px-3 w-100 comment_block no_scrollbar overflow-y-auto overflow-x-hidden">
-                  <div className="d-flex align-items-start">
-                    <img alt="" src={avatar} className="comment_avatar" />
-                    <div className="w-100 ms-2">
-                      <div className="d-flex justify-content-between align-items-center w-100">
-                        <div>
-                          <h1 className="black_text_md inter-semi">
-                            Jane Doe
-                            <span className="light_text_sm ms-1">@Jane D</span>
-                          </h1>
-                        </div>
-                        <p className="gray_text_md justify_center">
-                          1h
-                          <img
-                            alt=""
-                            src={heart}
-                            className=" ms-2 mb-1 heart"
-                          />
-                        </p>
-                      </div>
-                      {/* <name & like section> */}
-
-                      <p className="black_text_md">Looks Like a great time!</p>
-
-                      <p className="black_text_md">
-                        2022-12-23
-                        <button className="border-0 green-txt bg-white inter-semi ms-2">
-                          Reply
-                        </button>
-                        <Colapse children={<Colapse />} />
-                      </p>
+                  {commentLoad ? (
+                    <div className="text-center">
+                      <Spinner
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          marginTop: "3px",
+                          borderWidth: "0.15em",
+                        }}
+                        animation="border"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
+                      </Spinner>
                     </div>
-                  </div>
+                  ) : commentResult.length > 0 ? (
+                    commentResult?.map((item) => (
+                      <div className="d-flex align-items-start">
+                        <ImageLoader
+                          imageUrl={
+                            item?.user?.profilePicture
+                              ? global.BASEURL +
+                                "/" +
+                                item?.user?.profilePicture
+                              : avatarImg
+                          }
+                          classes={"comment_avatar"}
+                        />
 
-                  <div className="d-flex align-items-start mt-3">
-                    <img alt="" src={avatar} className="comment_avatar" />
-                    <div className="w-100 ms-2">
-                      <div className="d-flex justify-content-between align-items-center w-100">
-                        <div>
-                          <h1 className="black_text_md inter-semi">
-                            Jane Doe
-                            <span className="light_text_sm ms-1">@Jane D</span>
-                          </h1>
+                        <div className="w-100 ms-2">
+                          <div className="d-flex justify-content-between align-items-center w-100">
+                            <div>
+                              <h1 className="black_text_md inter-semi">
+                                {item?.user?.name}
+                                <span className="light_text_sm ms-1">
+                                  @ {item?.user?.username}
+                                </span>
+                              </h1>
+                            </div>
+                            <p className="gray_text_md justify_center">
+                              <Moment fromNow>{item?.createdAt}</Moment>
+
+                              <img
+                                alt=""
+                                src={heart}
+                                className=" ms-2 mb-1 heart"
+                              />
+                            </p>
+                          </div>
+                          {/* <name & like section> */}
+
+                          <p className="black_text_md">{item?.text}</p>
+
+                          <p className="black_text_md">
+                            <Moment format="YYYY-MM-DD">
+                              {item?.createdAt}
+                            </Moment>
+                            <button className="border-0 green-txt bg-white inter-semi ms-2">
+                              Reply
+                            </button>
+                            {item?.replied ? (
+                              <Colapse children={<Colapse />} />
+                            ) : (
+                              ""
+                            )}
+                          </p>
                         </div>
-                        <p className="gray_text_md justify_center">
-                          1h
-                          <img
-                            alt=""
-                            src={heart}
-                            className=" ms-2 mb-1 heart"
-                          />
-                        </p>
                       </div>
-
-                      <p className="black_text_md">Looks Like a great time!</p>
-
-                      <p className="black_text_md">
-                        2022-12-23
-                        <button className="border-0 green-txt bg-white inter-semi ms-2">
-                          Reply
-                        </button>
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="d-flex align-items-start mt-3">
-                    <img alt="" src={avatar} className="comment_avatar" />
-                    <div className="w-100 ms-2">
-                      <div className="d-flex justify-content-between align-items-center w-100">
-                        <div>
-                          <h1 className="black_text_md inter-semi">
-                            Jane Doe
-                            <span className="light_text_sm ms-1">@Jane D</span>
-                          </h1>
-                        </div>
-                        <p className="gray_text_md justify_center">
-                          1h
-                          <img
-                            alt=""
-                            src={heart}
-                            className=" ms-2 mb-1 heart"
-                          />
-                        </p>
-                      </div>
-
-                      <p className="black_text_md">Looks Like a great time!</p>
-
-                      <p className="black_text_md">
-                        2022-12-23
-                        <button className="border-0 green-txt bg-white inter-semi ms-2">
-                          Reply
-                        </button>
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="d-flex align-items-start mt-3">
-                    <img alt="" src={avatar} className="comment_avatar" />
-                    <div className="w-100 ms-2">
-                      <div className="d-flex justify-content-between align-items-center w-100">
-                        <div>
-                          <h1 className="black_text_md inter-semi">
-                            Jane Doe
-                            <span className="light_text_sm ms-1">@Jane D</span>
-                          </h1>
-                        </div>
-                        <p className="gray_text_md justify_center">
-                          1h
-                          <img
-                            alt=""
-                            src={heart}
-                            className=" ms-2 mb-1 heart"
-                          />
-                        </p>
-                      </div>
-
-                      <p className="black_text_md">Looks Like a great time!</p>
-
-                      <p className="black_text_md">
-                        2022-12-23
-                        <button className="border-0 green-txt bg-white inter-semi ms-2">
-                          Reply
-                        </button>
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="d-flex align-items-start mt-3">
-                    <img alt="" src={avatar} className="comment_avatar" />
-                    <div className="w-100 ms-2">
-                      <div className="d-flex justify-content-between align-items-center w-100">
-                        <div>
-                          <h1 className="black_text_md inter-semi">
-                            Jane Doe
-                            <span className="light_text_sm ms-1">@Jane D</span>
-                          </h1>
-                        </div>
-                        <p className="gray_text_md justify_center">
-                          1h
-                          <img
-                            alt=""
-                            src={heart}
-                            className=" ms-2 mb-1 heart"
-                          />
-                        </p>
-                      </div>
-
-                      <p className="black_text_md">Looks Like a great time!</p>
-
-                      <p className="black_text_md">
-                        2022-12-23
-                        <button className="border-0 green-txt bg-white inter-semi ms-2">
-                          Reply
-                        </button>
-                      </p>
-                    </div>
-                  </div>
+                    ))
+                  ) : (
+                    "No more comments found"
+                  )}
                 </div>
                 <div className="light_border_top">
                   <div className="comment_input mt-2">
@@ -390,22 +380,55 @@ const PostComments = ({ isOpen, onClose, postData }) => {
                       id="comment_feild"
                       placeholder="Add comment..."
                       aria-describedby="comment_feild"
-                      name="comment_feild"
+                      value={commentValue}
+                      onChange={handleCommentChange}
                     />
                     <div className="ms-auto d-flex align-items-center me-3">
                       <div className="ms-3 cursorP">
                         <img alt="" src={union} className="input_icon" />
                       </div>
                       <div className="ms-3 cursorP">
-                        <img alt="" src={emoji} className="input_icon" />
-                      </div>
-                      <div className="ms-3 cursorP">
                         <img
                           alt=""
-                          src={comment_upload}
+                          onClick={() => setShowPicker((val) => !val)}
+                          src={emoji}
                           className="input_icon"
                         />
                       </div>
+                      <div className="ms-3 cursorP">
+                        {sentComment ? (
+                          <div className="text-center">
+                            <Spinner
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                marginTop: "3px",
+                                borderWidth: "0.15em",
+                              }}
+                              animation="border"
+                              role="status"
+                            >
+                              <span className="visually-hidden">
+                                Loading...
+                              </span>
+                            </Spinner>
+                          </div>
+                        ) : (
+                          <img
+                            alt=""
+                            src={comment_upload}
+                            className="input_icon"
+                            onClick={() => postComment(postData?._id)}
+                          />
+                        )}
+                      </div>
+
+                      {showPicker && (
+                        <Picker
+                          pickerStyle={{ width: "100%" }}
+                          onEmojiClick={onEmojiClick}
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
