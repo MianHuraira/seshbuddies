@@ -316,7 +316,7 @@ const PostComments = ({
                     </div>
                   ) : commentResult.length > 0 ? (
                     commentResult?.map((item) => (
-                      <div className="d-flex align-items-start">
+                      <div className="d-flex align-items-start mb-3">
                         <ImageLoader
                           imageUrl={
                             item?.user?.profilePicture
