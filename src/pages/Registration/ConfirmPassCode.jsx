@@ -12,7 +12,15 @@ const PassCode = ({ passCode, keyP, passCreate, detail }) => {
   const [passcodesMatch, setPasscodesMatch] = useState(false);
 
   const handleCodeChange = (e, index) => {
+
+
     const value = e.target.value;
+
+    // Check for backspace key
+    if (e.keyCode === 8 && index > 0 && !value) {
+      // Move the cursor to the previous input
+      codeInputs[index - 1].current.focus();
+    }
 
     if (/^\d*$/.test(value) && value.length <= 1) {
       setCode((prevCode) => {
@@ -63,9 +71,10 @@ const PassCode = ({ passCode, keyP, passCreate, detail }) => {
                   <input
                     key={index}
                     ref={inputRef}
-                    className="custom_control text-center inp_width me-2"
+                    className={`custom_control text-center inp_width me-2 ${code[index] ? "activeB" : ""}`}
                     type="text"
                     value={code[index]}
+                    onKeyDown={(e) => handleCodeChange(e, index)}
                     onChange={(e) => handleCodeChange(e, index)}
                   />
                 ))}

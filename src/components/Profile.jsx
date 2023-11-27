@@ -21,21 +21,21 @@ const Profile = () => {
     allPath = true;
   }
   const [userData, setUserData] = useState({});
+  console.log(userData.username);
 
   useEffect(() => {
     // Retrieve user data from local storage
     const storedUserData = localStorage.getItem("meraname");
-
     if (storedUserData) {
       // Parse the JSON data
       const parsedUserData = JSON.parse(storedUserData);
       setUserData(parsedUserData);
-      
     }
   }, []);
   const handleLogout = () => {
     localStorage.removeItem("meraname");
-    localStorage.removeItem("true");
+    localStorage.removeItem("isAgeVerified");
+    localStorage.removeItem("isConfirmed");
     logout();
     toast.success("Logout Successfully", {
       onClose: () => {
@@ -55,14 +55,12 @@ const Profile = () => {
               <img className="profile_img" src={Profile_img} alt="" />
               <img className="status_icon" src={Status_icon} alt="" />
             </div>
-            {userData.user && userData.user.username && (
-              <h5
-                style={{ color: allPath ? "white" : "" }}
-                className="me-2 user_name0 d-none d-lg-block"
-              >
-                {userData.user.username}
-              </h5>
-            )}
+            <h5
+              style={{ color: allPath ? "white" : "" }}
+              className="me-2 user_name0 d-none d-lg-block"
+            >
+              {(userData.user && userData.user.username) || userData.username}
+            </h5>
           </div>
         }
         menuVariant="dark"
