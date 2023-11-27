@@ -90,7 +90,7 @@ const ForgetPass = () => {
       })
       .catch((error) => {
         console.error("Error sending code: ", error);
-        toast.error("Already Added");
+        toast.error("User Not Found");
       })
       .finally(() => {
         // This block will execute regardless of success or error
