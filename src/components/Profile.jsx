@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { NavDropdown, NavLink } from "react-bootstrap";
+import { NavDropdown } from "react-bootstrap";
+
 import "../assets/css/style.css";
 import Profile_img from "../assets/images/profile_img.png";
 import Status_icon from "../assets/icons/status_icon.png";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, NavLink } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import { useAuth } from "../pages/AuthContext";
@@ -21,7 +22,6 @@ const Profile = () => {
     allPath = true;
   }
   const [userData, setUserData] = useState({});
-  console.log(userData.username);
 
   useEffect(() => {
     // Retrieve user data from local storage

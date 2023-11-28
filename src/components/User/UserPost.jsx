@@ -1,20 +1,20 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import girl from "../assets/logo/orange-girl.svg";
-import stars from "../assets/logo/icons/star.svg";
-import dots from "../assets/logo/icons/3dots.svg";
-import avatarImg from "../assets/images/avatarImg.png";
-import likes from "../assets/logo/icons/likes.svg";
-import like_btn from "../assets/icons/like_transparent.svg";
-import greenLeaf from "../assets/icons/greenLeaf.svg";
-import comment_btn from "../assets/logo/icons/commentsvg.svg";
-import share_btn from "../assets/logo/icons/share.svg";
+import girl from "../../assets/logo/orange-girl.svg";
+import stars from "../../assets/logo/icons/star.svg";
+import dots from "../../assets/logo/icons/3dots.svg";
+import avatarImg from "../../assets/images/avatarImg.png";
+import likes from "../../assets/logo/icons/likes.svg";
+import like_btn from "../../assets/icons/like_transparent.svg";
+import greenLeaf from "../../assets/icons/greenLeaf.svg";
+import comment_btn from "../../assets/logo/icons/commentsvg.svg";
+import share_btn from "../../assets/logo/icons/share.svg";
 import { Row, Col, Modal, Form } from "react-bootstrap";
-import status_icon from "../assets/logo/icons/Status_Icon.svg";
+import status_icon from "../../assets/logo/icons/Status_Icon.svg";
 import Moment from "react-moment";
 import { Link } from "react-router-dom";
-import staticImg from "../assets/images/started_img_bg.png";
+import staticImg from "../../assets/images/started_img_bg.png";
 // swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -22,12 +22,12 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
-import PostComments from "./Modal/PostComments";
-import PostReport from "./Modal/PostReport";
-import ImageLoader from "./ImageLoader";
+import PostComments from "../Modal/PostComments";
+import PostReport from "../Modal/PostReport";
+import ImageLoader from "../ImageLoader";
 import { toast } from "react-toastify";
 
-const PostAll = () => {
+const UserPost = () => {
   const [Likes, setShow] = useState(false);
   const Likes_btn_close = () => setShow(false);
   const Likes_btn_open = () => setShow(true);
@@ -115,7 +115,7 @@ const PostAll = () => {
       if (!resultData.token) {
         return;
       }
-      const res = await axios.get(global.BASEURL + "/post/all", {
+      const res = await axios.get(global.BASEURL + "/post/me", {
         headers: {
           "Content-Type": "application/json",
           "x-auth-token": resultData.token,
@@ -132,7 +132,7 @@ const PostAll = () => {
       }
     } catch (error) {
       console.log(error, "error");
-      toast.error(error)
+    toast.error(error)
     }
   };
 
@@ -223,17 +223,6 @@ const PostAll = () => {
               <div className="d-flex justify-content-between mt-3">
                 <Link to={"/users"} className="d-flex align-items-center">
                   <div className="position-relative">
-                    {/* <img
-                      loading="lazy"
-                      alt="avatarImg"
-                      src={
-                        data?.user?.profilePicture
-                          ? global.BASEURL + "/" + data?.user?.profilePicture
-                          : avatarImg
-                      }
-                      className="message-dp"
-                    /> */}
-
                     <ImageLoader
                       circeltrue={true}
                       imageUrl={
@@ -310,13 +299,6 @@ const PostAll = () => {
                         imageUrl={global.BASEURL + "/" + item}
                         onClick={() => comentModal(data, data?._id)}
                       />
-                      {/* <img
-                        loading="lazy"
-                        onClick={() => comentModal(data, data?._id)}
-                        alt=""
-                        src={global.BASEURL + "/" + item}
-                        className="story_img mb-2"
-                      /> */}
                     </SwiperSlide>
                   ))}
                   {data?.video && data.video.length > 0 ? (
@@ -569,4 +551,4 @@ const PostAll = () => {
   );
 };
 
-export default PostAll;
+export default UserPost;

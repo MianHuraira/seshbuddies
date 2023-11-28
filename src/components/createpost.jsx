@@ -4,7 +4,6 @@ import angle_right from "../assets/logo/icons/angle_right.svg";
 import Pinpoint from "../assets/logo/icons/pinpoint.svg";
 import { NavLink, useLocation } from "react-router-dom";
 import { Button, Modal, Form } from "react-bootstrap";
-import FileSelector from "./File_selector";
 import alert_success from "../assets/logo/alert-success.svg";
 import downIcon from "../assets/icons/downIcon.svg";
 import DatePicker from "react-datepicker";
@@ -15,6 +14,7 @@ import "react-datepicker/dist/react-datepicker-cssmodules.css";
 
 import user1 from "../assets/images/user1.png";
 import user2 from "../assets/images/user2.png";
+import CreatePost from "./Modal/CreatePost";
 
 const Createpost = () => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -96,8 +96,12 @@ const Createpost = () => {
   };
 
   const [createpost, setShow] = useState(false);
-  const Post_open = () => setShow(true);
-  const Post_close = () => setShow(false);
+  const Post_open = () => {
+    setShow(true);
+  };
+  const Post_close = () => {
+    setShow(false);
+  };
 
   const [SHMOKE, shmoke] = useState(false);
   const [smokeModal, setSmokeModal] = useState("");
@@ -347,22 +351,6 @@ const Createpost = () => {
       </div>
 
       {/* add new post */}
-      <Modal
-        dialogClassName="rating_modal"
-        show={createpost}
-        onHide={Post_close}
-        centered
-      >
-        <Modal.Header closeButton className="py-3 border-0">
-          <Modal.Title className="fs-16 inter-bold">New Post</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="upload_modal">
-          <FileSelector />
-        </Modal.Body>
-        <Modal.Footer className="border-0">
-          <Button className="btn-primary mt-3">Post</Button>
-        </Modal.Footer>
-      </Modal>
 
       {/* session add modal  */}
       <Modal show={SHMOKE} centered onHide={Shmoke_close} size="md">
@@ -605,6 +593,8 @@ const Createpost = () => {
           </div>
         </Modal.Body>
       </Modal>
+
+      <CreatePost isOpen={createpost} onClose={Post_close} />
     </div>
   );
 };

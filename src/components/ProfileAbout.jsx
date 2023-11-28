@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import angle_right from "../assets/logo/icons/angle_right.svg";
 import help_icon from "../assets/icons/help_icon.png";
@@ -18,7 +19,6 @@ const ProfileAbout = () => {
           <button className="black_text_lg d-flex justify-content-between align-items-center w-100 border-0 bg-transparent mt-2 mb-1">
             <div className="d-flex align-items-center justify-content-center">
               <p className="inter-semi fs-17 my-2 align_center">
-                {" "}
                 <img src={guidlines} alt="" className="sheild me-2" />
                 Community Guidelines
               </p>
@@ -29,7 +29,6 @@ const ProfileAbout = () => {
           <button className="black_text_lg d-flex justify-content-between align-items-center w-100 border-0 bg-transparent mt-2 mb-1">
             <div className="d-flex align-items-center justify-content-center">
               <p className="inter-semi fs-17 my-2 align_center">
-                {" "}
                 <img src={terms} alt="" className="sheild2 me-2" />
                 Terms of Service
               </p>
@@ -40,7 +39,6 @@ const ProfileAbout = () => {
           <button className="black_text_lg d-flex justify-content-between align-items-center w-100 border-0 bg-transparent mt-2 mb-1">
             <div className="d-flex align-items-center justify-content-center">
               <p className="inter-semi fs-17 my-2 align_center">
-                {" "}
                 <img src={privacy_policy} alt="" className="sheild me-2" />
                 Privacy Policy
               </p>
@@ -51,7 +49,6 @@ const ProfileAbout = () => {
           <button className="black_text_lg d-flex justify-content-between align-items-center w-100 border-0 bg-transparent mt-2 mb-1">
             <div className="d-flex align-items-center justify-content-center">
               <p className="inter-semi fs-17 my-2 align_center">
-                {" "}
                 <img src={highlights} alt="" className="sheild me-2" />
                 Privacy Highlights for Teens
               </p>
@@ -62,7 +59,6 @@ const ProfileAbout = () => {
           <button className="black_text_lg d-flex justify-content-between align-items-center w-100 border-0 bg-transparent mt-2 mb-1">
             <div className="d-flex align-items-center justify-content-center">
               <p className="inter-semi fs-17 my-2 align_center">
-                {" "}
                 <img src={copyright} alt="" className="sheild me-2" />
                 Copyright Policy
               </p>

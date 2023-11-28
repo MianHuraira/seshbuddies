@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from "react";
 import backicon from "../assets/logo/icons/arrow_left.svg";
-import avaatar2 from "../assets/icons/nophoto_avatar.png";
+import avaatar2 from "../assets/images/avatarImg.png";
 import comment_full from "../assets/logo/icons/comment_icon_full.svg";
 import angle_down_full from "../assets/logo/icons/angle_down_full.svg";
 import post_wind from "../assets/logo/icons/post_wind.svg";
@@ -13,10 +14,13 @@ import CodeQR from "../assets/icons/code_QR.png";
 import Code from "../assets/icons/qrcode_icon.png";
 import Dashboard from "../assets/icons/dashboard-square-icon.png";
 import Reels_icon from "../assets/icons/reels-icon.png";
-import Copy from "../assets/icons/copy.png";
+
 import Review from "../assets/icons/star_element.png";
-import Pinpoint from "../assets/logo/icons/pinpoint.svg";
+
 import { Button, Modal, Form } from "react-bootstrap";
+import ProfilUpdate from "./Modal/ProfilUpdate";
+import UserPost from "./User/UserPost";
+import CreatePost from "./Modal/CreatePost";
 
 const MyProfile = () => {
   // ___modal bio___
@@ -24,9 +28,14 @@ const MyProfile = () => {
   const BioClose = () => setBio(false);
   const BioOpen = () => setBio(true);
 
-  const [Edit, setProfile] = useState(false);
-  const Profile_open = () => setProfile(true);
-  const Profile_close = () => setProfile(false);
+  const [profile, setProfile] = useState(false);
+
+  const Profile_open = () => {
+    setProfile(true);
+  };
+  const Profile_close = () => {
+    setProfile(false);
+  };
 
   const [QRcode, setQR] = useState(false);
   const QRClose = () => setQR(false);
@@ -40,6 +49,26 @@ const MyProfile = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
+  const [userData, setUserData] = useState({});
+  useEffect(() => {
+    // Retrieve user data from local storage
+    const storedUserData = localStorage.getItem("meraname");
+    if (storedUserData) {
+      // Parse the JSON data
+      const parsedUserData = JSON.parse(storedUserData);
+      setUserData(parsedUserData);
+    }
+  }, []);
+
+  // api update profiel
+  const [createpost, setShow] = useState(false);
+  const Post_open = () => {
+    setShow(true);
+  };
+  const Post_close = () => {
+    setShow(false);
+  };
   return (
     <div>
       <div className="bg-white pt-4 px-4 radius_14">
@@ -47,36 +76,52 @@ const MyProfile = () => {
           <div className="d-flex justify-content-between align-items-center w-100">
             <img src={backicon} alt="" />
             <h1 className="black_text_lg fs-16 ps-5 me-5 inter-bold mx-3">
-              jane.smith
+              {userData?.username || userData?.user?.username}
             </h1>
             <div className="bg-white">
               <button onClick={QROpen} className="border-0 bg-white">
-                {" "}
                 <img src={Code} alt="" className="qrcode" />
               </button>
             </div>
           </div>
           <div className="mt-4 flex-column align_center">
-            <button className="border-0 bg-white">
-              <img src={avaatar2} alt="" className="userPic2 " />
-            </button>
+            <div className="bg-white">
+              <img src={avaatar2} alt="" className="userPic2" />
+            </div>
 
-            <h1 className="black_text_lg inter-bold mt-2 fs-18">@jane.smith</h1>
+            <h1 className="black_text_lg inter-bold mt-2 fs-18">
+              @{userData?.username || userData?.user?.username}
+            </h1>
             <div className="d-flex">
               <div className="align_center flex-column B-right">
                 <button className="border-0 bg-white">
-                  <h1>150</h1>
+                  <h1>
+                    {(userData?.posts || userData?.user?.posts || []).length}
+                  </h1>
+
                   <p>Posts</p>
                 </button>
               </div>
               <div className="align_center flex-column B-right">
                 <button className="bg-white border-0">
-                  <h1>300</h1>
+                  <h1>
+                    {
+                      (userData?.buddies || userData?.user?.buddies || [])
+                        .length
+                    }
+                  </h1>
+
                   <p>Buddies</p>
                 </button>
               </div>
               <div className="align_center flex-column B-right border-0">
-                <h1>50</h1>
+                <h1>
+                  {
+                    (userData?.sessions || userData?.user?.sessions || [])
+                      .length
+                  }
+                </h1>
+
                 <p>Seshsions</p>
               </div>
             </div>
@@ -136,21 +181,25 @@ const MyProfile = () => {
             className={`tab-pane ${activeTab === "tab1" ? "active" : ""}`}
             id="tab1"
           >
-            <div className="align_center flex-column my-5">
-              <img src={Dashboard} alt="" style={{ width: "21px" }} />
-              <h1 className="fs-17 inter-bold mt-3 mb-2">No Posts Yet!</h1>
-              <p className="text-center  m-auto fs-15 w-75">
-                Share your experiences, thoughts, or your favorite strains and
-                start interacting with your buddies!
-              </p>
-              <div className="w-50 d-flex align-items-center justify-content-center mt-3">
-                <Button className="btn-primary w-75">
-                  Create Your First Post
-                </Button>
+            {(userData?.posts || userData?.user?.posts || []).length === 0 ? (
+              <div className="align_center flex-column my-5">
+                <img src={Dashboard} alt="" style={{ width: "21px" }} />
+                <h1 className="fs-17 inter-bold mt-3 mb-2">No Posts Yet!</h1>
+                <p className="text-center m-auto fs-15 w-75">
+                  Share your experiences, thoughts, or your favorite strains and
+                  start interacting with your buddies!
+                </p>
+                <div className="w-50 d-flex align-items-center justify-content-center mt-3">
+                  <Button onClick={Post_open} className="btn-primary w-75">
+                    Create Your First Post
+                  </Button>
+                </div>
               </div>
-            </div>
+            ) : (
+              <UserPost />
+            )}
 
-            <Story />
+           
           </div>
           <div
             className={`tab-pane ${activeTab === "tab2" ? "active" : ""}`}
@@ -270,114 +319,8 @@ const MyProfile = () => {
           </p>
         </Modal.Body>
       </Modal>
-
-      <Modal
-        show={Edit}
-        onHide={Profile_close}
-        centered
-        dialogClassName="edit_profile_modal"
-      >
-        <Modal.Header closeButton className="px-3 py-2 m-0 border-0 Modal_btn">
-          <Modal.Title className="me-auto black_text_lg inter-bold fs-16">
-            Edit profile
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <label className="labelHead00 form-label">Name</label>
-          <Form.Control
-            placeholder="Name"
-            aria-label="Recipient's username"
-            aria-describedby="basic-addon2"
-            className="radius_12 text_area form-control"
-          />
-          <div className="mt-2 d-flex align-items-center">
-            <Form.Group className="w-100">
-              <label className="labelHead00 form-label">Phone Number</label>
-              <Form.Control
-                placeholder="Phone"
-                aria-label="Recipient's username"
-                aria-describedby="basic-addon2"
-                className="radius_12 text_area form-control"
-              />
-            </Form.Group>
-            <Form.Group className="w-100 ms-2">
-              <label className="labelHead00 form-label">Email Address</label>
-              <Form.Control
-                placeholder="Enter Email"
-                aria-label="Recipient's username"
-                aria-describedby="basic-addon2"
-                className="radius_12 text_area form-control"
-              />
-            </Form.Group>
-          </div>
-          <label className="labelHead00 form-label mt-2">Username</label>
-          <Form.Control
-            placeholder="User Name"
-            aria-label="Recipient's username"
-            aria-describedby="basic-addon2"
-            className="radius_12 text_area form-control"
-          />
-          <div className="d-flex mt-2">
-            <p className="black_text_lg fs-16 inter">
-              SESHBUDDIES.io/@SESHBUDDIES
-            </p>
-            <img src={Copy} alt="" className="ms-1" style={{ width: "20px" }} />
-          </div>
-          <p className="cont_edit00 mt-2">
-            Usernames can contain only letters, numbers, underscores, and
-            periods. Changing your username will also change your profile link.
-          </p>
-          <p className="cont_edit00 mt-3">
-            You can change your username once every 30 days.
-          </p>
-          <div className="d-flex align-items-center mt-2">
-            <Form.Group class="w-100">
-              <label className="labelHead00 form-label">Date of birth</label>
-              <Form.Select
-                aria-label="Default select example"
-                className="radius_12 text_area selctClr form-control"
-              >
-                <option>Select</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </Form.Select>
-            </Form.Group>
-
-            <Form.Group className="w-100 ms-2 position-relative">
-              <label className="labelHead00 form-label">Location</label>
-              <Form.Control
-                placeholder="Location"
-                aria-label="Recipient's username"
-                aria-describedby="basic-addon2"
-                className="radius_12 text_area form-control"
-              />
-              <img src={Pinpoint} alt="" className="pinpoint" />
-            </Form.Group>
-          </div>
-          <div className="two_select w-100">
-            <label className="labelHead00 form-label">Bio</label>
-            <Form.Control
-              as="textarea"
-              aria-label="With textarea"
-              rows={5}
-              className="text_area inter"
-            />
-          </div>
-          <div className="two_select w-100">
-            <label className="labelHead00 form-label">URL</label>
-            <Form.Control
-              placeholder="https://"
-              aria-label="Recipient's username"
-              aria-describedby="basic-addon2"
-              className="radius_12 text_area"
-            />
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button className="btn-primary">Save</Button>
-        </Modal.Footer>
-      </Modal>
+      <ProfilUpdate isOpen={profile} onClose={Profile_close} />
+      <CreatePost isOpen={createpost} onClose={Post_close} />
     </div>
   );
 };

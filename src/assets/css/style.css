@@ -1039,11 +1039,16 @@
 
 /* ////////// */
 
-
-.postD{
+.postD {
   color: #606770;
   font-family: "inter-regular";
   font-size: 11px;
+}
+.fileSect00 {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  opacity: 0;
 }
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
@@ -1382,7 +1387,7 @@
   width: 64px;
   height: 64px;
   object-fit: cover;
-  object-position: top;
+  border-radius: 50%;
 }
 .B-right {
   border-right: 1px solid rgba(233, 230, 233, 1);

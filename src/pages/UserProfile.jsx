@@ -7,15 +7,17 @@ import MyProfile from "../components/MyProfile";
 const UserProfile = () => {
   return (
     <div>
-      <Container fluid="xxl">
-        <Row className="w-100 h-100 p-0 pt-4">
+      <Container className="top_padd px-4" fluid="xxl">
+        <Row className="h-100 p-0">
           <Col lg="3" className=" overflow-hidden">
             <ProfileSettings />
           </Col>
-          <Col lg="6" className="main_height no_scrollbar ps-5 overflow-y-auto">
+          <Col  lg="6"
+            md="9"
+            className="main_height no_scrollbar gx-5 overflow-y-auto">
             <MyProfile />
           </Col>
-          <Col lg="3" className=" overflow-hidden">
+          <Col lg="3" className="overflow-hidden d-lg-block d-none">
             <SideMessage />
           </Col>
         </Row>
