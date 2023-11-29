@@ -105,7 +105,7 @@ const PostAll = () => {
       }
     } catch (error) {
       console.log(error, "error");
-      toast.error(error)
+      toast.error(error);
     }
   };
 
@@ -132,7 +132,7 @@ const PostAll = () => {
       }
     } catch (error) {
       console.log(error, "error");
-      toast.error(error)
+      toast.error(error);
     }
   };
 
@@ -162,7 +162,7 @@ const PostAll = () => {
       }
     } catch (error) {
       console.log(error, "error");
-      toast.error(error)
+      toast.error(error);
     } finally {
       getPost();
       setLoading(false);

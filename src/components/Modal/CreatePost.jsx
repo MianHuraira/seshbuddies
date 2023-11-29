@@ -11,6 +11,7 @@ const CreatePost = ({ isOpen, onClose }) => {
   const [resultData, setResultData] = useState({});
   const [text, setText] = useState("");
   const [imagePaths, setImagePaths] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const postTextHandle = (e) => {
     setText(e.target.value);
@@ -35,6 +36,7 @@ const CreatePost = ({ isOpen, onClose }) => {
     });
 
     try {
+      setLoading(true);
       const response = await axios.post(
         global.BASEURL + "/upload/images",
         formData,
@@ -45,6 +47,7 @@ const CreatePost = ({ isOpen, onClose }) => {
           },
         }
       );
+      console.log(response, "ok");
       setImagePaths((prevImagePaths) => [
         ...prevImagePaths,
         response.data.imagePath,
@@ -52,11 +55,21 @@ const CreatePost = ({ isOpen, onClose }) => {
     } catch (error) {
       console.error("Error uploading images:", error);
       toast.error("Error uploading images. Please try again.");
+    } finally {
+      setLoading(false); // Set loading state back to false
     }
   };
 
-  const handleRemove = (file) => {
-    setSelectedFiles(selectedFiles.filter((f) => f !== file));
+  const handleRemove = (index) => {
+    // Remove the file from selectedFiles
+    const newSelectedFiles = [...selectedFiles];
+    newSelectedFiles.splice(index, 1);
+    setSelectedFiles(newSelectedFiles);
+
+    // Remove the corresponding path from imagePaths
+    const newImagePaths = [...imagePaths];
+    newImagePaths.splice(index, 1);
+    setImagePaths(newImagePaths);
   };
 
   const renderMedia = () => {
@@ -69,7 +82,7 @@ const CreatePost = ({ isOpen, onClose }) => {
         <Row>
           {selectedFiles.map((file, index) => (
             <Col key={index} lg={selectedFiles.length === 1 ? 12 : 6}>
-              {renderFile(file)}
+              {renderFile(file, index)}
             </Col>
           ))}
         </Row>
@@ -77,14 +90,13 @@ const CreatePost = ({ isOpen, onClose }) => {
     );
   };
 
-  const renderFile = (file) => {
+  const renderFile = (file, index) => {
     const style = {
       width: "100%",
       height: selectedFiles.length === 1 ? "321px" : "161px",
     };
-
     return (
-      <div className="position-relative">
+      <div className="position-relative" key={index}>
         {file.type.startsWith("image/") ? (
           <img
             className="radius_8 mb-2"
@@ -102,7 +114,7 @@ const CreatePost = ({ isOpen, onClose }) => {
         ) : (
           <p>Unsupported file type.</p>
         )}
-        <span className="btn_close_img" onClick={() => handleRemove(file)}>
+        <span className="btn_close_img" onClick={() => handleRemove(index)}>
           &times;
         </span>
       </div>
@@ -126,6 +138,9 @@ const CreatePost = ({ isOpen, onClose }) => {
     try {
       const formData = new FormData();
       formData.append("text", text);
+      formData.append("location", "lahore");
+      formData.append("lat", "123132");
+      formData.append("lng", "32131232");
 
       imagePaths.forEach((path, index) => {
         formData.append("images", path);
@@ -181,7 +196,12 @@ const CreatePost = ({ isOpen, onClose }) => {
                   Add Photos/Videos
                 </h1>
               </div>
-              <Form.Control multiple onChange={handleChange} type="file" />
+              <Form.Control
+                accept="image/*"
+                multiple
+                onChange={handleChange}
+                type="file"
+              />
             </label>
           </div>
         </Modal.Body>

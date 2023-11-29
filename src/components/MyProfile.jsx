@@ -14,7 +14,7 @@ import CodeQR from "../assets/icons/code_QR.png";
 import Code from "../assets/icons/qrcode_icon.png";
 import Dashboard from "../assets/icons/dashboard-square-icon.png";
 import Reels_icon from "../assets/icons/reels-icon.png";
-
+import { useNavigate } from "react-router-dom";
 import Review from "../assets/icons/star_element.png";
 
 import { Button, Modal, Form } from "react-bootstrap";
@@ -69,12 +69,13 @@ const MyProfile = () => {
   const Post_close = () => {
     setShow(false);
   };
+  const navigate = useNavigate();
   return (
     <div>
       <div className="bg-white pt-4 px-4 radius_14">
         <div className="align_center flex-column">
           <div className="d-flex justify-content-between align-items-center w-100">
-            <img src={backicon} alt="" />
+            <img onClick={() => navigate(-1)} src={backicon} className="cursorP" alt="" />
             <h1 className="black_text_lg fs-16 ps-5 me-5 inter-bold mx-3">
               {userData?.username || userData?.user?.username}
             </h1>
@@ -198,8 +199,6 @@ const MyProfile = () => {
             ) : (
               <UserPost />
             )}
-
-           
           </div>
           <div
             className={`tab-pane ${activeTab === "tab2" ? "active" : ""}`}
