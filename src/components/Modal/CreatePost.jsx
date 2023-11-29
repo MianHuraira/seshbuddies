@@ -10,14 +10,14 @@ const CreatePost = ({ isOpen, onClose }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [resultData, setResultData] = useState({});
   const [text, setText] = useState("");
+  const [imagePaths, setImagePaths] = useState([]);
 
   const postTextHandle = (e) => {
     setText(e.target.value);
   };
-
   const MAX_FILES_LIMIT = 4;
 
-  const handleChange = (event) => {
+  const handleChange = async (event) => {
     const newSelectedFiles = Array.from(event.target.files);
 
     if (selectedFiles.length + newSelectedFiles.length > MAX_FILES_LIMIT) {
@@ -27,7 +27,34 @@ const CreatePost = ({ isOpen, onClose }) => {
     }
 
     setSelectedFiles([...selectedFiles, ...newSelectedFiles]);
+
+    // Trigger API request here
+    const formData = new FormData();
+    newSelectedFiles.forEach((file) => {
+      formData.append("image", file);
+    });
+
+    try {
+      const response = await axios.post(
+        global.BASEURL + "/upload/images",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "x-auth-token": resultData.token,
+          },
+        }
+      );
+      setImagePaths((prevImagePaths) => [
+        ...prevImagePaths,
+        response.data.imagePath,
+      ]);
+    } catch (error) {
+      console.error("Error uploading images:", error);
+      toast.error("Error uploading images. Please try again.");
+    }
   };
+
   const handleRemove = (file) => {
     setSelectedFiles(selectedFiles.filter((f) => f !== file));
   };
@@ -97,22 +124,13 @@ const CreatePost = ({ isOpen, onClose }) => {
 
   const createPost = async () => {
     try {
-      // Create FormData object
       const formData = new FormData();
-
-      // Append text to FormData
       formData.append("text", text);
 
-      // Append each selected file to FormData
-      selectedFiles.forEach((file, index) => {
-        formData.append(`images`, file);
-        console.log(file);
+      imagePaths.forEach((path, index) => {
+        formData.append("images", path);
       });
-      // formData.append("location", "lahore");
-      // formData.append("lat", "123132");
-      // formData.append("lng", "32131232");
-      console.log(formData);
-      // Send POST request to your API
+
       const response = await axios.post(
         global.BASEURL + "/post/create",
         formData,
@@ -124,15 +142,13 @@ const CreatePost = ({ isOpen, onClose }) => {
         }
       );
 
-      console.log("Response from the server:", response.data);
-
-      // Optionally, do something with the response from the server
+      toast.success(response.data.message);
     } catch (error) {
       console.error("Error creating post:", error);
-      // Handle the error as needed
+      toast.error("Error creating post. Please try again.");
     }
 
-    // onClose();
+    onClose();
   };
 
   return (
