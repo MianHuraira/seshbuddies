@@ -53,8 +53,7 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
         // Handle success
         login();
         setIsConfirmed(true);
-
-        localStorage.setItem("meraname", JSON.stringify(dataToSend));
+        localStorage.setItem("meraname", JSON.stringify(res.data));
         localStorage.setItem("isConfirmed", true);
 
         // Show success toast

@@ -1,27 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Col, Container, Modal, Row } from "react-bootstrap";
-import Createpost from "../components/createpost";
-import SideMessage from "../components/side_message";
-import backicon from "../assets/logo/icons/arrow_left.svg";
-import bellIcon from "../assets/logo/icons/bell_icon.svg";
-import dots from "../assets/logo/icons/3dots.svg";
-import avaatar2 from "../assets/logo/Avatar2.svg";
-import comment_full from "../assets/logo/icons/comment_icon_full.svg";
-import angle_down_full from "../assets/logo/icons/angle_down_full.svg";
-import clip from "../assets/logo/icons/clip.svg";
-import post_wind from "../assets/logo/icons/post_wind.svg";
-import video from "../assets/logo/icons/video.svg";
-import star_element from "../assets/logo/icons/star_element.svg";
-import Story from "../components/PostAll";
-import Reels from "../components/Reels";
-import Ratings from "../components/Ratings";
-import girl from "../assets/logo/orange-girl.svg";
-import stars from "../assets/logo/icons/star.svg";
-import CloseIcon from "../assets/logo/closeLight.svg";
-// import Story from '../components/Story';
-import AngleRight from "../assets/logo/icons/angle_right.svg";
-import Info from "../assets/logo/info_icon.svg";
+
+import SideMessage from "../side_message";
+import backicon from "../../assets/logo/icons/arrow_left.svg";
+import bellIcon from "../../assets/logo/icons/bell_icon.svg";
+import dots from "../../assets/logo/icons/3dots.svg";
+import avaatar2 from "../../assets/logo/Avatar2.svg";
+import comment_full from "../../assets/logo/icons/comment_icon_full.svg";
+import angle_down_full from "../../assets/logo/icons/angle_down_full.svg";
+import clip from "../../assets/logo/icons/clip.svg";
+import post_wind from "../../assets/logo/icons/post_wind.svg";
+import video from "../../assets/logo/icons/video.svg";
+import star_element from "../../assets/logo/icons/star_element.svg";
+import Story from "../PostAll";
+import Reels from "../Reels";
+import Ratings from "../Ratings";
+import girl from "../../assets/logo/orange-girl.svg";
+import stars from "../../assets/logo/icons/star.svg";
+import CloseIcon from "../../assets/logo/closeLight.svg";
+import AngleRight from "../../assets/logo/icons/angle_right.svg";
+import Info from "../../assets/logo/info_icon.svg";
+import Createpost from "../createpost";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 const Users = () => {
+  const { userId } = useParams();
+  const [resultData, setResultData] = useState({});
   // ___modal___
   const [LiveNoti, ShowNotification] = useState(false);
   const Notificationpen = () => ShowNotification(true);
@@ -41,6 +45,39 @@ const Users = () => {
   const handleModalClick = (tab) => {
     setActiveModalTab(tab);
   };
+  const navigate = useNavigate();
+
+  // api get user post anda data
+
+  useEffect(() => {
+    GetData();
+    // Retrieve user data from local storage
+    const storedUserData = localStorage.getItem("meraname");
+  
+    if (storedUserData) {
+      // Parse the JSON data
+      const parsedUserData = JSON.parse(storedUserData);
+      setResultData(parsedUserData);
+    }
+  }, []);
+  
+  const GetData = async () => {
+    try {
+      const res = await axios.get (
+        global.BASEURL + `/users/other-users/${userId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": resultData.token,
+          },
+        }
+      );
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
   return (
     <div>
       <Container className="top_padd" fluid="xxl">
@@ -49,11 +86,16 @@ const Users = () => {
             <Createpost />
           </Col>
 
-          <Col lg="6  " className="main_height no_scrollbar overflow-y-auto">
+          <Col lg="6" className="main_height no_scrollbar overflow-y-auto">
             <div className="bg-white pt-4 px-4 radius_12">
               <div className="align_center flex-column">
                 <div className="d-flex justify-content-between align-items-center w-100">
-                  <img src={backicon} alt="" />
+                  <img
+                    onClick={() => navigate(-1)}
+                    className="cursorP"
+                    src={backicon}
+                    alt=""
+                  />
                   <h1 className="black_text_lg fs-16 ps-5 inter-bold mx-3">
                     jane.smith
                   </h1>

@@ -47,7 +47,6 @@ const CreatePost = ({ isOpen, onClose }) => {
           },
         }
       );
-      console.log(response, "ok");
       setImagePaths((prevImagePaths) => [
         ...prevImagePaths,
         response.data.imagePath,

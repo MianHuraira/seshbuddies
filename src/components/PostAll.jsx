@@ -221,19 +221,11 @@ const PostAll = () => {
           <div className="bg-white mt-3 radius_12 mb-4 overflow-hidden">
             <div className="px-3">
               <div className="d-flex justify-content-between mt-3">
-                <Link to={"/users"} className="d-flex align-items-center">
+                <Link
+                   to={`/users/${data?._id}`}
+                  className="d-flex align-items-center"
+                >
                   <div className="position-relative">
-                    {/* <img
-                      loading="lazy"
-                      alt="avatarImg"
-                      src={
-                        data?.user?.profilePicture
-                          ? global.BASEURL + "/" + data?.user?.profilePicture
-                          : avatarImg
-                      }
-                      className="message-dp"
-                    /> */}
-
                     <ImageLoader
                       circeltrue={true}
                       imageUrl={

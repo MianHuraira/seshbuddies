@@ -7,7 +7,7 @@ const NotFound = lazy(() => import("../pages/PageNoteFound"));
 const Profile = lazy(() => import("../pages/UserProfile"));
 const StartUp = lazy(() => import("../pages/StartUp"));
 const Home = lazy(() => import("../pages/Home"));
-const Users = lazy(() => import("../pages/Users"));
+const Users = lazy(() => import("../components/User/Users"));
 const YourBuddies = lazy(() => import("../pages/YourBuddies"));
 const Login = lazy(() => import("../pages/Registration/Login"));
 const Age = lazy(() => import("../pages/Registration/AgeVarification"));
@@ -27,7 +27,6 @@ const AcountNotification = lazy(() => import("../pages/AcountNotification"));
 const AcountSuport = lazy(() => import("../pages/AcountSuport"));
 const AcountAbout = lazy(() => import("../pages/AcountAbout"));
 const ForgetPass = lazy(() => import("../pages/Registration/ForgetPass"));
-
 
 // for test
 
@@ -57,7 +56,7 @@ const Router = () => {
           element: isAuthenticated ? <Home /> : <Navigate to="/" />,
         },
         {
-          path: "/users",
+          path: "/users/:userId",
           element: isAuthenticated ? <Users /> : <Navigate to="/" />,
         },
         {

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import "../assets/css/style.css";
 import Row from "react-bootstrap/Row";
@@ -47,7 +48,7 @@ const Home = () => {
         </Row>
       </Container>
       {/* ---modal--- */}
-      <Modal
+      {/* <Modal
         show={show}
         onHide={handleClose}
         size="lg"
@@ -68,7 +69,7 @@ const Home = () => {
             </Col>
           </Row>
         </Modal.Body>
-      </Modal>
+      </Modal> */}
       {/* ___modal end--- */}
     </div>
   );

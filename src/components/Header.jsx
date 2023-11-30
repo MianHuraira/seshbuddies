@@ -16,7 +16,7 @@ import RecentIcon from "../assets/icons/recentIcon.svg";
 import UpLeftArrow from "../assets/icons/upLeftArrow.svg";
 import CrossIcon from "../assets/icons/blackCross.svg";
 import StatusChange from "../assets/icons/StatusChange.svg";
-import Profile from "./Profile";
+import Profile from "./User/HeadProfile";
 
 import RedUpModal  from "./Modal/RedUpModal"
 

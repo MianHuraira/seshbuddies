@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { NavDropdown } from "react-bootstrap";
-
-import "../assets/css/style.css";
-import Profile_img from "../assets/images/profile_img.png";
-import Status_icon from "../assets/icons/status_icon.png";
+import "../../assets/css/style.css";
+import Status_icon from "../../assets/icons/status_icon.png";
 import { useLocation, useNavigate, NavLink } from "react-router-dom";
-
+import Avatar from "../../assets/images/avatarImg.png";
 import { ToastContainer, toast } from "react-toastify";
-import { useAuth } from "../pages/AuthContext";
+import { useAuth } from "../../pages/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
@@ -52,14 +50,28 @@ const Profile = () => {
         title={
           <div className="d-flex align-items-center">
             <div className="me-2 position-relative">
-              <img className="profile_img" src={Profile_img} alt="" />
+              {userData?.user?.profilePicture ? (
+                <img
+                  className="profile_img"
+                  src={global.BASEURL + userData.user.profilePicture}
+                  alt=""
+                />
+              ) : (
+                <img
+                  style={{ border: "1px solid #EAEBF0" }}
+                  className="profile_img"
+                  src={Avatar}
+                  alt=""
+                />
+              )}
+
               <img className="status_icon" src={Status_icon} alt="" />
             </div>
             <h5
               style={{ color: allPath ? "white" : "" }}
               className="me-2 user_name0 d-none d-lg-block"
             >
-              {(userData.user && userData.user.username) || userData.username}
+              {userData?.user?.username}
             </h5>
           </div>
         }
@@ -68,7 +80,9 @@ const Profile = () => {
         align={"end"}
       >
         <NavDropdown.Item>
-          <NavLink to={"/profile"}>Settings</NavLink>
+          <NavLink className={"d-block w-100"} to={"/profile"}>
+            Settings
+          </NavLink>
         </NavDropdown.Item>
         <NavDropdown.Item onClick={handleLogout}>Log Out</NavDropdown.Item>
       </NavDropdown>

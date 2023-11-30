@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import SideMessage from "../components/side_message";
 import ProfileSettings from "../components/ProfileSettings";
-import MyProfile from "../components/MyProfile";
+import MyProfile from "../components/User/MyProfile";
 
 const UserProfile = () => {
   return (
