@@ -84,6 +84,7 @@ const PostAll = () => {
 
   // api get comments
   const getComment = async (idPost) => {
+    console.log(idPost);
     try {
       const resp = await axios.get(
         global.BASEURL + `/comments/all/${idPost}/`,
@@ -122,6 +123,8 @@ const PostAll = () => {
         },
       });
       const resultGet = res.data.posts;
+      console.log(res.data.posts);
+
       setGetData(resultGet);
 
       const finalR = res.data.success;
@@ -222,7 +225,7 @@ const PostAll = () => {
             <div className="px-3">
               <div className="d-flex justify-content-between mt-3">
                 <Link
-                   to={`/users/${data?._id}`}
+                  to={`/users/${data?._id}`}
                   className="d-flex align-items-center"
                 >
                   <div className="position-relative">
@@ -295,41 +298,27 @@ const PostAll = () => {
                   modules={[Pagination]}
                   className="swiper00"
                 >
-                  {data?.images?.map((item, index) => (
+                  {data?.multimedia?.map((item, index) => (
                     <SwiperSlide key={index}>
-                      <ImageLoader
-                        classes={"story_img "}
-                        imageUrl={global.BASEURL + "/" + item}
-                        onClick={() => comentModal(data, data?._id)}
-                      />
-                      {/* <img
-                        loading="lazy"
-                        onClick={() => comentModal(data, data?._id)}
-                        alt=""
-                        src={global.BASEURL + "/" + item}
-                        className="story_img mb-2"
-                      /> */}
+                      {item.type === "image" ? (
+                        <ImageLoader
+                          classes={"story_img"}
+                          imageUrl={global.BASEURL + item.url}
+                          onClick={() => comentModal(data, data?._id)}
+                        />
+                      ) : item.type === "video" ? (
+                        <video
+                          controls
+                          onClick={() => comentModal(data, data?._id)}
+                          className="story_img mb-2"
+                          src={global.BASEURL + item.url}
+                        />
+                      ) : <ImageLoader
+                      classes={"story_img"}
+                      imageUrl={staticImg}
+                    />}
                     </SwiperSlide>
                   ))}
-                  {data?.video && data.video.length > 0 ? (
-                    <SwiperSlide>
-                      <video
-                        controls
-                        onClick={() => comentModal(data)}
-                        className="story_img mb-2"
-                        src={global.BASEURL + data?.video}
-                      />
-                    </SwiperSlide>
-                  ) : data?.images && data.images.length === 0 ? (
-                    <SwiperSlide>
-                      <img
-                        onClick={() => comentModal(data)}
-                        alt=""
-                        src={staticImg}
-                        className="story_img mb-2"
-                      />
-                    </SwiperSlide>
-                  ) : null}
                 </Swiper>
 
                 <div className="d-flex justify-content-between pb-1 mt-2">

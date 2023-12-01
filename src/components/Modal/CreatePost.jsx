@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Uploadimg from "../../assets/logo/icons/uploadphoto.svg";
 import axios from "axios";
+import Spinner from "react-bootstrap/Spinner";
 
 const CreatePost = ({ isOpen, onClose }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -12,12 +13,11 @@ const CreatePost = ({ isOpen, onClose }) => {
   const [text, setText] = useState("");
   const [imagePaths, setImagePaths] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const postTextHandle = (e) => {
     setText(e.target.value);
   };
   const MAX_FILES_LIMIT = 4;
-
+  console.log(imagePaths);
   const handleChange = async (event) => {
     const newSelectedFiles = Array.from(event.target.files);
 
@@ -29,16 +29,27 @@ const CreatePost = ({ isOpen, onClose }) => {
 
     setSelectedFiles([...selectedFiles, ...newSelectedFiles]);
 
+    // Determine the file type based on file extension
+    const fileType = newSelectedFiles.some((file) =>
+      file.type.startsWith("video/")
+    )
+      ? "video"
+      : "image";
+
     // Trigger API request here
+    const apiEndpoint =
+      fileType === "image" ? "/upload/images" : "/upload/video";
+
     const formData = new FormData();
     newSelectedFiles.forEach((file) => {
-      formData.append("image", file);
+      const fieldName = fileType === "image" ? "image" : "video";
+      formData.append(fieldName, file);
     });
 
     try {
       setLoading(true);
       const response = await axios.post(
-        global.BASEURL + "/upload/images",
+        global.BASEURL + apiEndpoint,
         formData,
         {
           headers: {
@@ -47,13 +58,14 @@ const CreatePost = ({ isOpen, onClose }) => {
           },
         }
       );
+
       setImagePaths((prevImagePaths) => [
         ...prevImagePaths,
         response.data.imagePath,
       ]);
     } catch (error) {
-      console.error("Error uploading images:", error);
-      toast.error("Error uploading images. Please try again.");
+      console.error(`Error uploading ${fileType}:`, error);
+      toast.error(`Error uploading ${fileType}. Please try again.`);
     } finally {
       setLoading(false); // Set loading state back to false
     }
@@ -95,10 +107,26 @@ const CreatePost = ({ isOpen, onClose }) => {
       height: selectedFiles.length === 1 ? "321px" : "161px",
     };
     return (
-      <div className="position-relative" key={index}>
+      <div className="position-relative upMedia00" key={index}>
+        
+        <div className="text-center">
+          <Spinner
+            style={{
+              width: "20px",
+              height: "20px",
+              marginTop: "3px",
+              borderWidth: "0.15em",
+            }}
+            animation="border"
+            role="status"
+          >
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+
         {file.type.startsWith("image/") ? (
           <img
-            className="radius_8 mb-2"
+            className="radius_8"
             style={style}
             src={URL.createObjectURL(file)}
             alt={file.name}
@@ -106,7 +134,7 @@ const CreatePost = ({ isOpen, onClose }) => {
         ) : file.type.startsWith("video/") ? (
           <video
             style={style}
-            className="radius_8 mb-2"
+            className="radius_8"
             src={URL.createObjectURL(file)}
             controls
           />
@@ -135,19 +163,23 @@ const CreatePost = ({ isOpen, onClose }) => {
 
   const createPost = async () => {
     try {
-      const formData = new FormData();
-      formData.append("text", text);
-      formData.append("location", "lahore");
-      formData.append("lat", "123132");
-      formData.append("lng", "32131232");
+      const formData = {
+        text: text,
+        location: "lahore",
+        lat: "123132",
+        lng: "32131232",
+      };
 
-      imagePaths.forEach((path, index) => {
-        formData.append("images", path);
-      });
+      const multimedia = imagePaths.map((path, index) => ({
+        url: path,
+        type: path.includes("/image/") ? "image" : "video",
+      }));
+
+      const apiData = { ...formData, multimedia };
 
       const response = await axios.post(
         global.BASEURL + "/post/create",
-        formData,
+        apiData,
         {
           headers: {
             "Content-Type": "application/json",
@@ -195,12 +227,7 @@ const CreatePost = ({ isOpen, onClose }) => {
                   Add Photos/Videos
                 </h1>
               </div>
-              <Form.Control
-                accept="image/*"
-                multiple
-                onChange={handleChange}
-                type="file"
-              />
+              <Form.Control multiple onChange={handleChange} type="file" />
             </label>
           </div>
         </Modal.Body>

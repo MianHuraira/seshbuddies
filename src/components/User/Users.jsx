@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 
@@ -49,34 +50,32 @@ const Users = () => {
 
   // api get user post anda data
 
-  useEffect(() => {
-    GetData();
-    // Retrieve user data from local storage
-    const storedUserData = localStorage.getItem("meraname");
+  // useEffect(() => {
+  //   GetData()
+  //   const storedUserData = localStorage.getItem("meraname");
   
-    if (storedUserData) {
-      // Parse the JSON data
-      const parsedUserData = JSON.parse(storedUserData);
-      setResultData(parsedUserData);
-    }
-  }, []);
+  //   if (storedUserData) {
+  //     const parsedUserData = JSON.parse(storedUserData);
+  //     setResultData(parsedUserData);
+  //   }
+  // }, []);
   
-  const GetData = async () => {
-    try {
-      const res = await axios.get (
-        global.BASEURL + `/users/other-users/${userId}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": resultData.token,
-          },
-        }
-      );
-      console.log(res);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const GetData = async () => {
+  //   try {
+  //     const res = await axios.get (
+  //       global.BASEURL + `/users/other-users/${userId}`,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           "x-auth-token": resultData.token,
+  //         },
+  //       }
+  //     );
+  //     console.log(res);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   
   return (
     <div>

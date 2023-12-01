@@ -135,17 +135,6 @@ const PostComments = ({
                           }
                           classes={"message-dp"}
                         />
-                        {/* <img
-                          alt=""
-                          src={
-                            postData?.user?.profilePicture
-                              ? global.BASEURL +
-                                "/" +
-                                postData?.user?.profilePicture
-                              : avatarImg
-                          }
-                          className="message-dp"
-                        /> */}
                         <img alt="" src={status_icon} className="status_plus" />
                       </div>
                       <div className="status ms-2">
@@ -206,37 +195,22 @@ const PostComments = ({
                       modules={[Pagination]}
                       className="swiper00"
                     >
-                      {postData?.images?.map((item, index) => (
+                      {postData?.multimedia?.map((item, index) => (
                         <SwiperSlide key={index}>
-                          <ImageLoader
-                            imageUrl={global.BASEURL + "/" + item}
-                            classes={"story_img mb-2"}
-                          />
-                          {/* <img
-                            loading="lazy"
-                            alt=""
-                            src={global.BASEURL + "/" + item}
-                            className="story_img mb-2"
-                          /> */}
+                          {item.type === "image" ? (
+                            <ImageLoader
+                              imageUrl={global.BASEURL + item.url}
+                              classes={"story_img mb-2"}
+                            />
+                          ) : item.type === "video" ? (
+                            <video
+                              controls
+                              className="story_img mb-2"
+                              src={global.BASEURL + item.url}
+                            />
+                          ) : null}
                         </SwiperSlide>
                       ))}
-                      {postData?.video && postData.video.length > 0 ? (
-                        <SwiperSlide>
-                          <video
-                            controls
-                            className="story_img mb-2"
-                            src={global.BASEURL + postData?.video}
-                          />
-                        </SwiperSlide>
-                      ) : postData?.images && postData.images.length === 0 ? (
-                        <SwiperSlide>
-                          <img
-                            alt=""
-                            src={staticImg}
-                            className="story_img mb-2"
-                          />
-                        </SwiperSlide>
-                      ) : null}
                     </Swiper>
                     <div className="d-flex justify-content-between pb-1 mt-2">
                       <div className="d-flex">
