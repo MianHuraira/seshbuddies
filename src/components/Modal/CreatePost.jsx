@@ -12,15 +12,27 @@ const CreatePost = ({ isOpen, onClose }) => {
   const [resultData, setResultData] = useState({});
   const [text, setText] = useState("");
   const [imagePaths, setImagePaths] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [fileLoading, setFileLoading] = useState({});
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
   const postTextHandle = (e) => {
     setText(e.target.value);
   };
+
+  useEffect(() => {
+    if (text.trim() !== "" && selectedFiles.length > 0) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [text, selectedFiles]);
+
   const MAX_FILES_LIMIT = 4;
-  console.log(imagePaths);
+
+  
   const handleChange = async (event) => {
     const newSelectedFiles = Array.from(event.target.files);
-
+    const fileIndex = selectedFiles.length;
     if (selectedFiles.length + newSelectedFiles.length > MAX_FILES_LIMIT) {
       // Display a toast message or handle the exceeding limit as needed
       toast.error(`You can only select up to ${MAX_FILES_LIMIT} files.`);
@@ -47,7 +59,10 @@ const CreatePost = ({ isOpen, onClose }) => {
     });
 
     try {
-      setLoading(true);
+      setFileLoading((prevFileLoading) => ({
+        ...prevFileLoading,
+        [fileIndex]: true, // Spinner shuru ho gaya
+      }));
       const response = await axios.post(
         global.BASEURL + apiEndpoint,
         formData,
@@ -56,6 +71,7 @@ const CreatePost = ({ isOpen, onClose }) => {
             "Content-Type": "multipart/form-data",
             "x-auth-token": resultData.token,
           },
+
         }
       );
 
@@ -63,11 +79,13 @@ const CreatePost = ({ isOpen, onClose }) => {
         ...prevImagePaths,
         response.data.imagePath,
       ]);
+      setFileLoading((prevFileLoading) => ({
+        ...prevFileLoading,
+        [fileIndex]: false, // Spinner band ho gaya
+      }));
     } catch (error) {
       console.error(`Error uploading ${fileType}:`, error);
       toast.error(`Error uploading ${fileType}. Please try again.`);
-    } finally {
-      setLoading(false); // Set loading state back to false
     }
   };
 
@@ -92,7 +110,11 @@ const CreatePost = ({ isOpen, onClose }) => {
       <Container className="imgH00">
         <Row>
           {selectedFiles.map((file, index) => (
-            <Col key={index} lg={selectedFiles.length === 1 ? 12 : 6}>
+            <Col
+              className="mb-2"
+              key={index}
+              lg={selectedFiles.length === 1 ? 12 : 6}
+            >
               {renderFile(file, index)}
             </Col>
           ))}
@@ -106,23 +128,29 @@ const CreatePost = ({ isOpen, onClose }) => {
       width: "100%",
       height: selectedFiles.length === 1 ? "321px" : "161px",
     };
+    const fileIndex = index;
     return (
-      <div className="position-relative upMedia00" key={index}>
-        
-        <div className="text-center">
-          <Spinner
-            style={{
-              width: "20px",
-              height: "20px",
-              marginTop: "3px",
-              borderWidth: "0.15em",
-            }}
-            animation="border"
-            role="status"
-          >
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
+      <div
+        className="position-relative upMedia00"
+        style={{ color: "white" }}
+        key={index}
+      >
+        {fileLoading[fileIndex] && (
+          <div className="text-center center_sp">
+            <Spinner
+              style={{
+                width: "20px",
+                height: "20px",
+                marginTop: "3px",
+                borderWidth: "0.15em",
+              }}
+              animation="border"
+              role="status"
+            >
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
+        )}
 
         {file.type.startsWith("image/") ? (
           <img
@@ -232,7 +260,11 @@ const CreatePost = ({ isOpen, onClose }) => {
           </div>
         </Modal.Body>
         <Modal.Footer className="border-0">
-          <Button onClick={createPost} className="btn-primary mt-3">
+          <Button
+            disabled={isButtonDisabled}
+            onClick={createPost}
+            className="btn-primary mt-3"
+          >
             Post
           </Button>
         </Modal.Footer>

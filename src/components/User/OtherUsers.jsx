@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Button, Col, Container, Modal, Row } from "react-bootstrap";
-
+import clipboardCopy from "clipboard-copy";
 import SideMessage from "../side_message";
 import backicon from "../../assets/logo/icons/arrow_left.svg";
 import bellIcon from "../../assets/logo/icons/bell_icon.svg";
@@ -9,6 +10,7 @@ import dots from "../../assets/logo/icons/3dots.svg";
 import avaatar2 from "../../assets/logo/Avatar2.svg";
 import comment_full from "../../assets/logo/icons/comment_icon_full.svg";
 import angle_down_full from "../../assets/logo/icons/angle_down_full.svg";
+import avatarImg from "../../assets/images/avatarImg.png";
 import clip from "../../assets/logo/icons/clip.svg";
 import post_wind from "../../assets/logo/icons/post_wind.svg";
 import video from "../../assets/logo/icons/video.svg";
@@ -24,9 +26,15 @@ import Info from "../../assets/logo/info_icon.svg";
 import Createpost from "../createpost";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-const Users = () => {
+import ImageLoader from "../ImageLoader";
+import Spinner from "react-bootstrap/Spinner";
+import OtherUserPost from "./OtherUserPost";
+const OtherUsers = () => {
   const { userId } = useParams();
   const [resultData, setResultData] = useState({});
+  const [otherUser, setOtherUser] = useState("");
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true);
   // ___modal___
   const [LiveNoti, ShowNotification] = useState(false);
   const Notificationpen = () => ShowNotification(true);
@@ -49,34 +57,52 @@ const Users = () => {
   const navigate = useNavigate();
 
   // api get user post anda data
+  const GetData = async () => {
+    try {
+      const res = await axios.get(
+        global.BASEURL + `/users/other-users/${userId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": resultData.token,
+          },
+        }
+      );
+      setOtherUser(res.data.user);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  // useEffect(() => {
-  //   GetData()
-  //   const storedUserData = localStorage.getItem("meraname");
-  
-  //   if (storedUserData) {
-  //     const parsedUserData = JSON.parse(storedUserData);
-  //     setResultData(parsedUserData);
-  //   }
-  // }, []);
-  
-  // const GetData = async () => {
-  //   try {
-  //     const res = await axios.get (
-  //       global.BASEURL + `/users/other-users/${userId}`,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "x-auth-token": resultData.token,
-  //         },
-  //       }
-  //     );
-  //     console.log(res);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-  
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("meraname");
+
+    if (storedUserData) {
+      // Parse the JSON data
+      const parsedUserData = JSON.parse(storedUserData);
+
+      if (parsedUserData.token) {
+        // Only call GetData if token is available
+        setToken(parsedUserData.token);
+      }
+
+      setResultData(parsedUserData);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      GetData();
+    }
+  }, [token]);
+
+  const CopyClipHandle = () => {
+    const urlToCopy = otherUser?.url;
+
+    clipboardCopy(urlToCopy);
+  };
+
   return (
     <div>
       <Container className="top_padd" fluid="xxl">
@@ -85,126 +111,153 @@ const Users = () => {
             <Createpost />
           </Col>
 
-          <Col lg="6" className="main_height no_scrollbar overflow-y-auto">
-            <div className="bg-white pt-4 px-4 radius_12">
-              <div className="align_center flex-column">
-                <div className="d-flex justify-content-between align-items-center w-100">
-                  <img
-                    onClick={() => navigate(-1)}
-                    className="cursorP"
-                    src={backicon}
-                    alt=""
-                  />
-                  <h1 className="black_text_lg fs-16 ps-5 inter-bold mx-3">
-                    jane.smith
-                  </h1>
-                  <div className="bg-white">
-                    <button className="border-0 bg-white">
-                      {" "}
-                      <img src={bellIcon} alt="" className="me-4 " />
-                    </button>
-                    <button className="border-0 bg-white">
-                      <img src={dots} alt="" />
-                    </button>
-                  </div>
-                </div>
-                <div className="mt-4 flex-column align_center">
-                  <button
-                    className="border-0 bg-white"
-                    onClick={Notificationpen}
-                  >
-                    <img src={avaatar2} alt="" className="userPic " />
-                  </button>
-
-                  <h1 className="black_text_lg inter-bold mt-2 fs-18">
-                    @jane.smith
-                  </h1>
-                  <div className="d-flex">
-                    <div className="align_center flex-column B-right">
-                      <button className="border-0 bg-white">
-                        <h1 className="">150</h1>
-                        <p>Posts</p>
-                      </button>
-                    </div>
-                    <div className="align_center flex-column B-right">
-                      <button
-                        onClick={handleShow}
-                        className="bg-white border-0"
-                      >
-                        <h1>300</h1>
-                        <p>Buddies</p>
-                      </button>
-                    </div>
-                    <div className="align_center flex-column B-right border-0">
-                      <h1>50</h1>
-                      <p>Seshsions</p>
-                    </div>
-                  </div>
-                  <div className="align_center mt-3">
-                    <button className="follow_modalbtn Likes_active">
-                      Follow
-                    </button>
-                    <img src={comment_full} alt="" className="ms-1" />
-                    <img src={angle_down_full} alt="" className="ms-1" />
-                  </div>
-                </div>
-                <div className="d-flex justify-content-between align-items-center w-100 ">
-                  <div className="d-flex">
-                    <p>Suggested accounts</p>
-                    <img src={Info} alt="" />
-                  </div>
-                  <div className="d-flex">
-                    <p>View all</p>
-                    <img src={AngleRight} alt="" />
-                  </div>
-                </div>
-                {/* <AddBuddies/> */}
-
-                <p className="text-center black_text_lg mt-3">
-                  Cannabis enthusiast. Love to explore new strains and connect
-                  with like minded people.
-                </p>
-                <div className="align_center mt-1 mb-4">
-                  <img src={clip} alt="" />
-                  <p className="inter-bold fs-16 ps-1">hoo.be/isabellalauren</p>
-                </div>
-                <ul
-                  style={{ padding: "4px" }}
-                  className="nav nav-tabs nav-tabs-main mb-4"
+          <Col lg="6" className="main_height no_scrollbar gx-5 overflow-y-auto">
+            {loading ? (
+              <div className="text-center">
+                <Spinner
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                    marginTop: "3px",
+                    borderWidth: "0.15em",
+                  }}
+                  animation="border"
+                  role="status"
                 >
-                  <li className="nav-item nav-item-main">
-                    <button
-                      className={`nav-link ${
-                        activeTab === "tab1" ? "active" : ""
-                      }`}
-                      onClick={() => handleTabClick("tab1")}
-                    >
-                      <img src={post_wind} alt="" />
-                    </button>
-                  </li>
-                  <li className="nav-item nav-item-main">
-                    <button
-                      className={`nav-link ${
-                        activeTab === "tab2" ? "active" : ""
-                      }`}
-                      onClick={() => handleTabClick("tab2")}
-                    >
-                      <img src={video} alt="" />
-                    </button>
-                  </li>
-                  <li className="nav-item nav-item-main">
-                    <button
-                      className={`nav-link ${
-                        activeTab === "tab3" ? "active" : ""
-                      }`}
-                      onClick={() => handleTabClick("tab3")}
-                    >
-                      <img src={star_element} alt="" />
-                    </button>
-                  </li>
-                </ul>
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
               </div>
-            </div>
+            ) : (
+              <div className="bg-white pt-4 px-4 radius_12">
+                <div className="align_center flex-column">
+                  <div className="d-flex justify-content-between align-items-center w-100">
+                    <img
+                      onClick={() => navigate(-1)}
+                      className="cursorP"
+                      src={backicon}
+                      alt=""
+                    />
+                    <h1 className="black_text_lg fs-16 ps-5 inter-bold mx-3">
+                      {otherUser?.username}
+                    </h1>
+                    <div className="bg-white">
+                      <button className="border-0 bg-white">
+                        <img src={bellIcon} alt="" className="me-4 " />
+                      </button>
+                      <button className="border-0 bg-white">
+                        <img src={dots} alt="" />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mt-4 flex-column align_center">
+                    <button
+                      className="border-0 bg-white"
+                      onClick={Notificationpen}
+                    >
+                      <div className="position-relative">
+                        <ImageLoader
+                          circeltrue={true}
+                          imageUrl={
+                            otherUser?.profilePicture
+                              ? global.BASEURL + "/" + otherUser?.profilePicture
+                              : avatarImg
+                          }
+                          classes={"userPic2"}
+                        />
+                      </div>
+                    </button>
+
+                    <h1 className="black_text_lg inter-bold mt-2 fs-18">
+                      @{otherUser?.username}
+                    </h1>
+                    <div className="d-flex">
+                      <div className="align_center flex-column B-right">
+                        <button className="border-0 bg-white">
+                          <h1 className="">
+                            {(otherUser?.posts || []).length}
+                          </h1>
+                          <p>Posts</p>
+                        </button>
+                      </div>
+                      <div className="align_center flex-column B-right">
+                        <button
+                          onClick={handleShow}
+                          className="bg-white border-0"
+                        >
+                          <h1>{(otherUser?.buddies || []).length}</h1>
+                          <p>Buddies</p>
+                        </button>
+                      </div>
+                      <div className="align_center flex-column B-right border-0">
+                        <h1>{(otherUser?.sessions || []).length}</h1>
+                        <p>Seshsions</p>
+                      </div>
+                    </div>
+                    <div className="align_center mt-3">
+                      <button className="follow_modalbtn Likes_active">
+                        Follow
+                      </button>
+                      <img src={comment_full} alt="" className="ms-1" />
+                      <img src={angle_down_full} alt="" className="ms-1" />
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center w-100 ">
+                    <div className="d-flex">
+                      <p>Suggested accounts</p>
+                      <img src={Info} alt="" />
+                    </div>
+                    <div className="d-flex">
+                      <p>View all</p>
+                      <img src={AngleRight} alt="" />
+                    </div>
+                  </div>
+                  {/* <AddBuddies/> */}
+
+                  <p className="text-center black_text_lg mt-3">
+                    {otherUser?.bio}
+                  </p>
+                  <div className="align_center mt-1 mb-4">
+                    <img onClick={CopyClipHandle} className="cursorP" src={clip} alt="" />
+                    <p className="inter-bold fs-16 ps-1">{otherUser?.url}</p>
+                  </div>
+                  <ul
+                    style={{ padding: "4px" }}
+                    className="nav nav-tabs nav-tabs-main mb-4"
+                  >
+                    <li className="nav-item nav-item-main">
+                      <button
+                        className={`nav-link ${
+                          activeTab === "tab1" ? "active" : ""
+                        }`}
+                        onClick={() => handleTabClick("tab1")}
+                      >
+                        <img src={post_wind} alt="" />
+                      </button>
+                    </li>
+                    <li className="nav-item nav-item-main">
+                      <button
+                        className={`nav-link ${
+                          activeTab === "tab2" ? "active" : ""
+                        }`}
+                        onClick={() => handleTabClick("tab2")}
+                      >
+                        <img src={video} alt="" />
+                      </button>
+                    </li>
+                    <li className="nav-item nav-item-main">
+                      <button
+                        className={`nav-link ${
+                          activeTab === "tab3" ? "active" : ""
+                        }`}
+                        onClick={() => handleTabClick("tab3")}
+                      >
+                        <img src={star_element} alt="" />
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            )}
 
             <div className="mt-4">
               <div className="tab-content mt-2">
@@ -212,7 +265,7 @@ const Users = () => {
                   className={`tab-pane ${activeTab === "tab1" ? "active" : ""}`}
                   id="tab1"
                 >
-                  <Story />
+                  <OtherUserPost />
                 </div>
                 <div
                   className={`tab-pane ${activeTab === "tab2" ? "active" : ""}`}
@@ -230,8 +283,7 @@ const Users = () => {
             </div>
           </Col>
           <Col lg="3" className=" overflow-hidden">
-            {" "}
-            <SideMessage />{" "}
+            <SideMessage />
           </Col>
         </Row>
       </Container>
@@ -575,4 +627,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default OtherUsers;

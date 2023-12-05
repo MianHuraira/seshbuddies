@@ -13,7 +13,7 @@ import share_btn from "../../assets/logo/icons/share.svg";
 import { Row, Col, Modal, Form } from "react-bootstrap";
 import status_icon from "../../assets/logo/icons/Status_Icon.svg";
 import Moment from "react-moment";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import staticImg from "../../assets/images/started_img_bg.png";
 // swiper
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -27,7 +27,8 @@ import PostReport from "../Modal/PostReport";
 import ImageLoader from "../ImageLoader";
 import { toast } from "react-toastify";
 
-const UserPost = () => {
+const OtherUserPost = () => {
+  const { userId } = useParams();
   const [Likes, setShow] = useState(false);
   const Likes_btn_close = () => setShow(false);
   const Likes_btn_open = () => setShow(true);
@@ -115,12 +116,13 @@ const UserPost = () => {
       if (!resultData.token) {
         return;
       }
-      const res = await axios.get(global.BASEURL + "/post/me", {
+      const res = await axios.get(global.BASEURL + `/post/users/${userId}`, {
         headers: {
           "Content-Type": "application/json",
           "x-auth-token": resultData.token,
         },
       });
+      console.log("ok", res.data.posts);
       const resultGet = res.data.posts;
       setGetData(resultGet);
 
@@ -201,185 +203,160 @@ const UserPost = () => {
 
   return (
     <>
-      {loading ? (
-        <div className="text-center">
-          <Spinner
-            style={{
-              width: "20px",
-              height: "20px",
-              marginTop: "3px",
-              borderWidth: "0.15em",
-            }}
-            animation="border"
-            role="status"
-          >
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
-      ) : (
-        getData.map((data, index) => (
-          <div className="bg-white mt-3 radius_12 mb-4 overflow-hidden">
-            <div className="px-3">
-              <div className="d-flex justify-content-between mt-3">
-                <Link to={"/users"} className="d-flex align-items-center">
-                  <div className="position-relative">
-                    <ImageLoader
-                      circeltrue={true}
-                      imageUrl={
-                        data?.user?.profilePicture
-                          ? global.BASEURL + "/" + data?.user?.profilePicture
-                          : avatarImg
-                      }
-                      classes={"message-dp"}
-                    />
+      {getData.map((data, index) => (
+        <div className="bg-white mt-3 radius_12 mb-4 overflow-hidden">
+          <div className="px-3">
+            <div className="d-flex justify-content-between mt-3">
+              <Link to={"/users"} className="d-flex align-items-center">
+                <div className="position-relative">
+                  <ImageLoader
+                    circeltrue={true}
+                    imageUrl={
+                      data?.user?.profilePicture
+                        ? global.BASEURL + "/" + data?.user?.profilePicture
+                        : avatarImg
+                    }
+                    classes={"message-dp"}
+                  />
 
-                    <img alt="" src={status_icon} className="status_plus" />
-                  </div>
-                  <div className="status ms-2">
-                    <p
-                      style={{ color: "#252525" }}
-                      className="inter-semi fs-15"
-                    >
-                      {data?.user?.username}
+                  <img alt="" src={status_icon} className="status_plus" />
+                </div>
+                <div className="status ms-2">
+                  <p style={{ color: "#252525" }} className="inter-semi fs-15">
+                    {data?.user?.username}
+                  </p>
+                  <h1 className="fs-14 align_center green-txt inter">
+                    {data?.location?.location} {<span>.</span>}
+                    <p className="ms-1 black_text_md inter-light ">
+                      <Moment fromNow>{data?.createdAt}</Moment>
                     </p>
-                    <h1 className="fs-14 align_center green-txt inter">
-                      {data?.location?.location} {<span>.</span>}
-                      <p className="ms-1 black_text_md inter-light ">
-                        <Moment fromNow>{data?.createdAt}</Moment>
-                      </p>
-                    </h1>
-                  </div>
-                </Link>
+                  </h1>
+                </div>
+              </Link>
 
-                <div className="d-flex justify-content-center align-items-center">
-                  <div className="d-flex align-items-start me-3 justify-content-center">
-                    <img alt="" src={stars} className="rating-star" />
-                    <h1 className="black_text_md_bold ms-1">
-                      {data?.user.rating}
-                      <button
-                        className="border-0 bg-transparent"
-                        onClick={reportOpenModal}
-                      >
-                        <img alt="" src={dots} className="ms-2" s />
-                      </button>
-                    </h1>
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex justify-content-evenly mt-3">
-                <div className="d-flex desc align-items-center justify-content-center">
-                  <img alt="" src={stars} className="inter rating-star" />
-                  <p className="ms-1 inter fs-11">Quality</p>
-                  <p className="ms-1 green-txt inter fs-11">4.9</p>
-                </div>
-                <div className="d-flex desc align-items-center justify-content-center">
-                  <img alt="" src={stars} className="inter rating-star" />
-                  <p className="ms-1 inter fs-11">Quality</p>
-                  <p className="ms-1 green-txt inter fs-11">4.5</p>
-                </div>
-                <div className="d-flex desc align-items-center justify-content-center">
-                  <img alt="" src={stars} className="inter rating-star" />
-                  <p className="ms-1 inter fs-11">Rollies</p>
-                  <p className="ms-1 green-txt inter fs-11">4.0</p>
-                </div>
-              </div>
-              <p key={index} className="black_text_md mt-2 ms-1">
-                {processText(data?.text)}
-              </p>
-              <div className="m-auto mt-2">
-                <Swiper
-                  pagination={true}
-                  modules={[Pagination]}
-                  className="swiper00"
-                >
-                  {data?.multimedia?.map((item, index) => (
-                    <SwiperSlide key={index}>
-                      {item.type === "image" ? (
-                        <ImageLoader
-                          classes={"story_img"}
-                          imageUrl={global.BASEURL + item.url}
-                          onClick={() => comentModal(data, data?._id)}
-                        />
-                      ) : item.type === "video" ? (
-                        <video
-                          controls
-                          onClick={() => comentModal(data, data?._id)}
-                          className="story_img mb-2"
-                          src={global.BASEURL + item.url}
-                        />
-                      ) : (
-                        <ImageLoader
-                          classes={"story_img"}
-                          imageUrl={staticImg}
-                        />
-                      )}
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-
-                <div className="d-flex justify-content-between pb-1 mt-2">
-                  <div className="d-flex">
-                    <p
-                      onClick={Likes_btn_open}
-                      className="inherit black_text_md cursorP align_center"
+              <div className="d-flex justify-content-center align-items-center">
+                <div className="d-flex align-items-start me-3 justify-content-center">
+                  <img alt="" src={stars} className="rating-star" />
+                  <h1 className="black_text_md_bold ms-1">
+                    {data?.user.rating}
+                    <button
+                      className="border-0 bg-transparent"
+                      onClick={reportOpenModal}
                     >
-                      <img alt="" src={likes} className="ms-2 me-1" />
-                      <h5 className="postD">{data?.TotalLikes}</h5>
-                    </p>
-                  </div>
-                  <div className="d-flex">
-                    <p className="me-2 postD">{data?.comments} Comments</p>
-                    <p className="me-2 postD">{data?.shares} Shares</p>
-                    <p className="me-2 postD">{data?.views} Views</p>
-                  </div>
+                      <img alt="" src={dots} className="ms-2" s />
+                    </button>
+                  </h1>
                 </div>
               </div>
             </div>
-            <Row className="w-100 h-100 p-0 border-top m-auto">
-              <Col lg="4" sm="4" xs="4" className="like_btn">
-                <div
-                  onClick={() => handleLike(data?._id)}
-                  className="bg-white cursorP d-flex align-items-center justify-content-center"
-                >
-                  <img
-                    style={{ width: "20px", height: "20px" }}
-                    alt=""
-                    src={
-                      likedPosts[data?._id] || data?.likes
-                        ? greenLeaf
-                        : like_btn
-                    }
-                    className="me-2"
-                  />
-                  Like
-                </div>
-              </Col>
-
-              <Col
-                onClick={() => comentModal(data, data?._id)}
-                lg="4"
-                sm="4"
-                xs="4"
-                className="like_btn"
+            <div className="d-flex justify-content-evenly mt-3">
+              <div className="d-flex desc align-items-center justify-content-center">
+                <img alt="" src={stars} className="inter rating-star" />
+                <p className="ms-1 inter fs-11">Quality</p>
+                <p className="ms-1 green-txt inter fs-11">4.9</p>
+              </div>
+              <div className="d-flex desc align-items-center justify-content-center">
+                <img alt="" src={stars} className="inter rating-star" />
+                <p className="ms-1 inter fs-11">Quality</p>
+                <p className="ms-1 green-txt inter fs-11">4.5</p>
+              </div>
+              <div className="d-flex desc align-items-center justify-content-center">
+                <img alt="" src={stars} className="inter rating-star" />
+                <p className="ms-1 inter fs-11">Rollies</p>
+                <p className="ms-1 green-txt inter fs-11">4.0</p>
+              </div>
+            </div>
+            <p key={index} className="black_text_md mt-2 ms-1">
+              {processText(data?.text)}
+            </p>
+            <div className="m-auto mt-2">
+              <Swiper
+                pagination={true}
+                modules={[Pagination]}
+                className="swiper00"
               >
-                <div className="bg-white cursorP d-flex align-items-center justify-content-center">
-                  <img alt="" src={comment_btn} className="me-2" />
-                  Comment
+                {data?.multimedia?.map((item, index) => (
+                  <SwiperSlide key={index}>
+                    {item.type === "image" ? (
+                      <ImageLoader
+                        classes={"story_img"}
+                        imageUrl={global.BASEURL + item.url}
+                        onClick={() => comentModal(data, data?._id)}
+                      />
+                    ) : item.type === "video" ? (
+                      <video
+                        controls
+                        onClick={() => comentModal(data, data?._id)}
+                        className="story_img mb-2"
+                        src={global.BASEURL + item.url}
+                      />
+                    ) : (
+                      <ImageLoader classes={"story_img"} imageUrl={staticImg} />
+                    )}
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+
+              <div className="d-flex justify-content-between pb-1 mt-2">
+                <div className="d-flex">
+                  <p
+                    onClick={Likes_btn_open}
+                    className="inherit black_text_md cursorP align_center"
+                  >
+                    <img alt="" src={likes} className="ms-2 me-1" />
+                    <h5 className="postD">{data?.TotalLikes}</h5>
+                  </p>
                 </div>
-              </Col>
-
-              {/* PostComments */}
-
-              <Col lg="4" sm="4" xs="4" className="like_btn border-0">
-                <button className="bg-white cursorP d-flex align-items-center justify-content-center">
-                  <img alt="" src={share_btn} className="me-2" />
-                  Share
-                </button>
-              </Col>
-            </Row>
+                <div className="d-flex">
+                  <p className="me-2 postD">{data?.comments} Comments</p>
+                  <p className="me-2 postD">{data?.shares} Shares</p>
+                  <p className="me-2 postD">{data?.views} Views</p>
+                </div>
+              </div>
+            </div>
           </div>
-        ))
-      )}
+          <Row className="w-100 h-100 p-0 border-top m-auto">
+            <Col lg="4" sm="4" xs="4" className="like_btn">
+              <div
+                onClick={() => handleLike(data?._id)}
+                className="bg-white cursorP d-flex align-items-center justify-content-center"
+              >
+                <img
+                  style={{ width: "20px", height: "20px" }}
+                  alt=""
+                  src={
+                    likedPosts[data?._id] || data?.likes ? greenLeaf : like_btn
+                  }
+                  className="me-2"
+                />
+                Like
+              </div>
+            </Col>
+
+            <Col
+              onClick={() => comentModal(data, data?._id)}
+              lg="4"
+              sm="4"
+              xs="4"
+              className="like_btn"
+            >
+              <div className="bg-white cursorP d-flex align-items-center justify-content-center">
+                <img alt="" src={comment_btn} className="me-2" />
+                Comment
+              </div>
+            </Col>
+
+            {/* PostComments */}
+
+            <Col lg="4" sm="4" xs="4" className="like_btn border-0">
+              <button className="bg-white cursorP d-flex align-items-center justify-content-center">
+                <img alt="" src={share_btn} className="me-2" />
+                Share
+              </button>
+            </Col>
+          </Row>
+        </div>
+      ))}
 
       {/* post coment modal */}
 
@@ -546,4 +523,4 @@ const UserPost = () => {
   );
 };
 
-export default UserPost;
+export default OtherUserPost;

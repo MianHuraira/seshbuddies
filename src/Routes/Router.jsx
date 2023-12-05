@@ -7,7 +7,7 @@ const NotFound = lazy(() => import("../pages/PageNoteFound"));
 const Profile = lazy(() => import("../pages/UserProfile"));
 const StartUp = lazy(() => import("../pages/StartUp"));
 const Home = lazy(() => import("../pages/Home"));
-const Users = lazy(() => import("../components/User/Users"));
+const Users = lazy(() => import("../components/User/OtherUsers"));
 const YourBuddies = lazy(() => import("../pages/YourBuddies"));
 const Login = lazy(() => import("../pages/Registration/Login"));
 const Age = lazy(() => import("../pages/Registration/AgeVarification"));

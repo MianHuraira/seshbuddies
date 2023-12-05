@@ -1051,20 +1051,31 @@
   height: 64px;
   opacity: 0;
 }
-.bio00{
+.bio00 {
   color: #000000;
   font-family: "inter-regular";
   font-size: 12px;
 }
-.url00{
+.url00 {
   color: #000000;
   font-family: "inter-bold";
   font-size: 16px;
 }
-.upMedia00{
+.upMedia00 {
   background-color: #000000;
   border-radius: 8px;
   height: 100%;
+}
+.imgB {
+  border: 1px solid rgb(234, 235, 240);
+}
+.center_sp {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 

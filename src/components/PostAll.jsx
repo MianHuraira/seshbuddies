@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import girl from "../assets/logo/orange-girl.svg";
+
 import stars from "../assets/logo/icons/star.svg";
 import dots from "../assets/logo/icons/3dots.svg";
 import avatarImg from "../assets/images/avatarImg.png";
@@ -26,13 +26,11 @@ import PostComments from "./Modal/PostComments";
 import PostReport from "./Modal/PostReport";
 import ImageLoader from "./ImageLoader";
 import { toast } from "react-toastify";
-
+import PostLikesUser from "../components/Modal/PostLikesUser";
 const PostAll = () => {
-  const [Likes, setShow] = useState(false);
-  const Likes_btn_close = () => setShow(false);
-  const Likes_btn_open = () => setShow(true);
+  const [likeModalShow, setLikeModalShow] = useState(false);
+  const [postId, stePostId] = useState("");
   const [likedPosts, setLikedPosts] = useState({});
-  const [follow, setFollow] = useState(false);
   const [getData, setGetData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [commentLoad, setCommentLoad] = useState(true);
@@ -41,6 +39,15 @@ const PostAll = () => {
   const [postData, setPostData] = useState(null);
   const [resultData, setResultData] = useState({});
   const [commentGet, setCommentGet] = useState([]);
+
+  const likesModalShow = (postId) => {
+    setLikeModalShow(true);
+    stePostId(postId);
+  };
+
+  const likesModalClose = () => {
+    setLikeModalShow(false);
+  };
 
   // report modal
   const reportOpenModal = () => {
@@ -52,12 +59,6 @@ const PostAll = () => {
   };
 
   // follow status
-  const folloStatus = (key) => {
-    setFollow((prevState) => ({
-      ...prevState,
-      [key]: !prevState[key],
-    }));
-  };
 
   // post modal
   const comentModal = (postData, id) => {
@@ -84,7 +85,6 @@ const PostAll = () => {
 
   // api get comments
   const getComment = async (idPost) => {
-    console.log(idPost);
     try {
       const resp = await axios.get(
         global.BASEURL + `/comments/all/${idPost}/`,
@@ -123,7 +123,6 @@ const PostAll = () => {
         },
       });
       const resultGet = res.data.posts;
-      console.log(res.data.posts);
 
       setGetData(resultGet);
 
@@ -225,7 +224,7 @@ const PostAll = () => {
             <div className="px-3">
               <div className="d-flex justify-content-between mt-3">
                 <Link
-                  to={`/users/${data?._id}`}
+                  to={`/users/${data?.user?._id}`}
                   className="d-flex align-items-center"
                 >
                   <div className="position-relative">
@@ -313,10 +312,12 @@ const PostAll = () => {
                           className="story_img mb-2"
                           src={global.BASEURL + item.url}
                         />
-                      ) : <ImageLoader
-                      classes={"story_img"}
-                      imageUrl={staticImg}
-                    />}
+                      ) : (
+                        <ImageLoader
+                          classes={"story_img"}
+                          imageUrl={staticImg}
+                        />
+                      )}
                     </SwiperSlide>
                   ))}
                 </Swiper>
@@ -324,7 +325,7 @@ const PostAll = () => {
                 <div className="d-flex justify-content-between pb-1 mt-2">
                   <div className="d-flex">
                     <p
-                      onClick={Likes_btn_open}
+                      onClick={() => likesModalShow(data?._id)}
                       className="inherit black_text_md cursorP align_center"
                     >
                       <img alt="" src={likes} className="ms-2 me-1" />
@@ -397,155 +398,11 @@ const PostAll = () => {
       />
 
       <PostReport isOpen={reportModal} onClose={reportModalClose} />
-
-      {/* _____likes_modal___ */}
-      <Modal
-        show={Likes}
-        onHide={Likes_btn_close}
-        backdrop="static"
-        keyboard={false}
-        centered
-      >
-        <Modal.Header closeButton className="px-3 py-2 likes_modal_head">
-          <Modal.Title className="m-auto black_text_lg inter-bold fs-16 mt-1">
-            Likes
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className=" py-2 px-4 likes_modal_body overflow-y-auto no_scrollbar">
-          <div className="d-flex mb-3 justify-content-between align-items-center">
-            <div className="d-flex align-items-center">
-              <img alt="" src={girl} className="likes_dp" />
-              <div className="ms-3 height-30 me-4">
-                <p className="black_text_lg inter-semi fs-15">trailblaze</p>
-                <div className="d-flex align-items-start">
-                  <img alt="" src={stars} className="rating-star" />
-                  <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={() => folloStatus(1)}
-              className={`${follow[1] ? "folowing_btn00" : "folow_btn00"}`}
-            >
-              {follow[1] ? "Following" : "Follow"}
-            </button>
-          </div>
-
-          <div className="d-flex mb-3 justify-content-between align-items-center">
-            <div className="d-flex align-items-center">
-              <img alt="" src={girl} className="likes_dp" />
-              <div className="ms-3 height-30 me-4">
-                <p className="black_text_lg inter-semi fs-15">trailblaze</p>
-                <div className="d-flex align-items-start">
-                  <img alt="" src={stars} className="rating-star" />
-                  <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={() => folloStatus(2)}
-              className={`${follow[2] ? "folowing_btn00" : "folow_btn00"}`}
-            >
-              {follow[2] ? "Following" : "Follow"}
-            </button>
-          </div>
-
-          <div className="d-flex mb-3 justify-content-between align-items-center">
-            <div className="d-flex align-items-center">
-              <img alt="" src={girl} className="likes_dp" />
-              <div className="ms-3 height-30 me-4">
-                <p className="black_text_lg inter-semi fs-15">trailblaze</p>
-                <div className="d-flex align-items-start">
-                  <img alt="" src={stars} className="rating-star" />
-                  <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={() => folloStatus(3)}
-              className={`${follow[3] ? "folowing_btn00" : "folow_btn00"}`}
-            >
-              {follow[3] ? "Following" : "Follow"}
-            </button>
-          </div>
-
-          <div className="d-flex mb-3 justify-content-between align-items-center">
-            <div className="d-flex align-items-center">
-              <img alt="" src={girl} className="likes_dp" />
-              <div className="ms-3 height-30 me-4">
-                <p className="black_text_lg inter-semi fs-15">trailblaze</p>
-                <div className="d-flex align-items-start">
-                  <img alt="" src={stars} className="rating-star" />
-                  <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={() => folloStatus(4)}
-              className={`${follow[4] ? "folowing_btn00" : "folow_btn00"}`}
-            >
-              {follow[4] ? "Following" : "Follow"}
-            </button>
-          </div>
-
-          <div className="d-flex mb-3 justify-content-between align-items-center">
-            <div className="d-flex align-items-center">
-              <img alt="" src={girl} className="likes_dp" />
-              <div className="ms-3 height-30 me-4">
-                <p className="black_text_lg inter-semi fs-15">trailblaze</p>
-                <div className="d-flex align-items-start">
-                  <img alt="" src={stars} className="rating-star" />
-                  <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={() => folloStatus(5)}
-              className={`${follow[5] ? "folowing_btn00" : "folow_btn00"}`}
-            >
-              {follow[5] ? "Following" : "Follow"}
-            </button>
-          </div>
-
-          <div className="d-flex mb-3 justify-content-between align-items-center">
-            <div className="d-flex align-items-center">
-              <img alt="" src={girl} className="likes_dp" />
-              <div className="ms-3 height-30 me-4">
-                <p className="black_text_lg inter-semi fs-15">trailblaze</p>
-                <div className="d-flex align-items-start">
-                  <img alt="" src={stars} className="rating-star" />
-                  <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={() => folloStatus(6)}
-              className={`${follow[6] ? "folowing_btn00" : "folow_btn00"}`}
-            >
-              {follow[6] ? "Following" : "Follow"}
-            </button>
-          </div>
-
-          <div className="d-flex mb-3 justify-content-between align-items-center">
-            <div className="d-flex align-items-center">
-              <img alt="" src={girl} className="likes_dp" />
-              <div className="ms-3 height-30 me-4">
-                <p className="black_text_lg inter-semi fs-15">trailblaze</p>
-                <div className="d-flex align-items-start">
-                  <img alt="" src={stars} className="rating-star" />
-                  <h1 className="black_text_md_bold ms-1 fs-14">4.9</h1>
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={() => folloStatus(7)}
-              className={`${follow[7] ? "folowing_btn00" : "folow_btn00"}`}
-            >
-              {follow[7] ? "Following" : "Follow"}
-            </button>
-          </div>
-        </Modal.Body>
-      </Modal>
+      <PostLikesUser
+        isOpen={likeModalShow}
+        onClose={likesModalClose}
+        postId={postId}
+      />
     </>
   );
 };
