@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 import { React, useState, useEffect } from "react";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import Uploadimg from "../../assets/logo/icons/uploadphoto.svg";
 import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
-
+import CustomSnackbar from "../CustomSnackbar";
+import MapIcon from "../../assets/icons/mapIcon.svg";
+import LocationMap from "./LocationMap";
 const CreatePost = ({ isOpen, onClose }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [resultData, setResultData] = useState({});
@@ -14,6 +15,24 @@ const CreatePost = ({ isOpen, onClose }) => {
   const [imagePaths, setImagePaths] = useState([]);
   const [fileLoading, setFileLoading] = useState({});
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("");
+  const [isMapVisible, setIsMapVisible] = useState(false);
+
+  // close snackbar
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
+  const showSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+  };
+
+  //
 
   const postTextHandle = (e) => {
     setText(e.target.value);
@@ -29,13 +48,15 @@ const CreatePost = ({ isOpen, onClose }) => {
 
   const MAX_FILES_LIMIT = 4;
 
-  
   const handleChange = async (event) => {
     const newSelectedFiles = Array.from(event.target.files);
     const fileIndex = selectedFiles.length;
     if (selectedFiles.length + newSelectedFiles.length > MAX_FILES_LIMIT) {
       // Display a toast message or handle the exceeding limit as needed
-      toast.error(`You can only select up to ${MAX_FILES_LIMIT} files.`);
+      showSnackbar(
+        `You can only select up to ${MAX_FILES_LIMIT} files.`,
+        "error"
+      );
       return;
     }
 
@@ -71,7 +92,6 @@ const CreatePost = ({ isOpen, onClose }) => {
             "Content-Type": "multipart/form-data",
             "x-auth-token": resultData.token,
           },
-
         }
       );
 
@@ -85,7 +105,7 @@ const CreatePost = ({ isOpen, onClose }) => {
       }));
     } catch (error) {
       console.error(`Error uploading ${fileType}:`, error);
-      toast.error(`Error uploading ${fileType}. Please try again.`);
+      showSnackbar(`Error uploading ${fileType}. Please try again.`, "error");
     }
   };
 
@@ -216,10 +236,10 @@ const CreatePost = ({ isOpen, onClose }) => {
         }
       );
 
-      toast.success(response.data.message);
+      showSnackbar(`${response.data.message}`, "success");
     } catch (error) {
       console.error("Error creating post:", error);
-      toast.error("Error creating post. Please try again.");
+      showSnackbar(`Error creating post. Please try again.`, "error");
     }
 
     onClose();
@@ -227,47 +247,73 @@ const CreatePost = ({ isOpen, onClose }) => {
 
   return (
     <>
+      <CustomSnackbar
+        open={snackbarOpen}
+        message={snackbarMessage}
+        severity={snackbarSeverity} // or "error", "warning", "info", etc.
+        onClose={handleSnackbarClose}
+      />
       <Modal
         dialogClassName="rating_modal"
         show={isOpen}
         onHide={onClose}
         centered
       >
-        <Modal.Header closeButton className="py-3 border-0">
-          <Modal.Title className="fs-16 inter-bold">New Post</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="upload_modal">
-          <div className="file-selector">
-            <Form.Control
-              as="textarea"
-              aria-label="With textarea"
-              rows={6}
-              className="mb-3 text_area"
-              value={text}
-              onChange={postTextHandle}
-            />
+        <div className="h-100">
+          {isMapVisible ? (
+            <LocationMap setIsMapVisible={setIsMapVisible} />
+          ) : (
+            <>
+              <Modal.Header closeButton className="py-3 border-0">
+                <Modal.Title className="fs-16 inter-bold">New Post</Modal.Title>
+              </Modal.Header>
+              <Modal.Body className="upload_modal">
+                <div className="file-selector">
+                  <Form.Control
+                    as="textarea"
+                    aria-label="With textarea"
+                    rows={6}
+                    className="mb-3 text_area"
+                    value={text}
+                    onChange={postTextHandle}
+                  />
 
-            {renderMedia()}
-            <label className="w-100 mt-2 btn-file d-flex align-items-center justify-content-center">
-              <div className="d-flex align-items-center justify-content-center">
-                <img src={Uploadimg} alt="" className="mt-1 me-1" />
-                <h1 className="fs-14 black_text_lg inter-medium mt-1">
-                  Add Photos/Videos
-                </h1>
-              </div>
-              <Form.Control multiple onChange={handleChange} type="file" />
-            </label>
-          </div>
-        </Modal.Body>
-        <Modal.Footer className="border-0">
-          <Button
-            disabled={isButtonDisabled}
-            onClick={createPost}
-            className="btn-primary mt-3"
-          >
-            Post
-          </Button>
-        </Modal.Footer>
+                  {renderMedia()}
+                  <div className="d-flex align-items-center justify-content-center">
+                    <label className="btn-file">
+                      <div className="d-flex align-items-center justify-content-center">
+                        <img src={Uploadimg} alt="" className="mt-1 me-1" />
+                        <h1 className="fs-14 black_text_lg inter-medium mt-1">
+                          Add Photos/Videos
+                        </h1>
+                      </div>
+                      <Form.Control
+                        multiple
+                        onChange={handleChange}
+                        type="file"
+                      />
+                    </label>
+                    <div
+                      onClick={() => setIsMapVisible(!isMapVisible)}
+                      className="mapDiv ms-3 cursorP"
+                    >
+                      <img src={MapIcon} alt="MapIcon" />
+                    </div>
+                  </div>
+                </div>
+              </Modal.Body>
+              <Modal.Footer className="border-0">
+                <Button
+                  disabled={isButtonDisabled}
+                  onClick={createPost}
+                  className="btn-primary mt-3"
+                >
+                  Post
+                </Button>
+              </Modal.Footer>
+            </>
+          )}
+        </div>
       </Modal>
     </>
   );

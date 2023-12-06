@@ -12,7 +12,7 @@ import ShairIcon from "../assets/icons/shairIcon.svg";
 import SongIocn from "../assets/icons/songIcon.svg";
 import whiteLeaf from "../assets/icons/whiteLeaf.svg";
 import greenLeaf from "../assets/icons/greenLeaf.svg";
-import grenHeart from "../assets/icons/grenHeart.svg"
+import grenHeart from "../assets/icons/grenHeart.svg";
 
 // ///////////////
 
@@ -48,12 +48,16 @@ const Session = () => {
 
   return (
     <>
-      <Container className="top_padd" fluid="xxl">
-        <Row className="w-100 h-100 p-0">
-          <Col lg="3" className=" overflow-hidden">
+      <Container className="top_padd px-4" fluid="xxl">
+        <Row className="h-100 p-0">
+          <Col lg="3" md="3" className="overflow-hidden">
             <Createpost />
           </Col>
-          <Col lg="4" className="main_height no_scrollbar ps-5 overflow-y-auto">
+          <Col
+            lg="6"
+            md="9"
+            className="main_height no_scrollbar gx-5 overflow-y-auto"
+          >
             <div className="d-flex align-items-end">
               <div>
                 <div className="video_div position-relative">
@@ -106,7 +110,7 @@ const Session = () => {
               </div>
             </div>
           </Col>
-          <Col lg="4" className="h-100 overflow-hidden">
+          <Col lg="4" className="overflow-hidden d-lg-block d-none">
             <div
               className={`${
                 msg ? "d-block" : "d-none"

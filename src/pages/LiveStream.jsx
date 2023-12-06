@@ -11,16 +11,18 @@ import EyeIcon from "../assets/icons/eyeIcon.svg";
 import CrosIcon from "../assets/icons/cros_con.svg";
 
 const LiveStream = () => {
-
-
   return (
     <>
-      <Container className="top_padd" fluid="xxl">
-        <Row className="w-100 h-100 p-0">
-          <Col lg="3" className=" overflow-hidden">
+      <Container className="top_padd px-4" fluid="xxl">
+        <Row className="h-100 p-0">
+          <Col lg="3" md="3" className="overflow-hidden">
             <Createpost />
           </Col>
-          <Col lg="6" className="main_height no_scrollbar ps-5 overflow-y-auto">
+          <Col
+            lg="6"
+            md="9"
+            className="main_height no_scrollbar gx-5 overflow-y-auto"
+          >
             <div className="video_div m-auto position-relative">
               <video className="video_size" autoPlay src={Video} />
               <div className="video_head_icon">
@@ -64,7 +66,7 @@ const LiveStream = () => {
               </button>
             </div>
           </Col>
-          <Col lg="3" className=" overflow-hidden">
+          <Col lg="3" className="overflow-hidden d-lg-block d-none">
             <SideMessage />
           </Col>
         </Row>

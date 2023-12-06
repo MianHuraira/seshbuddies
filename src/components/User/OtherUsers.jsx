@@ -29,12 +29,22 @@ import axios from "axios";
 import ImageLoader from "../ImageLoader";
 import Spinner from "react-bootstrap/Spinner";
 import OtherUserPost from "./OtherUserPost";
+import CustomSnackbar from "../CustomSnackbar";
+
 const OtherUsers = () => {
   const { userId } = useParams();
   const [resultData, setResultData] = useState({});
   const [otherUser, setOtherUser] = useState("");
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("");
+
+  // close snackbar
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
   // ___modal___
   const [LiveNoti, ShowNotification] = useState(false);
   const Notificationpen = () => ShowNotification(true);
@@ -99,19 +109,32 @@ const OtherUsers = () => {
 
   const CopyClipHandle = () => {
     const urlToCopy = otherUser?.url;
-
+    setSnackbarMessage("URL copied to clipboard");
+    setSnackbarOpen(true);
     clipboardCopy(urlToCopy);
+    setSnackbarSeverity("success");
   };
 
   return (
-    <div>
-      <Container className="top_padd" fluid="xxl">
-        <Row className="w-100 h-100 p-0">
-          <Col lg="3" className=" overflow-hidden">
+    <>
+      <CustomSnackbar
+        open={snackbarOpen}
+        message={snackbarMessage}
+        severity={snackbarSeverity} // or "error", "warning", "info", etc.
+        onClose={handleSnackbarClose}
+      />
+
+      <Container className="top_padd px-4" fluid="xxl">
+        <Row className="h-100 p-0">
+          <Col lg="3" md="3" className=" overflow-hidden">
             <Createpost />
           </Col>
 
-          <Col lg="6" className="main_height no_scrollbar gx-5 overflow-y-auto">
+          <Col
+            lg="6"
+            md="9"
+            className="main_height no_scrollbar gx-5 overflow-y-auto"
+          >
             {loading ? (
               <div className="text-center">
                 <Spinner
@@ -201,7 +224,7 @@ const OtherUsers = () => {
                       <img src={angle_down_full} alt="" className="ms-1" />
                     </div>
                   </div>
-                  <div className="d-flex justify-content-between align-items-center w-100 ">
+                  {/* <div className="d-flex justify-content-between align-items-center w-100 ">
                     <div className="d-flex">
                       <p>Suggested accounts</p>
                       <img src={Info} alt="" />
@@ -210,14 +233,24 @@ const OtherUsers = () => {
                       <p>View all</p>
                       <img src={AngleRight} alt="" />
                     </div>
-                  </div>
+                  </div> */}
+
                   {/* <AddBuddies/> */}
 
                   <p className="text-center black_text_lg mt-3">
                     {otherUser?.bio}
                   </p>
-                  <div className="align_center mt-1 mb-4">
-                    <img onClick={CopyClipHandle} className="cursorP" src={clip} alt="" />
+                  <div
+                    className={`align_center mt-1 mb-4 ${
+                      !otherUser?.bio ? "d-none" : ""
+                    }`}
+                  >
+                    <img
+                      onClick={CopyClipHandle}
+                      className="cursorP"
+                      src={clip}
+                      alt=""
+                    />
                     <p className="inter-bold fs-16 ps-1">{otherUser?.url}</p>
                   </div>
                   <ul
@@ -623,7 +656,7 @@ const OtherUsers = () => {
           <Button className="btn-primary">Follow</Button>
         </Modal.Body>
       </Modal>
-    </div>
+    </>
   );
 };
 

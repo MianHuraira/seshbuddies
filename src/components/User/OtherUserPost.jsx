@@ -122,7 +122,6 @@ const OtherUserPost = () => {
           "x-auth-token": resultData.token,
         },
       });
-      console.log("ok", res.data.posts);
       const resultGet = res.data.posts;
       setGetData(resultGet);
 
