@@ -1,79 +1,97 @@
-// import React, { useRef, useState, useEffect } from "react";
-// import arrowLeft from "../../assets/logo/icons/arrow_left.svg";
-// import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
+/* eslint-disable no-unused-vars */
+import React, { useState, useCallback, useEffect } from "react";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import arrowLeft from "../../assets/logo/icons/arrow_left.svg";
+import axios from "axios";
 
-// const LocationMap = ({ setIsMapVisible }) => {
-//   const mapRef = useRef(null);
-//   const [selectedLocation, setSelectedLocation] = useState(null);
+const LocationMap = ({ setIsMapVisible }) => {
+  const [map, setMap] = useState(null);
+  const [customLocation, setCustomLocation] = useState(null);
 
-//   const handleMapClick = (mapProps, map, clickEvent) => {
-//     const lat = clickEvent.latLng.lat();
-//     const lng = clickEvent.latLng.lng();
-//     setSelectedLocation({ lat, lng });
-//   };
+  const onMapLoad = useCallback((map) => {
+    setMap(map);
+  }, []);
 
-//   const handleSaveClick = () => {
-//     console.log("Selected Location:", selectedLocation);
-//     setIsMapVisible(false);
-//   };
+  useEffect(() => {
+    // Fetch the user's current location when the component mounts
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setCustomLocation({ lat: latitude, lng: longitude });
+        },
+        (error) => {
+          console.error("Error fetching current location:", error.message);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }, []); // Run this effect only once when the component mounts
 
-//   useEffect(() => {
-//     // Fetch the user's current location using Geolocation API
-//     if (navigator.geolocation) {
-//       navigator.geolocation.getCurrentPosition(
-//         (position) => {
-//           const { latitude, longitude } = position.coords;
-//           const initialLocation = { lat: latitude, lng: longitude };
-//           mapRef.current.map.setCenter(initialLocation);
-//           setSelectedLocation(initialLocation);
-//         },
-//         (error) => {
-//           console.error("Error getting current location:", error);
-//         }
-//       );
-//     } else {
-//       console.error("Geolocation is not supported by this browser.");
-//     }
-//   }, []);
+  const handleMapClick = (event) => {
+    const { latLng } = event;
+    setCustomLocation({ lat: latLng.lat(), lng: latLng.lng() });
+  };
 
-//   return (
-//     <>
-//       <section
-//         className={`p-3 ${
-//           selectedLocation ? "map-container" : "map-container-empty"
-//         }`}
-//       >
-//         <img
-//           src={arrowLeft}
-//           onClick={() => setIsMapVisible(false)}
-//           className="cursorP"
-//           alt=""
-//         />
-//         <div className="position-relative h-75 d-flex flex-column justify-content-between">
-//           <Map
-//             ref={mapRef}
-//             google={window.google}
-//             zoom={14}
-//             onClick={handleMapClick}
-//           >
-//             {selectedLocation && (
-//               <Marker
-//                 position={{
-//                   lat: selectedLocation.lat,
-//                   lng: selectedLocation.lng,
-//                 }}
-//               />
-//             )}
-//           </Map>
-//         </div>
-//         <button className="btn-primary text-center" onClick={handleSaveClick}>
-//           Save
-//         </button>
-//       </section>
-//     </>
-//   );
-// };
+  const handleSaveClick = async () => {
+    // Use the Geocoding API to get address details
+    if (customLocation) {
+      try {
+        const response = await axios.get(
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${customLocation.lat},${customLocation.lng}&key=AIzaSyBH0Ey-G2PbWkSCLyGG1A9TCg9LDPlzQpc`
+        );
 
-// export default GoogleApiWrapper({
-//   apiKey: "AIzaSyBH0Ey-G2PbWkSCLyGG1A9TCg9LDPlzQpc",
-// })(LocationMap);
+        const locationDetails = response.data.results[0];
+        const address = locationDetails;
+
+        // Log the results to the console
+        console.log("Latitude:", customLocation.lat);
+        console.log("Longitude:", customLocation.lng);
+        console.log("Location Name:", address);
+      } catch (error) {
+        console.error("Error fetching location details:", error);
+      }
+    }
+  };
+
+  const containerStyle = {
+    height: "20rem",
+  };
+
+  const apiKey = "AIzaSyBH0Ey-G2PbWkSCLyGG1A9TCg9LDPlzQpc";
+
+  return (
+    <>
+      <section style={{ height: "20rem" }} className="p-3">
+        <img
+          src={arrowLeft}
+          onClick={() => setIsMapVisible(false)}
+          className="cursorP"
+          alt=""
+        />
+
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={customLocation || { lat: 0, lng: 0 }} // Use customLocation if available, otherwise default to { lat: 0, lng: 0 }
+          zoom={13}
+          onLoad={onMapLoad}
+          onClick={handleMapClick}
+          apiKey={apiKey}
+        >
+          {/* Marker for user's current location */}
+          <Marker position={customLocation || { lat: 0, lng: 0 }} label="📍" />
+
+          {/* Marker for custom location */}
+          {customLocation && <Marker position={customLocation} label="📍" />}
+        </GoogleMap>
+
+        <button className="btn-primary text-center" onClick={handleSaveClick}>
+          Save
+        </button>
+      </section>
+    </>
+  );
+};
+
+export default LocationMap;

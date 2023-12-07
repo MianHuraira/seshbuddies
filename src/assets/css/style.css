@@ -1086,15 +1086,6 @@
   align-items: center;
   justify-content: center;
 }
-/* Add these styles to your CSS */
-.map-container-loading {
-  height: 20rem; /* Set the fixed height when loading */
-}
-
-.map-container {
-  height: auto; /* Allow the container to adjust its height based on content */
-}
-
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
 /* __for you css___ */
