@@ -1086,6 +1086,9 @@
   align-items: center;
   justify-content: center;
 }
+.main_mapDiv div{
+  height: 14rem !important;
+}
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
 /* __for you css___ */

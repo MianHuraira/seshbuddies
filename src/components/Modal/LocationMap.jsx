@@ -63,28 +63,32 @@ const LocationMap = ({ setIsMapVisible }) => {
 
   return (
     <>
-      <section style={{ height: "20rem" }} className="p-3">
+      <section style={{ height: "26rem" }} className="p-3">
         <img
           src={arrowLeft}
           onClick={() => setIsMapVisible(false)}
           className="cursorP"
           alt=""
         />
+      
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={customLocation || { lat: 0, lng: 0 }}
+            zoom={13}
+            onLoad={onMapLoad}
+            onClick={handleMapClick}
+            apiKey={apiKey}
+          >
+            {/* Marker for user's current location */}
+            <Marker
+              position={customLocation || { lat: 0, lng: 0 }}
+              label="📍"
+            />
 
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={customLocation || { lat: 0, lng: 0 }} // Use customLocation if available, otherwise default to { lat: 0, lng: 0 }
-          zoom={13}
-          onLoad={onMapLoad}
-          onClick={handleMapClick}
-          apiKey={apiKey}
-        >
-          {/* Marker for user's current location */}
-          <Marker position={customLocation || { lat: 0, lng: 0 }} label="📍" />
-
-          {/* Marker for custom location */}
-          {customLocation && <Marker position={customLocation} label="📍" />}
-        </GoogleMap>
+            {/* Marker for custom location */}
+            {customLocation && <Marker position={customLocation} label="📍" />}
+          </GoogleMap>
+      
 
         <button className="btn-primary text-center" onClick={handleSaveClick}>
           Save
