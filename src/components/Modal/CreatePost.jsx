@@ -19,7 +19,16 @@ const CreatePost = ({ isOpen, onClose }) => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
   const [isMapVisible, setIsMapVisible] = useState(false);
+  const [lat, setLat] = useState("");
+  const [lng, setLng] = useState("");
+  const [location, setLocation] = useState("");
 
+  const handleSave = (locationData) => {
+    setLat(locationData.lat);
+    setLng(locationData.lang);
+    console.log(locationData);
+    setLocation(locationData.location);
+  };
   // close snackbar
 
   const handleSnackbarClose = () => {
@@ -213,10 +222,12 @@ const CreatePost = ({ isOpen, onClose }) => {
     try {
       const formData = {
         text: text,
-        location: "lahore",
-        lat: "123132",
-        lng: "32131232",
+        location: location,
+        lat: lat,
+        lng: lng,
       };
+
+      console.log("ok ni ", formData);
 
       const multimedia = imagePaths.map((path, index) => ({
         url: path,
@@ -226,7 +237,7 @@ const CreatePost = ({ isOpen, onClose }) => {
       const apiData = { ...formData, multimedia };
 
       const response = await axios.post(
-        global.BASEURL + "/post/create",
+        global.BASEURL + "/post/createdsds",
         apiData,
         {
           headers: {
@@ -261,7 +272,10 @@ const CreatePost = ({ isOpen, onClose }) => {
       >
         <div className="h-100">
           {isMapVisible ? (
-            <LocationMap setIsMapVisible={setIsMapVisible} />
+            <LocationMap
+              onSave={handleSave}
+              setIsMapVisible={setIsMapVisible}
+            />
           ) : (
             <>
               <Modal.Header closeButton className="py-3 border-0">

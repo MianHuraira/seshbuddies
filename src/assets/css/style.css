@@ -1086,8 +1086,19 @@
   align-items: center;
   justify-content: center;
 }
-.main_mapDiv div{
+.main_mapDiv div {
   height: 14rem !important;
+}
+.mainSearchDiv00 {
+  position: absolute;
+  z-index: 99;
+  top: 101px;
+  width: 40%;
+  left: 24px;
+}
+.suggDiv00 {
+  height: 8rem;
+  overflow: auto;
 }
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
