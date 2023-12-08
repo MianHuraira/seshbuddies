@@ -8,11 +8,12 @@ import Spinner from "react-bootstrap/Spinner";
 import CustomSnackbar from "../CustomSnackbar";
 import MapIcon from "../../assets/icons/mapIcon.svg";
 import LocationMap from "./LocationMap";
+
 const CreatePost = ({ isOpen, onClose }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [resultData, setResultData] = useState({});
   const [text, setText] = useState("");
-  const [imagePaths, setImagePaths] = useState([]);
+  const [mediaData, setMediaData] = useState([]);
   const [fileLoading, setFileLoading] = useState({});
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -26,11 +27,10 @@ const CreatePost = ({ isOpen, onClose }) => {
   const handleSave = (locationData) => {
     setLat(locationData.lat);
     setLng(locationData.lang);
-    console.log(locationData);
     setLocation(locationData.location);
   };
-  // close snackbar
 
+  // close snackbar
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
@@ -41,25 +41,25 @@ const CreatePost = ({ isOpen, onClose }) => {
     setSnackbarOpen(true);
   };
 
-  //
-
+  // post text handle
   const postTextHandle = (e) => {
     setText(e.target.value);
   };
 
   useEffect(() => {
-    if (text.trim() !== "" && selectedFiles.length > 0) {
+    if (text.trim() !== "" && selectedFiles.length > 0 && location) {
       setIsButtonDisabled(false);
     } else {
       setIsButtonDisabled(true);
     }
-  }, [text, selectedFiles]);
+  }, [text, selectedFiles, location]);
 
   const MAX_FILES_LIMIT = 4;
 
   const handleChange = async (event) => {
     const newSelectedFiles = Array.from(event.target.files);
     const fileIndex = selectedFiles.length;
+
     if (selectedFiles.length + newSelectedFiles.length > MAX_FILES_LIMIT) {
       // Display a toast message or handle the exceeding limit as needed
       showSnackbar(
@@ -104,10 +104,11 @@ const CreatePost = ({ isOpen, onClose }) => {
         }
       );
 
-      setImagePaths((prevImagePaths) => [
-        ...prevImagePaths,
-        response.data.imagePath,
+      setMediaData((prevMediaData) => [
+        ...prevMediaData,
+        { url: response.data.imagePath, type: fileType },
       ]);
+
       setFileLoading((prevFileLoading) => ({
         ...prevFileLoading,
         [fileIndex]: false, // Spinner band ho gaya
@@ -124,10 +125,10 @@ const CreatePost = ({ isOpen, onClose }) => {
     newSelectedFiles.splice(index, 1);
     setSelectedFiles(newSelectedFiles);
 
-    // Remove the corresponding path from imagePaths
-    const newImagePaths = [...imagePaths];
-    newImagePaths.splice(index, 1);
-    setImagePaths(newImagePaths);
+    // Remove the corresponding path from mediaData
+    const newMediaData = [...mediaData];
+    newMediaData.splice(index, 1);
+    setMediaData(newMediaData);
   };
 
   const renderMedia = () => {
@@ -158,6 +159,7 @@ const CreatePost = ({ isOpen, onClose }) => {
       height: selectedFiles.length === 1 ? "321px" : "161px",
     };
     const fileIndex = index;
+
     return (
       <div
         className="position-relative upMedia00"
@@ -206,7 +208,6 @@ const CreatePost = ({ isOpen, onClose }) => {
   };
 
   // api
-
   useEffect(() => {
     // Retrieve user data from local storage
     const storedUserData = localStorage.getItem("meraname");
@@ -227,17 +228,10 @@ const CreatePost = ({ isOpen, onClose }) => {
         lng: lng,
       };
 
-      console.log("ok ni ", formData);
-
-      const multimedia = imagePaths.map((path, index) => ({
-        url: path,
-        type: path.includes("/image/") ? "image" : "video",
-      }));
-
-      const apiData = { ...formData, multimedia };
+      const apiData = { ...formData, multimedia: mediaData };
 
       const response = await axios.post(
-        global.BASEURL + "/post/createdsds",
+        global.BASEURL + "/post/create",
         apiData,
         {
           headers: {
@@ -252,6 +246,11 @@ const CreatePost = ({ isOpen, onClose }) => {
       console.error("Error creating post:", error);
       showSnackbar(`Error creating post. Please try again.`, "error");
     }
+    setSelectedFiles([]);
+    setText("");
+    setLocation("");
+    setLat("");
+    setLng("");
 
     onClose();
   };
@@ -291,9 +290,10 @@ const CreatePost = ({ isOpen, onClose }) => {
                     value={text}
                     onChange={postTextHandle}
                   />
+                  <h5 className="locationText00 mb-3">{location}</h5>
 
                   {renderMedia()}
-                  <div className="d-flex align-items-center justify-content-center">
+                  <div className="d-flex align-items-center justify-content-center mt-2">
                     <label className="btn-file">
                       <div className="d-flex align-items-center justify-content-center">
                         <img src={Uploadimg} alt="" className="mt-1 me-1" />
@@ -309,7 +309,9 @@ const CreatePost = ({ isOpen, onClose }) => {
                     </label>
                     <div
                       onClick={() => setIsMapVisible(!isMapVisible)}
-                      className="mapDiv ms-3 cursorP"
+                      className={`mapDiv ms-3 cursorP ${
+                        location ? "activeB" : ""
+                      }`}
                     >
                       <img src={MapIcon} alt="MapIcon" />
                     </div>

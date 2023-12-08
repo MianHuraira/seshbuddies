@@ -1100,6 +1100,11 @@
   height: 8rem;
   overflow: auto;
 }
+.locationText00{
+  font-size: 14px;
+  color: #006835;
+  font-family: "inter-regular";
+}
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
 /* __for you css___ */
