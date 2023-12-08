@@ -8,60 +8,6 @@ import axios from "axios";
 
 const ProfilUpdate = ({ isOpen, onClose }) => {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [resultData, setResultData] = useState({});
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        setSelectedImage(reader.result);
-      };
-
-      reader.readAsDataURL(file);
-    }
-  };
-
-  useEffect(() => {
-    // Retrieve user data from local storage
-    const storedUserData = localStorage.getItem("meraname");
-
-    if (storedUserData) {
-      // Parse the JSON data
-      const parsedUserData = JSON.parse(storedUserData);
-      setResultData(parsedUserData);
-    }
-  }, []);
-
-  // const updateProfile = async () => {
-  //   try {
-  //     const fileInput = document.querySelector(".fileSect00");
-  //     const file = fileInput.files[0];
-  
-  //     if (file) {
-  //       const formData = new FormData();
-  //       formData.append("imagePath", file);
-  
-  //       const res = await axios.post(`${global.BASEURL}/upload/images`, formData, {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data", // Set content type to multipart/form-data
-  //           "x-auth-token": resultData.token,
-  //         },
-  //       });
-  
-  //       console.log(res.data);
-  
-  //       // Handle the response from the server as needed
-  //     } else {
-  //       console.error("No file selected");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error uploading profile picture: ", error);
-  //   }
-  // };
-  
 
   return (
     <>
@@ -79,12 +25,7 @@ const ProfilUpdate = ({ isOpen, onClose }) => {
         <Modal.Body>
           <label className="labelHead00 form-label">Prfile Imgae</label>
           <div className="border-0 bg-white position-relative text-center">
-            <input
-              className="fileSect00"
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-            />
+            <input className="fileSect00" type="file" accept="image/*" />
             <img src={selectedImage || avaatar2} alt="" className="userPic2" />
           </div>
           <label className="labelHead00 form-label">Name</label>
@@ -179,10 +120,11 @@ const ProfilUpdate = ({ isOpen, onClose }) => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button 
-          //  onClick={updateProfile} 
-          
-          className="btn-primary">
+          <Button
+            //  onClick={updateProfile}
+
+            className="btn-primary"
+          >
             Save
           </Button>
         </Modal.Footer>

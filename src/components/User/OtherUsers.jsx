@@ -182,7 +182,7 @@ const OtherUsers = () => {
                           circeltrue={true}
                           imageUrl={
                             otherUser?.profilePicture
-                              ? global.BASEURL + "/" + otherUser?.profilePicture
+                              ?otherUser?.profilePicture
                               : avatarImg
                           }
                           classes={"userPic2"}

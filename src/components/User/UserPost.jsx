@@ -227,7 +227,7 @@ const UserPost = () => {
                       circeltrue={true}
                       imageUrl={
                         data?.user?.profilePicture
-                          ? global.BASEURL + "/" + data?.user?.profilePicture
+                          ? data?.user?.profilePicture
                           : avatarImg
                       }
                       classes={"message-dp"}
@@ -297,7 +297,7 @@ const UserPost = () => {
                       {item.type === "image" ? (
                         <ImageLoader
                           classes={"story_img"}
-                          imageUrl={global.BASEURL + item.url}
+                          imageUrl={item.url}
                           onClick={() => comentModal(data, data?._id)}
                         />
                       ) : item.type === "video" ? (
@@ -305,7 +305,7 @@ const UserPost = () => {
                           controls
                           onClick={() => comentModal(data, data?._id)}
                           className="story_img mb-2"
-                          src={global.BASEURL + item.url}
+                          src={item.url}
                         />
                       ) : (
                         <ImageLoader

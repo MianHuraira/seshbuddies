@@ -206,13 +206,13 @@ const OtherUserPost = () => {
         <div className="bg-white mt-3 radius_12 mb-4 overflow-hidden">
           <div className="px-3">
             <div className="d-flex justify-content-between mt-3">
-              <Link to={"/users"} className="d-flex align-items-center">
+              <div className="d-flex align-items-center">
                 <div className="position-relative">
                   <ImageLoader
                     circeltrue={true}
                     imageUrl={
                       data?.user?.profilePicture
-                        ? global.BASEURL + "/" + data?.user?.profilePicture
+                        ?data?.user?.profilePicture
                         : avatarImg
                     }
                     classes={"message-dp"}
@@ -231,7 +231,7 @@ const OtherUserPost = () => {
                     </p>
                   </h1>
                 </div>
-              </Link>
+              </div>
 
               <div className="d-flex justify-content-center align-items-center">
                 <div className="d-flex align-items-start me-3 justify-content-center">
@@ -279,7 +279,7 @@ const OtherUserPost = () => {
                     {item.type === "image" ? (
                       <ImageLoader
                         classes={"story_img"}
-                        imageUrl={global.BASEURL + item.url}
+                        imageUrl={item.url}
                         onClick={() => comentModal(data, data?._id)}
                       />
                     ) : item.type === "video" ? (
@@ -287,7 +287,7 @@ const OtherUserPost = () => {
                         controls
                         onClick={() => comentModal(data, data?._id)}
                         className="story_img mb-2"
-                        src={global.BASEURL + item.url}
+                        src={item.url}
                       />
                     ) : (
                       <ImageLoader classes={"story_img"} imageUrl={staticImg} />

@@ -8,7 +8,7 @@ import post_wind from "../../assets/logo/icons/post_wind.svg";
 import video from "../../assets/logo/icons/video.svg";
 import star_element from "../../assets/logo/icons/star_element.svg";
 import Ratings from "../Ratings";
-
+import clip from "../../assets/logo/icons/clip.svg";
 import Code from "../../assets/icons/qrcode_icon.png";
 import Dashboard from "../../assets/icons/dashboard-square-icon.png";
 import Reels_icon from "../../assets/icons/reels-icon.png";
@@ -23,10 +23,20 @@ import ImageLoader from "../ImageLoader";
 import AddBioUser from "../Modal/AddBioUser";
 import AddUrlUser from "../Modal/AddUrlUser";
 import AddQrCodeUser from "../Modal/AddQrCodeUser";
-
+import clipboardCopy from "clipboard-copy";
+import CustomSnackbar from "../CustomSnackbar";
 const MyProfile = () => {
   // ___modal bio___
   const [bio, setBio] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("");
+
+  // close snackbar
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
   const BioClose = () => {
     setBio(false);
   };
@@ -76,8 +86,22 @@ const MyProfile = () => {
     setShow(false);
   };
   const navigate = useNavigate();
+  const CopyClipHandle = () => {
+    const urlToCopy = userData?.user?.url;
+    setSnackbarMessage("URL copied to clipboard");
+    setSnackbarOpen(true);
+    clipboardCopy(urlToCopy);
+    setSnackbarSeverity("success");
+  };
+
   return (
-    <div>
+    <>
+      <CustomSnackbar
+        open={snackbarOpen}
+        message={snackbarMessage}
+        severity={snackbarSeverity} // or "error", "warning", "info", etc.
+        onClose={handleSnackbarClose}
+      />
       <div className="bg-white pt-4 px-4 radius_14">
         <div className="align_center flex-column">
           <div className="d-flex justify-content-between align-items-center w-100">
@@ -101,7 +125,7 @@ const MyProfile = () => {
               {userData?.user?.profilePicture ? (
                 <ImageLoader
                   classes="userPic2"
-                  imageUrl={global.BASEURL + userData.user.profilePicture}
+                  imageUrl={userData.user.profilePicture}
                   alt=""
                 />
               ) : (
@@ -158,7 +182,21 @@ const MyProfile = () => {
             )}
 
             {userData?.user?.url ? (
-              <h5 className="url00">{userData?.user?.url}</h5>
+              <>
+                <div
+                  className={`align_center mt-1 mb-4 ${
+                    !userData?.user?.url ? "d-none" : ""
+                  }`}
+                >
+                  <img
+                    onClick={CopyClipHandle}
+                    className="cursorP me-2"
+                    src={clip}
+                    alt=""
+                  />
+                  <h5 className="url00">{userData?.user?.url}</h5>
+                </div>
+              </>
             ) : (
               <button onClick={UrlOpen} className="add_bio">
                 + Add url
@@ -260,7 +298,7 @@ const MyProfile = () => {
       <AddQrCodeUser isOpen={qrCode} onClose={QRClose} />
       <ProfilUpdate isOpen={profile} onClose={Profile_close} />
       <CreatePost isOpen={createpost} onClose={Post_close} />
-    </div>
+    </>
   );
 };
 

@@ -7,6 +7,7 @@ import Avatar from "../../assets/images/avatarImg.png";
 import { ToastContainer, toast } from "react-toastify";
 import { useAuth } from "../../pages/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
+import ImageLoader from "../ImageLoader";
 
 const Profile = () => {
   const location = useLocation();
@@ -51,16 +52,16 @@ const Profile = () => {
           <div className="d-flex align-items-center">
             <div className="me-2 position-relative">
               {userData?.user?.profilePicture ? (
-                <img
-                  className="profile_img"
-                  src={global.BASEURL + userData.user.profilePicture}
+                <ImageLoader
+                  classes="profile_img"
+                  imageUrl={userData.user.profilePicture}
                   alt=""
                 />
               ) : (
-                <img
+                <ImageLoader
                   style={{ border: "1px solid #EAEBF0" }}
-                  className="profile_img"
-                  src={Avatar}
+                  classes="profile_img"
+                  imageUrl={Avatar}
                   alt=""
                 />
               )}

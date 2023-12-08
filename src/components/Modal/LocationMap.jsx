@@ -16,8 +16,6 @@ const LocationMap = ({ setIsMapVisible, onSave }) => {
   const [lang, setLang] = useState("");
   const [location, setLocation] = useState("");
 
-  console.log(lat, lang, location);
-
   const onMapLoad = useCallback((map) => {
     setMap(map);
   }, []);

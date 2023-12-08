@@ -166,7 +166,8 @@ const CreatePost = ({ isOpen, onClose }) => {
   const renderFile = (file, index) => {
     const style = {
       width: "100%",
-      height: selectedFiles.length === 1 ? "321px" : "161px",
+      objectFit:"contain",
+      height: selectedFiles.length === 1 ? "221px" : "161px",
     };
     const fileIndex = index;
 

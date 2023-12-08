@@ -41,12 +41,12 @@ const Colapse = ({ children }) => {
                 {/* comment  */}
                 <p className="black_text_md">Looks Like a great time!</p>
                 {/* comment  */}
-                <p className="black_text_md">
+                <div className="black_text_md">
                   2022-12-23
                   <button className="border-0 green-txt bg-white inter-semi ms-2">
                     Reply
                   </button>
-                </p>
+                </div>
                 {children}
               </div>
             </div>
