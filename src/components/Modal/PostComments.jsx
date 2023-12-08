@@ -128,9 +128,7 @@ const PostComments = ({
                         <ImageLoader
                           imageUrl={
                             postData?.user?.profilePicture
-                              ? global.BASEURL +
-                                "/" +
-                                postData?.user?.profilePicture
+                              ? postData?.user?.profilePicture
                               : avatarImg
                           }
                           classes={"message-dp"}
@@ -199,14 +197,14 @@ const PostComments = ({
                         <SwiperSlide key={index}>
                           {item.type === "image" ? (
                             <ImageLoader
-                              imageUrl={global.BASEURL + item.url}
+                              imageUrl={item.url}
                               classes={"story_img mb-2"}
                             />
                           ) : item.type === "video" ? (
                             <video
                               controls
                               className="story_img mb-2"
-                              src={global.BASEURL + item.url}
+                              src={item.url}
                             />
                           ) : null}
                         </SwiperSlide>
@@ -294,9 +292,7 @@ const PostComments = ({
                         <ImageLoader
                           imageUrl={
                             item?.user?.profilePicture
-                              ? global.BASEURL +
-                                "/" +
-                                item?.user?.profilePicture
+                              ? item?.user?.profilePicture
                               : avatarImg
                           }
                           classes={"comment_avatar"}
