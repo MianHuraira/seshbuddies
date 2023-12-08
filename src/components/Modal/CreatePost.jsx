@@ -30,6 +30,16 @@ const CreatePost = ({ isOpen, onClose }) => {
     setLocation(locationData.location);
   };
 
+  //
+  const handleHide = () => {
+    // Reset state values when hiding the modal
+    setSelectedFiles([]);
+    setText("");
+    setLocation("");
+    setLat("");
+    setLng("");
+  };
+
   // close snackbar
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
@@ -266,7 +276,10 @@ const CreatePost = ({ isOpen, onClose }) => {
       <Modal
         dialogClassName="rating_modal"
         show={isOpen}
-        onHide={onClose}
+        onHide={() => {
+          handleHide();
+          onClose();
+        }}
         centered
       >
         <div className="h-100">
