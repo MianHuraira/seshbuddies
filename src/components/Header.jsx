@@ -17,8 +17,16 @@ import UpLeftArrow from "../assets/icons/upLeftArrow.svg";
 import CrossIcon from "../assets/icons/blackCross.svg";
 import StatusChange from "../assets/icons/StatusChange.svg";
 import Profile from "./User/HeadProfile";
-
-import RedUpModal  from "./Modal/RedUpModal"
+import Sheet from "react-modal-sheet";
+import { FaPlus } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
+import PostIconMd from "../assets/icons/mdPostIcon.png";
+import ReelsIconMd from "../assets/icons/mdReelsIcon.png";
+import SeshIconMd from "../assets/icons/mdSeshicon.png";
+import StoryIconMd from "../assets/icons/mdStoryIcon.png";
+import LiveIconMd from "../assets/icons/mdLiveIcon.png";
+import RedUpModal from "./Modal/RedUpModal";
+import CreatePost from "./Modal/CreatePost";
 
 const Header = () => {
   const [activeNavLink, setActiveNavLink] = useState("home");
@@ -126,6 +134,22 @@ const Header = () => {
     );
     setRecentSearches(updatedRecentSearches);
   };
+  const [isOpen, setOpen] = useState(false);
+
+  const handleClose = (e) => {
+    if (e) {
+      e.stopPropagation();
+    }
+    setOpen(false);
+  };
+  
+  const [createpost, setShow] = useState(false);
+  const Post_open = () => {
+    setShow(true);
+  };
+  const Post_close = () => {
+    setShow(false);
+  };
 
   return (
     <>
@@ -232,7 +256,9 @@ const Header = () => {
             <NavLink
               className="me-3"
               to={"/buddies"}
-              onClick={() => handleNavLinkClick("user")}
+              onClick={() => {
+                handleNavLinkClick("user");
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -247,7 +273,74 @@ const Header = () => {
                 />
               </svg>
             </NavLink>
-            <NavLink className="me-3" to={"/reels"}>
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpen(true);
+              }}
+              className="md_btnAdd d-block d-lg-none"
+            >
+              <FaPlus />
+              <Sheet isOpen={isOpen} onClose={handleClose}>
+                <Sheet.Container className="shhth00">
+                  <Sheet.Header
+                    style={{ padding: "6px 0px" }}
+                    className="text-center"
+                  >
+                    <h1 className="text-center d-inline fs-16 inter-semi black text-start">
+                      Creat New
+                    </h1>
+                    <IoClose
+                      onClick={(e) => {
+                        handleClose(e);
+                      }}
+                      style={{ fontSize: "28px" }}
+                      className="float-end"
+                    />
+                  </Sheet.Header>
+
+                  <Sheet.Content className="contBg00 p-2">
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        Post_open();
+                        handleClose(e);
+                      }}
+                      className="md_NavBtn00 mt-3 d-flex align-items-center p-3 mb-3"
+                    >
+                      <img className="mdIcons00" src={PostIconMd} alt="" />
+                      <h5 className="mdCon00 ms-2">Post</h5>
+                    </div>
+                    <NavLink
+                      onClick={handleClose}
+                      to={"/reels"}
+                      className="md_NavBtn00 d-flex align-items-center p-3 mb-3"
+                    >
+                      <img className="mdIcons00" src={ReelsIconMd} alt="" />
+                      <h5 className="mdCon00 ms-2">Reels</h5>
+                    </NavLink>
+                    <div className="md_NavBtn00 d-flex align-items-center p-3 mb-3">
+                      <img className="mdIcons00" src={SeshIconMd} alt="" />
+                      <h5 className="mdCon00 ms-2">Seshs</h5>
+                    </div>
+                    <div className="md_NavBtn00 d-flex align-items-center p-3 mb-3">
+                      <img className="mdIcons00" src={StoryIconMd} alt="" />
+                      <h5 className="mdCon00 ms-2">Story</h5>
+                    </div>
+                    <NavLink
+                      onClick={handleClose}
+                      to={"/live_stream"}
+                      className="md_NavBtn00 d-flex align-items-center p-3 mb-3"
+                    >
+                      <img className="mdIcons00" src={LiveIconMd} alt="" />
+                      <h5 className="mdCon00 ms-2">Go Live</h5>
+                    </NavLink>
+                  </Sheet.Content>
+                </Sheet.Container>
+                <Sheet.Backdrop />
+              </Sheet>
+            </div>
+            <NavLink className="me-3 d-none d-lg-block" to={"/reels"}>
               <div className="main_noti_div">
                 <div className="noti_div"></div>
                 <svg
@@ -275,7 +368,7 @@ const Header = () => {
                     d="M16.9248 5.45784H0.674805V16.4995C0.674805 16.8447 0.954627 17.1245 1.2998 17.1245H16.2998C16.645 17.1245 16.9248 16.8447 16.9248 16.4995V5.45784ZM11.7165 11.0828L7.13314 8.16618V13.9995L11.7165 11.0828Z"
                     fill={allPath ? "white" : "#6C7774"}
                   />
-                </svg>{" "}
+                </svg>
               </div>
             </NavLink>
             <NavLink className="me-3" to={"sessions"}>
@@ -296,7 +389,7 @@ const Header = () => {
                 </svg>
               </div>
             </NavLink>
-            <NavLink className="me-3" to={"/live_stream"}>
+            <NavLink className="me-3 d-none d-lg-block" to={"/live_stream"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="21"
@@ -310,6 +403,9 @@ const Header = () => {
                 />
               </svg>
             </NavLink>
+            <div className="d-block d-lg-none">
+              <Profile />
+            </div>
           </div>
           <div className="blank_div mx-2"></div>
 
@@ -354,12 +450,21 @@ const Header = () => {
                 />
               </svg>
             </NavLink>
-            <img onClick={handleOpenModal} src={StatusChange} className="d-lg-none d-block me-3" alt="" />
+            <img
+              onClick={handleOpenModal}
+              src={StatusChange}
+              className="d-lg-none d-block me-3"
+              alt=""
+            />
             <RedUpModal show={showModal} handleClose={handleCloseModal} />
-            <Profile />
+            <div className="d-none d-lg-block">
+              <Profile />
+            </div>
           </div>
         </div>
       </Navbar>
+      {/* modal  */}
+      <CreatePost isOpen={createpost} onClose={Post_close} />
     </>
   );
 };

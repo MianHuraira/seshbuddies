@@ -30,7 +30,9 @@ const MyProfile = () => {
   const [bio, setBio] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("info"); // or any other valid default value
+  // or any other valid default value
+
 
   // close snackbar
   const handleSnackbarClose = () => {

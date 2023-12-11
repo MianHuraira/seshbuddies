@@ -84,7 +84,7 @@ const Createpost = () => {
   let allPath = false;
 
   if (getPath === "/live_stream" || getPath === "/reels") {
-    allPath = true;
+    allPath = "true";
   }
 
   const [Success, ShowNotification] = useState(false);
@@ -511,7 +511,7 @@ const Createpost = () => {
                 as="textarea"
                 aria-label="With textarea"
                 className="mt-1 text_area radius_12"
-                Rows={4}
+                // Rows={4}
               />
             </Form.Group>
             <Form.Group className="mt-1 mainInp00 position-relative">
@@ -527,8 +527,8 @@ const Createpost = () => {
               />
               {shouldShowSuggestions && (
                 <div className="mainSearch000">
-                  {suggestions.map((user) => (
-                    <div
+                  {suggestions.map((user , index) => (
+                    <div 
                       className="suggestion-item mb-2 d-flex align-items-center"
                       onClick={() => handleSuggestionClick(user)}
                       key={user.id}

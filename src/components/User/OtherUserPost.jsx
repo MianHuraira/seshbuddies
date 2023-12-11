@@ -203,7 +203,7 @@ const OtherUserPost = () => {
   return (
     <>
       {getData.map((data, index) => (
-        <div className="bg-white mt-3 radius_12 mb-4 overflow-hidden">
+        <div key={index}  className="bg-white mt-3 radius_12 mb-4 overflow-hidden">
           <div className="px-3">
             <div className="d-flex justify-content-between mt-3">
               <div className="d-flex align-items-center">

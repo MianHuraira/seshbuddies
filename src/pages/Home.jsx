@@ -17,10 +17,10 @@ const Home = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   return (
-    <div>
+    <>
       <Container className="top_padd px-4" fluid="xxl">
         <Row className="h-100 p-0">
-          <Col lg="3" md="3" className="overflow-hidden">
+          <Col lg="3" md="3" className="sideHeight00 d-md-block d-none">
             <Createpost />
           </Col>
           <Col
@@ -42,7 +42,7 @@ const Home = () => {
               <FollowBuddies />
             </div>
           </Col>
-          <Col lg="3" className="overflow-hidden d-lg-block d-none">
+          <Col lg="3" className="sideHeight00 d-lg-block d-none">
             <SideMessage />
           </Col>
         </Row>
@@ -71,7 +71,7 @@ const Home = () => {
         </Modal.Body>
       </Modal> */}
       {/* ___modal end--- */}
-    </div>
+    </>
   );
 };
 

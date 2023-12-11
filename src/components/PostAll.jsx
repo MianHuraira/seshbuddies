@@ -220,7 +220,7 @@ const PostAll = () => {
         </div>
       ) : (
         getData.map((data, index) => (
-          <div className="bg-white mt-3 radius_12 mb-4 overflow-hidden">
+          <div key={index}  className="bg-white mt-3 radius_12 mb-4 overflow-hidden">
             <div className="px-3">
               <div className="d-flex justify-content-between mt-3">
                 <Link
@@ -229,7 +229,7 @@ const PostAll = () => {
                 >
                   <div className="position-relative">
                     <ImageLoader
-                      circeltrue={true}
+                      circeltrue={"true"}
                       imageUrl={
                         data?.user?.profilePicture
                           ? data?.user?.profilePicture
@@ -324,13 +324,13 @@ const PostAll = () => {
 
                 <div className="d-flex justify-content-between pb-1 mt-2">
                   <div className="d-flex">
-                    <p
+                    <div
                       onClick={() => likesModalShow(data?._id)}
                       className="inherit black_text_md cursorP align_center"
                     >
                       <img alt="" src={likes} className="ms-2 me-1" />
                       <h5 className="postD">{data?.TotalLikes}</h5>
-                    </p>
+                    </div>
                   </div>
                   <div className="d-flex">
                     <p className="me-2 postD">{data?.comments} Comments</p>

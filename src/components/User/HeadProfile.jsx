@@ -53,20 +53,20 @@ const Profile = () => {
             <div className="me-2 position-relative">
               {userData?.user?.profilePicture ? (
                 <ImageLoader
-                  classes="profile_img"
+                  classes="profile_img mdSize00Profile"
                   imageUrl={userData.user.profilePicture}
                   alt=""
                 />
               ) : (
                 <ImageLoader
                   style={{ border: "1px solid #EAEBF0" }}
-                  classes="profile_img"
+                  classes="profile_img mdSize00Profile"
                   imageUrl={Avatar}
                   alt=""
                 />
               )}
 
-              <img className="status_icon" src={Status_icon} alt="" />
+              <img className="status_icon d-none d-lg-block" src={Status_icon} alt="" />
             </div>
             <h5
               style={{ color: allPath ? "white" : "" }}

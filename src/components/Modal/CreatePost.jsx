@@ -18,7 +18,8 @@ const CreatePost = ({ isOpen, onClose }) => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("info");
+
   const [isMapVisible, setIsMapVisible] = useState(false);
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
@@ -262,7 +263,6 @@ const CreatePost = ({ isOpen, onClose }) => {
     setLocation("");
     setLat("");
     setLng("");
-
     onClose();
   };
 

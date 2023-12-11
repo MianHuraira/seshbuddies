@@ -7,7 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 import VarifyCode from "./VerifyCode";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-
+import { NavLink } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
@@ -207,6 +207,17 @@ const SignUp = () => {
                 "Send Code"
               )}
             </button>
+            <div className="mt-4 align_center">
+              <h5
+                style={{ color: "#02150F" }}
+                className="login_text d-flex align-items-center"
+              >
+                Already have an account?
+                <NavLink className="nav_text ms-2" to={"/login"}>
+                  Sign in
+                </NavLink>
+              </h5>
+            </div>
           </div>
         </div>
       </div>

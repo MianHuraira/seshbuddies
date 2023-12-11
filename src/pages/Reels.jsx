@@ -34,7 +34,6 @@ const Session = () => {
     setLike(!like);
   };
 
-  console.log(msg);
   const msgShow = () => {
     setMsg(!msg);
   };
@@ -137,7 +136,7 @@ const Session = () => {
                           <span className="light_text_sm ms-1">@Jane D</span>
                         </h1>
                       </div>
-                      <p className="gray_text_md justify_center">
+                      <div className="gray_text_md justify_center">
                         1h
                         <img
                           onClick={likeComment}
@@ -145,20 +144,20 @@ const Session = () => {
                           src={likeComnt ? grenHeart : heart}
                           className="ms-2 mb-1 heart"
                         />
-                      </p>
+                      </div>
                     </div>
                     {/* <name & like section> */}
 
                     {/* comment  */}
                     <p className="black_text_md">Looks Like a great time!</p>
                     {/* comment  */}
-                    <p className="black_text_md">
+                    <div className="black_text_md">
                       2022-12-23
                       <button className="border-0 green-txt bg-white inter-semi ms-2">
                         Reply
                       </button>
                       <Colapse children={<Colapse />} />
-                    </p>
+                    </div>
 
                     {/* repl  y show */}
                   </div>
@@ -174,20 +173,20 @@ const Session = () => {
                           <span className="light_text_sm ms-1">@Jane D</span>
                         </h1>
                       </div>
-                      <p className="gray_text_md justify_center">
+                      <div className="gray_text_md justify_center">
                         1h
                         <img alt="" src={heart} className=" ms-2 mb-1 heart" />
-                      </p>
+                      </div>
                     </div>
 
                     <p className="black_text_md">Looks Like a great time!</p>
 
-                    <p className="black_text_md">
+                    <div className="black_text_md">
                       2022-12-23
                       <button className="border-0 green-txt bg-white inter-semi ms-2">
                         Reply
                       </button>
-                    </p>
+                    </div>
                   </div>
                 </div>
 
@@ -201,20 +200,20 @@ const Session = () => {
                           <span className="light_text_sm ms-1">@Jane D</span>
                         </h1>
                       </div>
-                      <p className="gray_text_md justify_center">
+                      <div className="gray_text_md justify_center">
                         1h
                         <img alt="" src={heart} className=" ms-2 mb-1 heart" />
-                      </p>
+                      </div>
                     </div>
 
                     <p className="black_text_md">Looks Like a great time!</p>
 
-                    <p className="black_text_md">
+                    <div className="black_text_md">
                       2022-12-23
                       <button className="border-0 green-txt bg-white inter-semi ms-2">
                         Reply
                       </button>
-                    </p>
+                    </div>
                   </div>
                 </div>
 
@@ -228,20 +227,20 @@ const Session = () => {
                           <span className="light_text_sm ms-1">@Jane D</span>
                         </h1>
                       </div>
-                      <p className="gray_text_md justify_center">
+                      <div className="gray_text_md justify_center">
                         1h
                         <img alt="" src={heart} className=" ms-2 mb-1 heart" />
-                      </p>
+                      </div>
                     </div>
 
                     <p className="black_text_md">Looks Like a great time!</p>
 
-                    <p className="black_text_md">
+                    <div className="black_text_md">
                       2022-12-23
                       <button className="border-0 green-txt bg-white inter-semi ms-2">
                         Reply
                       </button>
-                    </p>
+                    </div>
                   </div>
                 </div>
 
@@ -255,20 +254,20 @@ const Session = () => {
                           <span className="light_text_sm ms-1">@Jane D</span>
                         </h1>
                       </div>
-                      <p className="gray_text_md justify_center">
+                      <div className="gray_text_md justify_center">
                         1h
                         <img alt="" src={heart} className=" ms-2 mb-1 heart" />
-                      </p>
+                      </div>
                     </div>
 
                     <p className="black_text_md">Looks Like a great time!</p>
 
-                    <p className="black_text_md">
+                    <div className="black_text_md">
                       2022-12-23
                       <button className="border-0 green-txt bg-white inter-semi ms-2">
                         Reply
                       </button>
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -237,7 +237,7 @@ const Login = () => {
               style={{ color: "#02150F" }}
               className="login_text d-flex align-items-center"
             >
-              Already have an account?
+              Don't have an account?
               {isAgeVerified ? (
                 <NavLink className="nav_text ms-2" to={"/signUp"}>
                   Sign up

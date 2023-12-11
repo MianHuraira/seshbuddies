@@ -39,7 +39,8 @@ const OtherUsers = () => {
   const [loading, setLoading] = useState(true);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("info"); // or any other valid default value
+
 
   // close snackbar
   const handleSnackbarClose = () => {
