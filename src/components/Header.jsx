@@ -186,7 +186,7 @@ const Header = () => {
               />
               <Form.Control
                 type="text"
-                className="hide_fcontrol d-none d-lg-block"
+                className="hide_fcontrol lgNone00"
                 placeholder="nickname, hashtag, music..."
                 value={query}
                 onChange={handleInputChange}
@@ -236,7 +236,7 @@ const Header = () => {
           <div className="blank_div mx-2"></div>
           <div className={` ${allPath ? "item_nav" : "clr_chng nav_item"} `}>
             <NavLink
-              className="me-3"
+              className="tabMargin"
               onClick={() => handleNavLinkClick("home")}
               to={"/home"}
             >
@@ -254,7 +254,7 @@ const Header = () => {
               </svg>
             </NavLink>
             <NavLink
-              className="me-3"
+              className="tabMargin"
               to={"/buddies"}
               onClick={() => {
                 handleNavLinkClick("user");
@@ -278,7 +278,7 @@ const Header = () => {
                 e.stopPropagation();
                 setOpen(true);
               }}
-              className="md_btnAdd d-block d-lg-none me-3"
+              className="md_btnAdd d-block d-lg-none tabMargin"
             >
               <FaPlus />
               <Sheet isOpen={isOpen} onClose={handleClose}>
@@ -294,7 +294,7 @@ const Header = () => {
                       onClick={(e) => {
                         handleClose(e);
                       }}
-                      style={{ fontSize: "28px" }}
+                      style={{ fontSize: "22px" }}
                       className="float-end"
                     />
                   </Sheet.Header>
@@ -340,7 +340,7 @@ const Header = () => {
                 <Sheet.Backdrop />
               </Sheet>
             </div>
-            <NavLink className="me-3 d-none d-lg-block" to={"/reels"}>
+            <NavLink className="tabMargin lgNone00" to={"/reels"}>
               <div className="main_noti_div">
                 <div className="noti_div"></div>
                 <svg
@@ -371,7 +371,7 @@ const Header = () => {
                 </svg>
               </div>
             </NavLink>
-            <NavLink className="me-3" to={"sessions"}>
+            <NavLink className="tabMargin" to={"sessions"}>
               <div className="main_noti_div">
                 <div className="noti_div"></div>
 
@@ -389,7 +389,7 @@ const Header = () => {
                 </svg>
               </div>
             </NavLink>
-            <NavLink className="me-3 d-none d-lg-block" to={"/live_stream"}>
+            <NavLink className="tabMargin lgNone00" to={"/live_stream"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="21"
@@ -415,7 +415,7 @@ const Header = () => {
               style={{
                 backgroundColor: allPath ? "rgba(45, 61, 56, 0.26)" : "",
               }}
-              className="icon_div mx-3"
+              className="icon_div tabMargin tabMarginL"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -435,7 +435,7 @@ const Header = () => {
               style={{
                 backgroundColor: allPath ? "rgba(45, 61, 56, 0.26)" : "",
               }}
-              className="icon_div me-3"
+              className="icon_div tabMargin"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -453,11 +453,11 @@ const Header = () => {
             <img
               onClick={handleOpenModal}
               src={StatusChange}
-              className="d-lg-none d-block me-3"
+              className="d-lg-none d-block me-2 smSize00Pls"
               alt=""
             />
             <RedUpModal show={showModal} handleClose={handleCloseModal} />
-            <div className="d-none d-lg-block">
+            <div className="lgNone00">
               <Profile />
             </div>
           </div>

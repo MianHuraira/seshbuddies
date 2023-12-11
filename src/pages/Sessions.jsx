@@ -17,7 +17,7 @@ const ForYou = () => {
       <div>
         <Container className="top_padd px-4" fluid="xxl">
           <Row className="h-100 p-0">
-            <Col lg="3" md="3" className="overflow-hidden">
+            <Col lg="3" md="3" className="sideHeight00 d-md-block d-none">
               <Createpost />
             </Col>
             <Col
@@ -77,7 +77,7 @@ const ForYou = () => {
               </div>
               {/* ___FOR YOU / FOR BUDDIES TABS___ */}
             </Col>
-            <Col lg="3" className="overflow-hidden d-lg-block d-none">
+            <Col lg="3" className="sideHeight00 d-lg-block d-none">
               <SideMessage />
             </Col>
           </Row>

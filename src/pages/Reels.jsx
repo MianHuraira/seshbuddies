@@ -49,7 +49,7 @@ const Session = () => {
     <>
       <Container className="top_padd px-4" fluid="xxl">
         <Row className="h-100 p-0">
-          <Col lg="3" md="3" className="overflow-hidden">
+          <Col lg="3" md="3" className="sideHeight00 d-md-block d-none">
             <Createpost />
           </Col>
           <Col
@@ -109,7 +109,7 @@ const Session = () => {
               </div>
             </div>
           </Col>
-          <Col lg="4" className="overflow-hidden d-lg-block d-none">
+          <Col lg="4" className="sideHeight00 d-lg-block d-none">
             <div
               className={`${
                 msg ? "d-block" : "d-none"

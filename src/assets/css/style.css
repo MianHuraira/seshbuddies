@@ -1128,16 +1128,22 @@
   width: 100%;
 }
 .mdIcons00 {
-  width: 20px;
-  height: 20px;
+  width: 17px;
+  height: 17px;
 }
 .mdCon00 {
   font-family: "inter-bold";
-  font-size: 17px;
+  font-size: 16px;
   color: #02150f;
 }
 .shhth00 {
   height: auto !important;
+}
+.tabMargin{
+margin-right: 1rem !important;
+}
+.tabMarginL{
+margin-left: 1rem !important;
 }
 
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
@@ -1930,15 +1936,26 @@
 }
 /* huraira */
 
+
 @media (min-width: 992px) {
   .mdMarginR0{
     margin-right: 0.5rem !important;
   }
+
 }
 /* use only under 992px  */
 @media (max-width: 992px) {
   .blank_div {
     display: none !important;
+  }
+  .lgNone00{
+    display: none !important;
+  }
+  .tabMargin{
+    margin-right: 0.5rem !important;
+  }
+  .tabMarginL{
+    margin-left: 0.5rem !important;
   }
   .mdMarginR0{
     margin-right: 0rem !important;
@@ -1977,7 +1994,7 @@
   }
   .item_nav a {
     width: auto !important;
-    /* padding: 10px 10px !important; */
+    padding: 10px 10px !important;
   }
 
   .nav_item a.active {
@@ -1995,12 +2012,13 @@
     height: 45px;
     justify-content: center;
     margin-left: auto;
-    margin-right: 16px;
+    /* margin-right: 16px; */
+    padding: 0px !important;
   }
   .mainS00 {
     margin-left: auto !important;
-    width: 40px;
-    height: 40px;
+    width: 45px !important;
+    height: 45px !important;
   }
   .search_div img {
     margin-right: 0px !important;
@@ -2038,11 +2056,30 @@
     height: 20px;
   } */
   .search_div {
-    width: 40px;
-    height: 40px;
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .mainS00 {
+    margin-left: auto !important;
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .smSize00Pls{
+    width: 30px;
+    height: 30px;
   }
   .icon_div {
-    width: 40px;
-    height: 40px;
+    width: 30px !important;
+    height: 30px !important;
+  }
+}
+
+@media (max-width: 300px) {
+  .logo_text {
+    width: 70px;
+  }
+  .logo_icon {
+    width: 18px;
+    height: 18px;
   }
 }
