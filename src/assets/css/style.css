@@ -1930,14 +1930,22 @@
 }
 /* huraira */
 
+@media (min-width: 992px) {
+  .mdMarginR0{
+    margin-right: 0.5rem !important;
+  }
+}
 /* use only under 992px  */
 @media (max-width: 992px) {
   .blank_div {
     display: none !important;
   }
+  .mdMarginR0{
+    margin-right: 0rem !important;
+  }
   .mdSize00Profile {
-    width: 38px;
-    height: 38px;
+    width: 26px;
+    height: 26px;
   }
   .nav_item {
     position: fixed;
@@ -1955,7 +1963,7 @@
     left: 0;
     right: 0;
     width: 100%;
-    padding: 0rem 2rem;
+    padding: 0rem 1rem;
     background-color: #02150f;
     z-index: 999;
     border: 1px solid rgba(200, 222, 211, 0.08);
@@ -1969,7 +1977,7 @@
   }
   .item_nav a {
     width: auto !important;
-    padding: 10px 10px !important;
+    /* padding: 10px 10px !important; */
   }
 
   .nav_item a.active {

@@ -50,7 +50,7 @@ const Profile = () => {
         id="nav-dropdown-dark-example"
         title={
           <div className="d-flex align-items-center">
-            <div className="me-2 position-relative">
+            <div className="mdMarginR0 position-relative">
               {userData?.user?.profilePicture ? (
                 <ImageLoader
                   classes="profile_img mdSize00Profile"
@@ -70,14 +70,14 @@ const Profile = () => {
             </div>
             <h5
               style={{ color: allPath ? "white" : "" }}
-              className="me-2 user_name0 d-none d-lg-block"
+              className="user_name0 mdMarginR0  d-none d-lg-block"
             >
               {userData?.user?.username}
             </h5>
           </div>
         }
         menuVariant="dark"
-        className="me-2 main_drop_na"
+        className="main_drop_na mdMarginR0"
         align={"end"}
       >
         <NavDropdown.Item>

@@ -278,7 +278,7 @@ const Header = () => {
                 e.stopPropagation();
                 setOpen(true);
               }}
-              className="md_btnAdd d-block d-lg-none"
+              className="md_btnAdd d-block d-lg-none me-3"
             >
               <FaPlus />
               <Sheet isOpen={isOpen} onClose={handleClose}>
