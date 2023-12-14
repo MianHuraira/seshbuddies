@@ -22,6 +22,9 @@ const ReguestBuddies = ({ activeModalTab }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [clickedIndex, setClickedIndex] = useState(null);
+
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
@@ -77,6 +80,9 @@ const ReguestBuddies = ({ activeModalTab }) => {
   // accept req api
 
   const HandleAccept = async (postId, rejectProp, index) => {
+    setClickedIndex(index); // Set the clicked index
+    setIsButtonClicked(true);
+
     let apiEndpoint;
     if (rejectProp) {
       // If rejectProp is truthy, use the reject endpoint
@@ -111,7 +117,6 @@ const ReguestBuddies = ({ activeModalTab }) => {
           } else {
             showSnackbar(`Accepted Successful`, "success");
           }
-          showSnackbar(`Request Sent`, "success");
         }, 300);
       } else {
         showSnackbar(`Request failed`, "error");
@@ -119,6 +124,8 @@ const ReguestBuddies = ({ activeModalTab }) => {
     } catch (error) {
       console.log(error, "error");
     } finally {
+      setClickedIndex(null);
+      setIsButtonClicked(false);
       HandleCloseModal();
     }
   };
@@ -210,11 +217,28 @@ const ReguestBuddies = ({ activeModalTab }) => {
               >
                 Reject
               </button>
+
               <Button
-                onClick={() => HandleAccept(data?._id)}
-                className="btn-primary w_45"
+                onClick={() => HandleAccept(data?._id, false, index)}
+                className="btn-primary w-50"
+                disabled={isButtonClicked && clickedIndex === index}
               >
-                Accept
+                {isButtonClicked && clickedIndex === index ? (
+                  <Spinner
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      marginTop: "3px",
+                      borderWidth: "0.15em",
+                    }}
+                    animation="border"
+                    role="status"
+                  >
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                ) : (
+                  "Accept"
+                )}
               </Button>
             </div>
           </div>
