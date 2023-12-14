@@ -14,7 +14,7 @@ const Buddies = ({ activeModalTab }) => {
   const [noData, setNoData] = useState(null);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [clickedIndex, setClickedIndex] = useState(null);
-
+  const [fadeOutIndex, setFadeOutIndex] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
@@ -76,20 +76,18 @@ const Buddies = ({ activeModalTab }) => {
         }
       );
       if (resp.status === 200) {
-        // Update the state to remove the accepted request
-        const element = document.getElementById(index);
-        if (element) {
-          element.classList.add("custom_fade");
-        }
+        setFadeOutIndex(index);
 
+        // After some time, remove the index from state
         setTimeout(() => {
+          setFadeOutIndex(null);
           setBuddies((prevBuddies) => {
             return prevBuddies.filter((request) => request._id !== postId);
           });
           showSnackbar(`Request Sent`, "success");
-        }, 500);
+        }, 300);
       } else {
-        console.log("Unfolow failed");
+        showSnackbar(`Request failed`, "error");
       }
     } catch (error) {
       console.log(error, "error");
@@ -126,8 +124,9 @@ const Buddies = ({ activeModalTab }) => {
         buddies?.map((data, index) => (
           <div
             key={index}
-            id={data._id}
-            className={`bg-white px-3 pt-2 pb-3 mb-2 radius_12 mb-2 ${data._id}`}
+            className={`bg-white px-3 pt-2 pb-3 mb-2 radius_12 mb-2 ${
+              index === fadeOutIndex ? "custom_fade" : ""
+            }`}
           >
             <div className="d-flex mt-2">
               <div className="">
@@ -208,7 +207,6 @@ const Buddies = ({ activeModalTab }) => {
         ))
       ) : (
         <h5 className="text-center l-black inter fs-15 mt-2">{noData}</h5>
-        
       )}
     </>
   );

@@ -1151,6 +1151,12 @@
   transition: transform 0.3s ease-in-out;
 }
 
+.fade-out {
+  transform: scale(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
 /* __for you css___ */

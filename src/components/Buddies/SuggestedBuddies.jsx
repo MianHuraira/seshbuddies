@@ -20,6 +20,7 @@ const SuggestedBuddies = ({ activeModalTab }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
+  const [fadeOutIndex, setFadeOutIndex] = useState(null);
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
@@ -51,7 +52,6 @@ const SuggestedBuddies = ({ activeModalTab }) => {
       });
       setSuggestedBuddies(res.data.suggestions);
       setNoData(res.data.message);
-      console.log(res.data);
       setLoading(false);
     } catch (error) {
       console.log(error, "error");
@@ -82,14 +82,14 @@ const SuggestedBuddies = ({ activeModalTab }) => {
           },
         }
       );
-      console.log(res.status);
 
       if (res.status === 201) {
-        const element = document.getElementById(userId);
-        element.classList.add("custom_fade");
-       
+        // Don't wait for spinner to finish, start animation immediately
+        setFadeOutIndex(index); // Set the index to start fade-out animation
 
+        // After some time, remove the index from state
         setTimeout(() => {
+          setFadeOutIndex(null);
           setSuggestedBuddies((prevRequests) => {
             return prevRequests.filter((request) => request._id !== userId);
           });
@@ -134,8 +134,9 @@ const SuggestedBuddies = ({ activeModalTab }) => {
         suggestedBuddies?.map((data, index) => (
           <div
             key={index}
-            id={data._id}
-            className={`bg-white px-3 pt-2 pb-3 radius_12 mb-2 custom_fade`}
+            className={`bg-white px-3 pt-2 pb-3 radius_12 mb-2 ${
+              index === fadeOutIndex ? "custom_fade" : ""
+            }`}
           >
             <div className="d-flex mt-2">
               <div className="">

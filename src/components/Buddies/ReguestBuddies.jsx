@@ -18,9 +18,7 @@ const ReguestBuddies = ({ activeModalTab }) => {
   const [resultData, setResultData] = useState(null);
   const [reguested, setReguested] = useState();
   const [loading, setLoading] = useState(true);
-  const [isButtonClicked, setIsButtonClicked] = useState(false);
-  const [clickedIndex, setClickedIndex] = useState(null);
-
+  const [fadeOutIndex, setFadeOutIndex] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
@@ -79,9 +77,6 @@ const ReguestBuddies = ({ activeModalTab }) => {
   // accept req api
 
   const HandleAccept = async (postId, rejectProp, index) => {
-    setClickedIndex(index); // Set the clicked index
-    setIsButtonClicked(true);
-
     let apiEndpoint;
     if (rejectProp) {
       // If rejectProp is truthy, use the reject endpoint
@@ -103,12 +98,11 @@ const ReguestBuddies = ({ activeModalTab }) => {
       );
 
       if (resp.status === 200) {
-        // Update the state to remove the accepted request
-        const element = document.getElementById(index);
-        if (element) {
-          element.classList.add("custom_fade");
-        }
+        setFadeOutIndex(index);
+
+        // After some time, remove the index from state
         setTimeout(() => {
+          setFadeOutIndex(null);
           setReguested((prevBuddies) => {
             return prevBuddies.filter((request) => request._id !== postId);
           });
@@ -117,9 +111,10 @@ const ReguestBuddies = ({ activeModalTab }) => {
           } else {
             showSnackbar(`Accepted Successful`, "success");
           }
-        }, 500);
+          showSnackbar(`Request Sent`, "success");
+        }, 300);
       } else {
-        console.log("failed");
+        showSnackbar(`Request failed`, "error");
       }
     } catch (error) {
       console.log(error, "error");
@@ -155,8 +150,9 @@ const ReguestBuddies = ({ activeModalTab }) => {
         reguested?.map((data, index) => (
           <div
             key={index}
-            id={data._id}
-            className={`bg-white px-3 pt-2 pb-3 radius_12 mb-2 ${data._id}`}
+            className={`bg-white px-3 pt-2 pb-3 radius_12 mb-2 ${
+              index === fadeOutIndex ? "custom_fade" : ""
+            }`}
           >
             <div className="d-flex mt-2">
               <div>
