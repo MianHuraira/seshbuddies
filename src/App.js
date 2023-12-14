@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import Header from "./components/Header";
 import { useLocation } from "react-router-dom";
 import HeaderSecound from "../src/components/Header_secound";
+
 // bootstrap css
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AuthProvider } from "./pages/AuthContext";

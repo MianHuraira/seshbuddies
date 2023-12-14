@@ -1139,11 +1139,16 @@
 .shhth00 {
   height: auto !important;
 }
-.tabMargin{
-margin-right: 1rem !important;
+.tabMargin {
+  margin-right: 1rem !important;
 }
-.tabMarginL{
-margin-left: 1rem !important;
+.tabMarginL {
+  margin-left: 1rem !important;
+}
+/* Add this to your CSS stylesheet */
+.custom_fade{
+  transform: scale(0);
+  transition: transform 0.3s ease-in-out;
 }
 
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
@@ -1185,6 +1190,7 @@ margin-left: 1rem !important;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
+  border: 1px solid var(--stroke-light-base, #eaebf0);
 }
 .status_plus {
   position: absolute;
@@ -1478,12 +1484,14 @@ margin-left: 1rem !important;
   border-radius: 50%;
   object-fit: cover;
   object-position: top;
+  border: 1px solid var(--stroke-light-base, #eaebf0);
 }
 .userPic2 {
   width: 64px;
   height: 64px;
   object-fit: cover;
   border-radius: 50%;
+  border: 1px solid var(--stroke-light-base, #eaebf0);
 }
 .B-right {
   border-right: 1px solid rgba(233, 230, 233, 1);
@@ -1936,28 +1944,26 @@ margin-left: 1rem !important;
 }
 /* huraira */
 
-
 @media (min-width: 992px) {
-  .mdMarginR0{
+  .mdMarginR0 {
     margin-right: 0.5rem !important;
   }
-
 }
 /* use only under 992px  */
 @media (max-width: 992px) {
   .blank_div {
     display: none !important;
   }
-  .lgNone00{
+  .lgNone00 {
     display: none !important;
   }
-  .tabMargin{
+  .tabMargin {
     margin-right: 0.5rem !important;
   }
-  .tabMarginL{
+  .tabMarginL {
     margin-left: 0.5rem !important;
   }
-  .mdMarginR0{
+  .mdMarginR0 {
     margin-right: 0rem !important;
   }
   .mdSize00Profile {
@@ -2064,7 +2070,7 @@ margin-left: 1rem !important;
     width: 30px !important;
     height: 30px !important;
   }
-  .smSize00Pls{
+  .smSize00Pls {
     width: 30px;
     height: 30px;
   }

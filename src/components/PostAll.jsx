@@ -220,7 +220,10 @@ const PostAll = () => {
         </div>
       ) : (
         getData.map((data, index) => (
-          <div key={index}  className="bg-white mt-3 radius_12 mb-4 overflow-hidden">
+          <div
+            key={index}
+            className="bg-white mt-3 radius_12 mb-4 overflow-hidden"
+          >
             <div className="px-3">
               <div className="d-flex justify-content-between mt-3">
                 <Link
@@ -349,11 +352,7 @@ const PostAll = () => {
                   <img
                     style={{ width: "20px", height: "20px" }}
                     alt=""
-                    src={
-                      likedPosts[data?._id] || data?.likes
-                        ? greenLeaf
-                        : like_btn
-                    }
+                    src={data?.likes ? greenLeaf : like_btn}
                     className="me-2"
                   />
                   Like
