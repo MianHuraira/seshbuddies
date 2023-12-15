@@ -13,18 +13,14 @@ const YourBuddies = () => {
     setActiveModalTab(tab);
   };
   return (
-    <div>
-      <div>
+    <>
+      <div className="main_head00">
         <Container className="top_padd px-4" fluid="xxl">
           <Row className="h-100 p-0">
             <Col lg="3" md="3" className="sideHeight00 d-md-block d-none">
               <Createpost />
             </Col>
-            <Col
-              lg="6"
-              md="9"
-              className="main_height no_scrollbar gx-5 overflow-y-auto"
-            >
+            <Col lg="6" md="9" className="gx-5">
               <div>
                 <ul
                   className="nav nav-tabs ModalNav mb-2 p-2"
@@ -64,7 +60,7 @@ const YourBuddies = () => {
                 <div>
                   <div className="tab-content mt-2">
                     <div
-                      className={`tab-pane px-2 ${
+                      className={`tab-pane px-2 main_height no_scrollbar overflow-y-auto ${
                         activeModalTab === "tab1" ? "active" : ""
                       }`}
                       id="tab1"
@@ -72,7 +68,7 @@ const YourBuddies = () => {
                       <ReguestBuddies activeModalTab={activeModalTab} />
                     </div>
                     <div
-                      className={`tab-pane px-2 ${
+                      className={`tab-pane px-2 main_height no_scrollbar overflow-y-auto ${
                         activeModalTab === "tab2" ? "active" : ""
                       }`}
                       id="tab2"
@@ -80,7 +76,7 @@ const YourBuddies = () => {
                       <Buddies activeModalTab={activeModalTab} />
                     </div>
                     <div
-                      className={`tab-pane px-2 ${
+                      className={`tab-pane px-2 main_height no_scrollbar overflow-y-auto ${
                         activeModalTab === "tab3" ? "active" : ""
                       }`}
                       id="tab3"
@@ -97,7 +93,7 @@ const YourBuddies = () => {
           </Row>
         </Container>
       </div>
-    </div>
+    </>
   );
 };
 

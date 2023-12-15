@@ -35,7 +35,7 @@ const ProfilUpdate = ({ isOpen, onClose }) => {
             aria-describedby="basic-addon2"
             className="radius_12 text_area form-control"
           />
-          <div className="mt-2 d-flex align-items-center">
+          {/* <div className="mt-2 d-flex align-items-center">
             <Form.Group className="w-100">
               <label className="labelHead00 form-label">Phone Number</label>
               <Form.Control
@@ -54,15 +54,15 @@ const ProfilUpdate = ({ isOpen, onClose }) => {
                 className="radius_12 text_area form-control"
               />
             </Form.Group>
-          </div>
-          <label className="labelHead00 form-label mt-2">Username</label>
+          </div> */}
+          {/* <label className="labelHead00 form-label mt-2">Username</label>
           <Form.Control
             placeholder="User Name"
             aria-label="Recipient's username"
             aria-describedby="basic-addon2"
             className="radius_12 text_area form-control"
-          />
-          <div className="d-flex mt-2">
+          /> */}
+          {/* <div className="d-flex mt-2">
             <p className="black_text_lg fs-16 inter">
               SESHBUDDIES.io/@SESHBUDDIES
             </p>
@@ -71,11 +71,11 @@ const ProfilUpdate = ({ isOpen, onClose }) => {
           <p className="cont_edit00 mt-2">
             Usernames can contain only letters, numbers, underscores, and
             periods. Changing your username will also change your profile link.
-          </p>
+          </p> */}
           <p className="cont_edit00 mt-3">
             You can change your username once every 30 days.
           </p>
-          <div className="d-flex align-items-center mt-2">
+          {/* <div className="d-flex align-items-center mt-2">
             <Form.Group class="w-100">
               <label className="labelHead00 form-label">Date of birth</label>
               <Form.Select
@@ -99,7 +99,7 @@ const ProfilUpdate = ({ isOpen, onClose }) => {
               />
               <img src={Pinpoint} alt="" className="pinpoint" />
             </Form.Group>
-          </div>
+          </div> */}
           <div className="two_select w-100">
             <label className="labelHead00 form-label">Bio</label>
             <Form.Control

@@ -13,6 +13,8 @@ import CrosIcon from "../assets/icons/cros_con.svg";
 const LiveStream = () => {
   return (
     <>
+    <div className="main_head00">
+
       <Container className="top_padd px-4" fluid="xxl">
         <Row className="h-100 p-0">
           <Col lg="3" md="3" className="sideHeight00 d-md-block d-none">
@@ -71,6 +73,8 @@ const LiveStream = () => {
           </Col>
         </Row>
       </Container>
+    </div>
+
     </>
   );
 };

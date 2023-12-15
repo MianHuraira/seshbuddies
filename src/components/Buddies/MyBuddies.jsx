@@ -18,7 +18,6 @@ const Buddies = ({ activeModalTab }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
-console.log(buddies);
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };

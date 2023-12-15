@@ -85,10 +85,8 @@ const ReguestBuddies = ({ activeModalTab }) => {
 
     let apiEndpoint;
     if (rejectProp) {
-      // If rejectProp is truthy, use the reject endpoint
       apiEndpoint = `/buddies/follow-request/reject/${postId}`;
     } else {
-      // If rejectProp is falsy or undefined, use the accept endpoint
       apiEndpoint = `/buddies/follow-request/accept/${postId}`;
     }
     try {
