@@ -7,8 +7,11 @@ import ImageLoader from "../ImageLoader";
 import Avatar from "../../assets/images/avatarImg.png";
 import CustomSnackbar from "../CustomSnackbar";
 
+import { selectUser } from "../Redux/Slices/AuthSlice";
+import { useSelector } from 'react-redux';
+
 const Buddies = ({ activeModalTab }) => {
-  const [resultData, setResultData] = useState(null);
+  // const [resultData, setResultData] = useState(null);
   const [buddies, setBuddies] = useState();
   const [loading, setLoading] = useState(true);
   const [noData, setNoData] = useState(null);
@@ -18,6 +21,7 @@ const Buddies = ({ activeModalTab }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
+  const userData = useSelector(selectUser);
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
@@ -27,15 +31,14 @@ const Buddies = ({ activeModalTab }) => {
     setSnackbarOpen(true);
   };
 
-  useEffect(() => {
-    const storedUserData = localStorage.getItem("meraname");
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("meraname");
 
-    if (storedUserData) {
-      // Parse the JSON data
-      const parsedUserData = JSON.parse(storedUserData);
-      setResultData(parsedUserData);
-    }
-  }, []);
+  //   if (storedUserData) {
+  //     const parsedUserData = JSON.parse(storedUserData);
+  //     setResultData(parsedUserData);
+  //   }
+  // }, []);
 
   const GetBuddies = async () => {
     setLoading(true);
@@ -43,7 +46,7 @@ const Buddies = ({ activeModalTab }) => {
       const res = await axios.get(global.BASEURL + `/buddies/all/accepted`, {
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": resultData.token,
+          "x-auth-token": userData?.token,
         },
       });
       setBuddies(res.data.following);
@@ -55,10 +58,10 @@ const Buddies = ({ activeModalTab }) => {
   };
 
   useEffect(() => {
-    if (resultData && activeModalTab === "tab2") {
+    if (userData && activeModalTab === "tab2") {
       GetBuddies();
     }
-  }, [resultData, activeModalTab]);
+  }, [userData, activeModalTab]);
 
   const HandleUnfollow = async (postId, index) => {
     setClickedIndex(index); // Set the clicked index
@@ -70,7 +73,7 @@ const Buddies = ({ activeModalTab }) => {
         {
           headers: {
             "Content-Type": "application/json",
-            "x-auth-token": resultData.token,
+            "x-auth-token": userData?.token,
           },
         }
       );

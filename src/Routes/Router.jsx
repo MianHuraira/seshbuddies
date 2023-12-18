@@ -1,7 +1,9 @@
 import React, { lazy, Suspense } from "react";
 import { useRoutes, Navigate } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
-import { useAuth } from "../pages/AuthContext";
+import { selectIsAgeVerified, selectIsAuthenticated } from "../components/Redux/Slices/AuthSlice";
+import { useSelector } from "react-redux";
+
 
 const NotFound = lazy(() => import("../pages/PageNoteFound"));
 const Profile = lazy(() => import("../pages/UserProfile"));
@@ -27,13 +29,15 @@ const AcountNotification = lazy(() => import("../pages/AcountNotification"));
 const AcountSuport = lazy(() => import("../pages/AcountSuport"));
 const AcountAbout = lazy(() => import("../pages/AcountAbout"));
 const ForgetPass = lazy(() => import("../pages/Registration/ForgetPass"));
-
 // for test
-
 const Test = lazy(() => import("../pages/Registration/PassCode"));
+
 const Router = () => {
-  const { isAuthenticated } = useAuth();
-  const isAgeVerified = localStorage.getItem("isAgeVerified") === "true";
+  // const { isAuthenticated } = useAuth();
+  const AgeVarified = useSelector(selectIsAgeVerified);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
+
   return (
     <Suspense
       fallback={
@@ -65,7 +69,7 @@ const Router = () => {
         },
         {
           path: "/signUp",
-          element: isAgeVerified ? <SignUp /> : <Navigate to="/age_varifi" />,
+          element: AgeVarified ? <SignUp /> : <Navigate to="/age_varifi" />,
         },
         {
           path: "/buddies",

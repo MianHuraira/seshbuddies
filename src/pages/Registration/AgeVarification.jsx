@@ -5,17 +5,17 @@ import { Button, Form } from "react-bootstrap";
 import ErrorIcon from "../../assets/icons/error_icon.png";
 import axios from "axios";
 import { useNavigate ,NavLink } from "react-router-dom";
-
 import { ToastContainer, toast } from "react-toastify";
-
+import { useDispatch } from 'react-redux';
 import "react-toastify/dist/ReactToastify.css";
+import { setAgeVerified } from "../../components/Redux/Slices/AuthSlice";
 
 const AgeVarification = () => {
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
   const [year, setYear] = useState("");
   const [error, setError] = useState("");
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleMonthChange = (e) => {
@@ -80,9 +80,9 @@ const AgeVarification = () => {
       toast.success("You are now eligible to sign up!");
 
       // Store the flag in local storage or state indicating successful age verification
-      localStorage.setItem("isAgeVerified", "true");
+      // localStorage.setItem("isAgeVerified", "true");
+      dispatch(setAgeVerified(true));
 
-      // Redirect to the SignUp page
       navigate("/signUp");
     } else {
       setError("Sorry, you must be at least 18 years old.");

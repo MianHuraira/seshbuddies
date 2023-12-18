@@ -9,7 +9,11 @@ import Spinner from "react-bootstrap/Spinner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../AuthContext";
+import {
+  setUser,
+  setAuthenticated,
+} from "../../components/Redux/Slices/AuthSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const CreatPass = ({ keyP, detail, forget, token }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -20,15 +24,13 @@ const CreatPass = ({ keyP, detail, forget, token }) => {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [showPassCode, setShowPassCode] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const dispatch = useDispatch();
   // prop sent data
   const [passCreate, setPassCreate] = useState("");
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
     setInputType(passwordVisible ? "password" : "text");
   };
-
-  console.log(token);
   const [password, setPassword] = useState("");
   const [progress, setProgress] = useState(0);
   const [validationStatus, setValidationStatus] = useState("Weak");
@@ -112,9 +114,13 @@ const CreatPass = ({ keyP, detail, forget, token }) => {
     axios
       .put(`${global.BASEURL}/users/update-password`, requestData)
       .then((res) => {
-        const resp = res.data.message;
-        loginHandle();
-        // toast.success(resp);
+        const resp = res.data.success;
+        if (resp) {
+          loginHandle();
+        } else {
+          toast.error(resp);
+        }
+        toast.success(res.data.message);
       })
       .catch((error) => {
         console.error("Error resending code: ", error);
@@ -135,10 +141,10 @@ const CreatPass = ({ keyP, detail, forget, token }) => {
     axios
       .post(`${global.BASEURL}/auth`, requestData)
       .then((res) => {
-        const resultSuccess = res.data.user;
-        localStorage.setItem("meraname", JSON.stringify(resultSuccess));
+        const resultSuccess = res.data;
+        dispatch(setUser(resultSuccess));
+        dispatch(setAuthenticated(true));
         toast.success("Login Successfully");
-        login();
         navigate("/home");
       })
       .catch((error) => {

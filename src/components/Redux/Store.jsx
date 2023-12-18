@@ -1,12 +1,29 @@
-// store.js
-import { configureStore } from '@reduxjs/toolkit';
-import likePostReducer from './Slices/likePostSlice'; 
+// Redux store.js
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import likePostReducer from './Slices/likePostSlice';
+import authReducer from './Slices/AuthSlice';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+
+const rootReducer = combineReducers({
+  likePost: likePostReducer,
+  auth: persistReducer(persistConfig, authReducer),
+});
 
 const store = configureStore({
-  reducer: {
-    likePost: likePostReducer,
-    // Add other reducers if you have them
+  reducer: rootReducer,
+  middleware: getDefaultMiddleware => {
+    return getDefaultMiddleware({
+      serializableCheck: false,
+    });
   },
 });
 
-export default store;
+const persistor = persistStore(store);
+
+export { store, persistor };

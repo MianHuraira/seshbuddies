@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import staticImg from "../../assets/images/started_img_bg.png";
 import Moment from "react-moment";
 import Picker from "emoji-picker-react";
+
 // import 'moment-timezone';
 
 // swiper
@@ -30,6 +31,9 @@ import PostReport from "./PostReport";
 import ImageLoader from "../ImageLoader";
 import Spinner from "react-bootstrap/Spinner";
 import axios from "axios";
+import { selectUser } from "../Redux/Slices/AuthSlice";
+import { useSelector } from 'react-redux';
+
 
 const PostComments = ({
   isOpen,
@@ -45,9 +49,11 @@ const PostComments = ({
   const Likes_btn_open = () => setShow(true);
   const [report, setReport] = useState(false);
   const [commentValue, setCommentValue] = useState("");
-  const [resultData, setResultData] = useState({});
+  // const [resultData, setResultData] = useState({});
   const [sentComment, setSentComment] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
+  const userData = useSelector(selectUser);
+
 
   const onEmojiClick = (event, emojiObject) => {
     commentValue((prevInput) => prevInput + emojiObject.emoji);
@@ -69,19 +75,17 @@ const PostComments = ({
 
   // coment post api
 
-  useEffect(() => {
-    // Retrieve user data from local storage
-    const storedUserData = localStorage.getItem("meraname");
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("meraname");
 
-    if (storedUserData) {
-      // Parse the JSON data
-      const parsedUserData = JSON.parse(storedUserData);
-      setResultData(parsedUserData);
-    }
-  }, []);
+  //   if (storedUserData) {
+  //     const parsedUserData = JSON.parse(storedUserData);
+  //     setResultData(parsedUserData);
+  //   }
+  // }, []);
   const postComment = async (postId) => {
     try {
-      if (!resultData.token) {
+      if (!userData?.token) {
         return;
       }
 
@@ -95,7 +99,7 @@ const PostComments = ({
         {
           headers: {
             "Content-Type": "application/json",
-            "x-auth-token": resultData.token,
+            "x-auth-token": userData?.token,
           },
         }
       );

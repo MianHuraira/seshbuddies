@@ -11,11 +11,14 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
 import { ToastContainer, toast } from "react-toastify";
-
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../AuthContext";
+import {
+  selectIsAgeVerified,
+  setUser,
+  setAuthenticated
+} from "../../components/Redux/Slices/AuthSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
   const [activeTab, setActiveTab] = useState("tab1");
@@ -27,7 +30,8 @@ const Login = () => {
   const [phone, setPhone] = useState("");
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const isAgeVerified = useSelector(selectIsAgeVerified);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -83,9 +87,9 @@ const Login = () => {
       .post(`${global.BASEURL}/auth`, requestData)
       .then((res) => {
         const resultSuccess = res.data;
-        localStorage.setItem("meraname", JSON.stringify(resultSuccess));
+        dispatch(setUser(resultSuccess));
+        dispatch(setAuthenticated(true));
         toast.success("Login Successfully");
-        login();
         navigate("/home");
       })
       .catch((error) => {
@@ -101,8 +105,6 @@ const Login = () => {
   const isValidPassword = () => {
     return password.trim().length > 0;
   };
-
-  const isAgeVerified = localStorage.getItem("isAgeVerified") === "true";
 
   return (
     <>
@@ -185,7 +187,10 @@ const Login = () => {
                   />
                 </div>
               </Form.Group>
-              <NavLink to={"/forget_pass"} className="for_text d-block text-center ">
+              <NavLink
+                to={"/forget_pass"}
+                className="for_text d-block text-center "
+              >
                 Forgot Password?
               </NavLink>
               <div

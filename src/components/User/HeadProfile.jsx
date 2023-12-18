@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { NavDropdown } from "react-bootstrap";
 import "../../assets/css/style.css";
 import Status_icon from "../../assets/icons/status_icon.png";
 import { useLocation, useNavigate, NavLink } from "react-router-dom";
 import Avatar from "../../assets/images/avatarImg.png";
 import { ToastContainer, toast } from "react-toastify";
-import { useAuth } from "../../pages/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
 import ImageLoader from "../ImageLoader";
+import { selectUser, logout } from "../Redux/Slices/AuthSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const Profile = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const userData = useSelector(selectUser);
+  const dispatch = useDispatch();
   let getPath = location.pathname;
 
   let allPath = false;
@@ -20,22 +22,9 @@ const Profile = () => {
   if (getPath === "/live_stream" || getPath === "/reels") {
     allPath = true;
   }
-  const [userData, setUserData] = useState({});
 
-  useEffect(() => {
-    // Retrieve user data from local storage
-    const storedUserData = localStorage.getItem("meraname");
-    if (storedUserData) {
-      // Parse the JSON data
-      const parsedUserData = JSON.parse(storedUserData);
-      setUserData(parsedUserData);
-    }
-  }, []);
   const handleLogout = () => {
-    localStorage.removeItem("meraname");
-    localStorage.removeItem("isAgeVerified");
-    localStorage.removeItem("isConfirmed");
-    logout();
+    dispatch(logout());
     toast.success("Logout Successfully", {
       onClose: () => {
         navigate("/");
@@ -66,7 +55,11 @@ const Profile = () => {
                 />
               )}
 
-              <img className="status_icon d-none d-lg-block" src={Status_icon} alt="" />
+              <img
+                className="status_icon d-none d-lg-block"
+                src={Status_icon}
+                alt=""
+              />
             </div>
             <h5
               style={{ color: allPath ? "white" : "" }}

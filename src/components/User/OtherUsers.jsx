@@ -30,16 +30,20 @@ import ImageLoader from "../ImageLoader";
 import Spinner from "react-bootstrap/Spinner";
 import OtherUserPost from "./OtherUserPost";
 import CustomSnackbar from "../CustomSnackbar";
+import { selectUser } from "../Redux/Slices/AuthSlice";
+import { useSelector } from 'react-redux';
 
 const OtherUsers = () => {
   const { userId } = useParams();
-  const [resultData, setResultData] = useState({});
+  // const [resultData, setResultData] = useState({});
   const [otherUser, setOtherUser] = useState("");
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("info"); // or any other valid default value
+  const userData = useSelector(selectUser);
+
 
 
   // close snackbar
@@ -75,7 +79,7 @@ const OtherUsers = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "x-auth-token": resultData.token,
+            "x-auth-token": userData?.token,
           },
         }
       );
@@ -86,27 +90,25 @@ const OtherUsers = () => {
     }
   };
 
-  useEffect(() => {
-    const storedUserData = localStorage.getItem("meraname");
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("meraname");
 
-    if (storedUserData) {
-      // Parse the JSON data
-      const parsedUserData = JSON.parse(storedUserData);
+  //   if (storedUserData) {
+  //     const parsedUserData = JSON.parse(storedUserData);
 
-      if (parsedUserData.token) {
-        // Only call GetData if token is available
-        setToken(parsedUserData.token);
-      }
+  //     if (parsedUserData.token) {
+  //       setToken(parsedUserData.token);
+  //     }
 
-      setResultData(parsedUserData);
-    }
-  }, []);
+  //     setResultData(parsedUserData);
+  //   }
+  // }, []);
 
   useEffect(() => {
-    if (token) {
+    if (userData?.token) {
       GetData();
     }
-  }, [token]);
+  }, [userData?.token]);
 
   const CopyClipHandle = () => {
     const urlToCopy = otherUser?.url;

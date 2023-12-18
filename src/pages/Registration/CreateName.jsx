@@ -4,21 +4,20 @@ import DoneLogo from "../../assets/icons/doneLogo.png";
 import { NavLink } from "react-router-dom";
 import CheckIcon from "../../assets/icons/checkIcon.svg";
 import CrossIcon from "../../assets/icons/crossIcon.svg";
-import { useAuth } from "../AuthContext";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import Spinner from "react-bootstrap/Spinner";
 import "react-toastify/dist/ReactToastify.css";
+import { setUser ,setAuthenticated } from "../../components/Redux/Slices/AuthSlice";
+import { useDispatch } from "react-redux";
 
 const CreateName = ({ passCreate, detail, keyP, passCode }) => {
-  const { login } = useAuth();
   const [nickname, setNickname] = useState("");
   const maxCharacterLimit = 30;
-
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
-
+  const dispatch = useDispatch();
   const handleNicknameChange = (event) => {
     const input = event.target.value;
 
@@ -50,11 +49,9 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
     axios
       .post(`${global.BASEURL}/users/signup`, dataToSend)
       .then((res) => {
-        // Handle success
-        login();
         setIsConfirmed(true);
-        localStorage.setItem("meraname", JSON.stringify(res.data));
-        localStorage.setItem("isConfirmed", true);
+        dispatch(setUser(res.data));
+        dispatch(setAuthenticated(true));
 
         // Show success toast
         toast.success("Account created successfully!");

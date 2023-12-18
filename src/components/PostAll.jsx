@@ -27,6 +27,9 @@ import PostReport from "./Modal/PostReport";
 import ImageLoader from "./ImageLoader";
 import { toast } from "react-toastify";
 import PostLikesUser from "../components/Modal/PostLikesUser";
+import { selectUser } from "./Redux/Slices/AuthSlice";
+import { useSelector } from "react-redux";
+
 const PostAll = () => {
   const [likeModalShow, setLikeModalShow] = useState(false);
   const [postId, stePostId] = useState("");
@@ -37,8 +40,9 @@ const PostAll = () => {
   const [reportModal, setReportModal] = useState(false);
   const [coment, setComent] = useState(false);
   const [postData, setPostData] = useState(null);
-  const [resultData, setResultData] = useState({});
+  // const [resultData, setResultData] = useState({});
   const [commentGet, setCommentGet] = useState([]);
+  const userData = useSelector(selectUser);
 
   const likesModalShow = (postId) => {
     setLikeModalShow(true);
@@ -72,17 +76,6 @@ const PostAll = () => {
     setComent(false);
   };
 
-  useEffect(() => {
-    // Retrieve user data from local storage
-    const storedUserData = localStorage.getItem("meraname");
-
-    if (storedUserData) {
-      // Parse the JSON data
-      const parsedUserData = JSON.parse(storedUserData);
-      setResultData(parsedUserData);
-    }
-  }, []);
-
   // api get comments
   const getComment = async (idPost) => {
     try {
@@ -91,7 +84,7 @@ const PostAll = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "x-auth-token": resultData.token,
+            "x-auth-token": userData?.token,
           },
         }
       );
@@ -113,13 +106,13 @@ const PostAll = () => {
   // api get post start
   const getPost = async () => {
     try {
-      if (!resultData.token) {
+      if (!userData?.token) {
         return;
       }
       const res = await axios.get(global.BASEURL + "/post/all", {
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": resultData.token,
+          "x-auth-token": userData?.token,
         },
       });
       const resultGet = res.data.posts;
@@ -140,7 +133,7 @@ const PostAll = () => {
 
   useEffect(() => {
     getPost();
-  }, [resultData]);
+  }, [userData]);
 
   const handleLike = async (postId) => {
     try {
@@ -150,7 +143,7 @@ const PostAll = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "x-auth-token": resultData.token,
+            "x-auth-token": userData?.token,
           },
         }
       );
@@ -339,6 +332,7 @@ const PostAll = () => {
                     <p className="me-2 postD">{data?.comments} Comments</p>
                     <p className="me-2 postD">{data?.shares} Shares</p>
                     <p className="me-2 postD">{data?.views} Views</p>
+                   
                   </div>
                 </div>
               </div>

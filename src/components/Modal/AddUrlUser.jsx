@@ -4,11 +4,16 @@ import { React, useState, useEffect } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Spinner from "react-bootstrap/Spinner";
+import { selectUser } from "../Redux/Slices/AuthSlice";
+import { useSelector } from 'react-redux';
+
+
 const AddUrlUser = ({ isOpen, onClose }) => {
   const [urlValue, setUrlValue] = useState("");
-  const [resultData, setResultData] = useState({});
+  // const [resultData, setResultData] = useState({});
   const [loading, setLoading] = useState(false);
   const [isValid, setIsValid] = useState(false);
+  const user = useSelector(selectUser);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -16,16 +21,14 @@ const AddUrlUser = ({ isOpen, onClose }) => {
     setIsValid(value.trim() !== "");
   };
 
-  useEffect(() => {
-    // Retrieve user data from local storage
-    const storedUserData = localStorage.getItem("meraname");
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("meraname");
 
-    if (storedUserData) {
-      // Parse the JSON data
-      const parsedUserData = JSON.parse(storedUserData);
-      setResultData(parsedUserData);
-    }
-  }, []);
+  //   if (storedUserData) {
+  //     const parsedUserData = JSON.parse(storedUserData);
+  //     setResultData(parsedUserData);
+  //   }
+  // }, []);
 
   const CreatBio = async () => {
     try {
@@ -36,7 +39,7 @@ const AddUrlUser = ({ isOpen, onClose }) => {
       const res = await axios.put(global.BASEURL + "/users/add/url", BioData, {
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": resultData.token,
+          "x-auth-token": user?.token,
         },
       });
       toast.success("updated successfully");

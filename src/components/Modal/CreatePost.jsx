@@ -8,10 +8,12 @@ import Spinner from "react-bootstrap/Spinner";
 import CustomSnackbar from "../CustomSnackbar";
 import MapIcon from "../../assets/icons/mapIcon.svg";
 import LocationMap from "./LocationMap";
+import { selectUser } from "../Redux/Slices/AuthSlice";
+import { useSelector } from 'react-redux';
 
 const CreatePost = ({ isOpen, onClose }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const [resultData, setResultData] = useState({});
+  // const [resultData, setResultData] = useState({});
   const [text, setText] = useState("");
   const [mediaData, setMediaData] = useState([]);
   const [fileLoading, setFileLoading] = useState({});
@@ -19,6 +21,7 @@ const CreatePost = ({ isOpen, onClose }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("info");
+  const userData = useSelector(selectUser);
 
   const [isMapVisible, setIsMapVisible] = useState(false);
   const [lat, setLat] = useState("");
@@ -110,7 +113,7 @@ const CreatePost = ({ isOpen, onClose }) => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            "x-auth-token": resultData.token,
+            "x-auth-token": userData?.token,
           },
         }
       );
@@ -220,16 +223,14 @@ const CreatePost = ({ isOpen, onClose }) => {
   };
 
   // api
-  useEffect(() => {
-    // Retrieve user data from local storage
-    const storedUserData = localStorage.getItem("meraname");
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("meraname");
 
-    if (storedUserData) {
-      // Parse the JSON data
-      const parsedUserData = JSON.parse(storedUserData);
-      setResultData(parsedUserData);
-    }
-  }, []);
+  //   if (storedUserData) {
+  //     const parsedUserData = JSON.parse(storedUserData);
+  //     setResultData(parsedUserData);
+  //   }
+  // }, []);
 
   const createPost = async () => {
     try {
@@ -248,7 +249,7 @@ const CreatePost = ({ isOpen, onClose }) => {
         {
           headers: {
             "Content-Type": "application/json",
-            "x-auth-token": resultData.token,
+            "x-auth-token": userData?.token,
           },
         }
       );

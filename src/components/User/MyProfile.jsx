@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import backicon from "../../assets/logo/icons/arrow_left.svg";
 import Avatar from "../../assets/images/avatarImg.png";
 import comment_full from "../../assets/logo/icons/comment_icon_full.svg";
@@ -25,14 +25,17 @@ import AddUrlUser from "../Modal/AddUrlUser";
 import AddQrCodeUser from "../Modal/AddQrCodeUser";
 import clipboardCopy from "clipboard-copy";
 import CustomSnackbar from "../CustomSnackbar";
+import { selectUser } from "../Redux/Slices/AuthSlice";
+import { useSelector } from 'react-redux';
+
 const MyProfile = () => {
+  const user = useSelector(selectUser);
   // ___modal bio___
   const [bio, setBio] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("info"); // or any other valid default value
   // or any other valid default value
-
 
   // close snackbar
   const handleSnackbarClose = () => {
@@ -68,16 +71,15 @@ const MyProfile = () => {
     setActiveTab(tab);
   };
 
-  const [userData, setUserData] = useState({});
-  useEffect(() => {
-    // Retrieve user data from local storage
-    const storedUserData = localStorage.getItem("meraname");
-    if (storedUserData) {
-      // Parse the JSON data
-      const parsedUserData = JSON.parse(storedUserData);
-      setUserData(parsedUserData);
-    }
-  }, []);
+  // const [userData, setUserData] = useState({});
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("meraname");
+  //   if (storedUserData) {
+    
+  //     const parsedUserData = JSON.parse(storedUserData);
+  //     setUserData(parsedUserData);
+  //   }
+  // }, []);
 
   // api update profiel
   const [createpost, setShow] = useState(false);
@@ -89,7 +91,7 @@ const MyProfile = () => {
   };
   const navigate = useNavigate();
   const CopyClipHandle = () => {
-    const urlToCopy = userData?.user?.url;
+    const urlToCopy = user?.user?.url;
     setSnackbarMessage("URL copied to clipboard");
     setSnackbarOpen(true);
     clipboardCopy(urlToCopy);
@@ -114,7 +116,7 @@ const MyProfile = () => {
               alt=""
             />
             <h1 className="black_text_lg fs-16 ps-5 me-5 inter-bold mx-3">
-              {userData?.user?.username}
+              {user?.user?.username}
             </h1>
             <div className="bg-white">
               <button onClick={QROpen} className="border-0 bg-white">
@@ -124,10 +126,10 @@ const MyProfile = () => {
           </div>
           <div className="mt-4 flex-column align_center">
             <div className="bg-white">
-              {userData?.user?.profilePicture ? (
+              {user?.user?.profilePicture ? (
                 <ImageLoader
                   classes="userPic2"
-                  imageUrl={userData.user.profilePicture}
+                  imageUrl={user?.user?.profilePicture}
                   alt=""
                 />
               ) : (
@@ -141,25 +143,25 @@ const MyProfile = () => {
             </div>
 
             <h1 className="black_text_lg inter-bold mt-2 fs-18">
-              @{userData?.user?.username}
+              @{user?.user?.username}
             </h1>
             <div className="d-flex">
               <div className="align_center flex-column B-right">
                 <button className="border-0 bg-white">
-                  <h1>{(userData?.user?.posts || []).length}</h1>
+                  <h1>{(user?.user?.posts || []).length}</h1>
 
                   <p>Posts</p>
                 </button>
               </div>
               <div className="align_center flex-column B-right">
                 <button className="bg-white border-0">
-                  <h1>{(userData?.user?.buddies || []).length}</h1>
+                  <h1>{(user?.user?.buddies || []).length}</h1>
 
                   <p>Buddies</p>
                 </button>
               </div>
               <div className="align_center flex-column B-right border-0">
-                <h1>{(userData?.user?.sessions || []).length}</h1>
+                <h1>{(user?.user?.sessions || []).length}</h1>
 
                 <p>Seshsions</p>
               </div>
@@ -175,19 +177,19 @@ const MyProfile = () => {
           {/* <AddBuddies/> */}
 
           <div className="d-flex align-items-center flex-column mt-4 mb-4">
-            {userData?.user?.bio ? (
-              <h5 className="mb-2 bio00">{userData?.user?.bio}</h5>
+            {user?.user?.bio ? (
+              <h5 className="mb-2 bio00">{user?.user?.bio}</h5>
             ) : (
               <button onClick={BioOpen} className="add_bio mb-2">
                 + Add bio
               </button>
             )}
 
-            {userData?.user?.url ? (
+            {user?.user?.url ? (
               <>
                 <div
                   className={`align_center mt-1 mb-4 ${
-                    !userData?.user?.url ? "d-none" : ""
+                    !user?.user?.url ? "d-none" : ""
                   }`}
                 >
                   <img
@@ -196,7 +198,7 @@ const MyProfile = () => {
                     src={clip}
                     alt=""
                   />
-                  <h5 className="url00">{userData?.user?.url}</h5>
+                  <h5 className="url00">{user?.user?.url}</h5>
                 </div>
               </>
             ) : (
@@ -243,7 +245,7 @@ const MyProfile = () => {
             className={`tab-pane ${activeTab === "tab1" ? "active" : ""}`}
             id="tab1"
           >
-            {(userData?.user?.posts || []).length === 0 ? (
+            {(user?.user?.posts || []).length === 0 ? (
               <div className="align_center flex-column my-5">
                 <img src={Dashboard} alt="" style={{ width: "21px" }} />
                 <h1 className="fs-17 inter-bold mt-3 mb-2">No Posts Yet!</h1>

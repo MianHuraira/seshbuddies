@@ -9,7 +9,6 @@ import HeaderSecound from "../src/components/Header_secound";
 
 // bootstrap css
 import "bootstrap/dist/css/bootstrap.min.css";
-import { AuthProvider } from "./pages/AuthContext";
 
 function App() {
   // api start point
@@ -44,20 +43,18 @@ function App() {
   }, [getPath]);
 
   return (
-    <AuthProvider>
-      <div className="App">
-        {getPath === "/" ||
-        getPath === "/login" ||
-        getPath === "/age_varifi" ||
-        getPath === "/forget_pass" ||
-        getPath === "/signUp" ? (
-          <HeaderSecound />
-        ) : (
-          <Header />
-        )}
-        <Router />
-      </div>
-    </AuthProvider>
+    <div className="App">
+      {getPath === "/" ||
+      getPath === "/login" ||
+      getPath === "/age_varifi" ||
+      getPath === "/forget_pass" ||
+      getPath === "/signUp" ? (
+        <HeaderSecound />
+      ) : (
+        <Header />
+      )}
+      <Router />
+    </div>
   );
 }
 

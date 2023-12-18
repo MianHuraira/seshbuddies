@@ -6,13 +6,16 @@ import stars from "../../assets/logo/icons/star.svg";
 import axios from "axios";
 import ImageLoader from "../ImageLoader";
 import Spinner from "react-bootstrap/Spinner";
-
+import { selectUser } from "../Redux/Slices/AuthSlice";
+import { useSelector } from 'react-redux';
 
 const PostLikesUser = ({ isOpen, onClose, postId }) => {
   const [follow, setFollow] = useState(false);
-  const [resultData, setResultData] = useState({});
+  // const [resultData, setResultData] = useState({});
   const [likesUser, setLikesUser] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const userData = useSelector(selectUser);
 
   const folloStatus = (key) => {
     setFollow((prevState) => ({
@@ -21,16 +24,14 @@ const PostLikesUser = ({ isOpen, onClose, postId }) => {
     }));
   };
 
-  useEffect(() => {
-    // Retrieve user data from local storage
-    const storedUserData = localStorage.getItem("meraname");
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("meraname");
 
-    if (storedUserData) {
-      // Parse the JSON data
-      const parsedUserData = JSON.parse(storedUserData);
-      setResultData(parsedUserData);
-    }
-  }, []);
+  //   if (storedUserData) {
+  //     const parsedUserData = JSON.parse(storedUserData);
+  //     setResultData(parsedUserData);
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -47,7 +48,7 @@ const PostLikesUser = ({ isOpen, onClose, postId }) => {
         {
           headers: {
             "Content-Type": "application/json",
-            "x-auth-token": resultData.token,
+            "x-auth-token": userData?.token,
           },
         }
       );

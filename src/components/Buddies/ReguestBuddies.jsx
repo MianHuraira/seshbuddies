@@ -11,11 +11,13 @@ import avatarImg from "../../assets/images/avatarImg.png";
 import SuggestedBuddies from "./SuggestedBuddies";
 import StarElement from "../../assets/logo/icons/star_element_green.svg";
 import Spinner from "react-bootstrap/Spinner";
+import { selectUser } from "../Redux/Slices/AuthSlice";
+import { useSelector } from 'react-redux';
 
 const ReguestBuddies = ({ activeModalTab }) => {
   const [rejectRequest, setRejectRequest] = useState(false);
   const [rejectRequestId, setRejectRequestId] = useState(null);
-  const [resultData, setResultData] = useState(null);
+  // const [resultData, setResultData] = useState(null);
   const [reguested, setReguested] = useState();
   const [loading, setLoading] = useState(true);
   const [fadeOutIndex, setFadeOutIndex] = useState(null);
@@ -24,6 +26,7 @@ const ReguestBuddies = ({ activeModalTab }) => {
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [clickedIndex, setClickedIndex] = useState(null);
+  const userData = useSelector(selectUser);
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
@@ -46,14 +49,13 @@ const ReguestBuddies = ({ activeModalTab }) => {
 
   // api
 
-  useEffect(() => {
-    const storedUserData = localStorage.getItem("meraname");
-    if (storedUserData) {
-      // Parse the JSON data
-      const parsedUserData = JSON.parse(storedUserData);
-      setResultData(parsedUserData);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("meraname");
+  //   if (storedUserData) {
+  //     const parsedUserData = JSON.parse(storedUserData);
+  //     setResultData(parsedUserData);
+  //   }
+  // }, []);
 
   const BuddiesRequest = async () => {
     setLoading(true);
@@ -61,7 +63,7 @@ const ReguestBuddies = ({ activeModalTab }) => {
       const res = await axios.get(global.BASEURL + `/buddies/all/pending`, {
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": resultData.token,
+          "x-auth-token": userData?.token,
         },
       });
       setReguested(res.data.following);
@@ -72,10 +74,10 @@ const ReguestBuddies = ({ activeModalTab }) => {
   };
 
   useEffect(() => {
-    if (resultData && activeModalTab === "tab1") {
+    if (userData && activeModalTab === "tab1") {
       BuddiesRequest();
     }
-  }, [resultData, activeModalTab]);
+  }, [userData, activeModalTab]);
 
   // accept req api
 
@@ -96,7 +98,7 @@ const ReguestBuddies = ({ activeModalTab }) => {
         {
           headers: {
             "Content-Type": "application/json",
-            "x-auth-token": resultData.token,
+            "x-auth-token": userData?.token,
           },
         }
       );

@@ -26,6 +26,9 @@ import PostComments from "../Modal/PostComments";
 import PostReport from "../Modal/PostReport";
 import ImageLoader from "../ImageLoader";
 import { toast } from "react-toastify";
+import { selectUser } from "../Redux/Slices/AuthSlice";
+import { useSelector } from 'react-redux';
+
 
 const OtherUserPost = () => {
   const { userId } = useParams();
@@ -40,8 +43,10 @@ const OtherUserPost = () => {
   const [reportModal, setReportModal] = useState(false);
   const [coment, setComent] = useState(false);
   const [postData, setPostData] = useState(null);
-  const [resultData, setResultData] = useState({});
+  // const [resultData, setResultData] = useState({});
   const [commentGet, setCommentGet] = useState([]);
+
+  const userData = useSelector(selectUser);
 
   // report modal
   const reportOpenModal = () => {
@@ -72,16 +77,14 @@ const OtherUserPost = () => {
     setComent(false);
   };
 
-  useEffect(() => {
-    // Retrieve user data from local storage
-    const storedUserData = localStorage.getItem("meraname");
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("meraname");
 
-    if (storedUserData) {
-      // Parse the JSON data
-      const parsedUserData = JSON.parse(storedUserData);
-      setResultData(parsedUserData);
-    }
-  }, []);
+  //   if (storedUserData) {
+  //     const parsedUserData = JSON.parse(storedUserData);
+  //     setResultData(parsedUserData);
+  //   }
+  // }, []);
 
   // api get comments
   const getComment = async (idPost) => {
@@ -91,7 +94,7 @@ const OtherUserPost = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "x-auth-token": resultData.token,
+            "x-auth-token": userData?.token,
           },
         }
       );
@@ -113,13 +116,13 @@ const OtherUserPost = () => {
   // api get post start
   const getPost = async () => {
     try {
-      if (!resultData.token) {
+      if (!userData?.token) {
         return;
       }
       const res = await axios.get(global.BASEURL + `/post/users/${userId}`, {
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": resultData.token,
+          "x-auth-token": userData?.token,
         },
       });
       const resultGet = res.data.posts;
@@ -139,7 +142,7 @@ const OtherUserPost = () => {
 
   useEffect(() => {
     getPost();
-  }, [resultData]);
+  }, [userData]);
 
   const handleLike = async (postId) => {
     try {
@@ -149,7 +152,7 @@ const OtherUserPost = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            "x-auth-token": resultData.token,
+            "x-auth-token": userData?.token,
           },
         }
       );

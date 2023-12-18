@@ -7,7 +7,10 @@ import SuggestedBuddies from "../components/Buddies/SuggestedBuddies";
 import ReguestBuddies from "../components/Buddies/ReguestBuddies";
 import Buddies from "../components/Buddies/MyBuddies";
 
+
 const YourBuddies = () => {
+ 
+
   const [activeModalTab, setActiveModalTab] = useState("tab1");
   const handleModalClick = (tab) => {
     setActiveModalTab(tab);

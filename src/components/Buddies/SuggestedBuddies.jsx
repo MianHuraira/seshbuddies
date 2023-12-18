@@ -9,9 +9,12 @@ import Spinner from "react-bootstrap/Spinner";
 import Avatar from "../../assets/images/avatarImg.png";
 import ImageLoader from "../ImageLoader";
 import CustomSnackbar from "../CustomSnackbar";
+import { selectUser } from "../Redux/Slices/AuthSlice";
+import { useSelector } from 'react-redux';
+
 
 const SuggestedBuddies = ({ activeModalTab }) => {
-  const [resultData, setResultData] = useState(null);
+  // const [resultData, setResultData] = useState(null);
   const [suggestedBuddies, setSuggestedBuddies] = useState();
   const [loading, setLoading] = useState(true);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
@@ -21,6 +24,7 @@ const SuggestedBuddies = ({ activeModalTab }) => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("");
   const [fadeOutIndex, setFadeOutIndex] = useState(null);
+  const userData = useSelector(selectUser);
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
@@ -31,15 +35,14 @@ const SuggestedBuddies = ({ activeModalTab }) => {
     setSnackbarOpen(true);
   };
 
-  useEffect(() => {
-    const storedUserData = localStorage.getItem("meraname");
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("meraname");
 
-    if (storedUserData) {
-      // Parse the JSON data
-      const parsedUserData = JSON.parse(storedUserData);
-      setResultData(parsedUserData);
-    }
-  }, []);
+  //   if (storedUserData) {
+  //     const parsedUserData = JSON.parse(storedUserData);
+  //     setResultData(parsedUserData);
+  //   }
+  // }, []);
 
   const GetSuggest = async () => {
     setLoading(true);
@@ -47,7 +50,7 @@ const SuggestedBuddies = ({ activeModalTab }) => {
       const res = await axios.get(global.BASEURL + `/buddies/all/suggested`, {
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": resultData.token,
+          "x-auth-token": userData?.token,
         },
       });
       setSuggestedBuddies(res.data.suggestions);
@@ -58,10 +61,10 @@ const SuggestedBuddies = ({ activeModalTab }) => {
     }
   };
   useEffect(() => {
-    if (resultData && activeModalTab === "tab3") {
+    if (userData && activeModalTab === "tab3") {
       GetSuggest();
     }
-  }, [resultData, activeModalTab]);
+  }, [userData, activeModalTab]);
 
   // sentfollow request
 
@@ -78,7 +81,7 @@ const SuggestedBuddies = ({ activeModalTab }) => {
         {
           headers: {
             "Content-Type": "application/json",
-            "x-auth-token": resultData.token,
+            "x-auth-token": userData?.token,
           },
         }
       );

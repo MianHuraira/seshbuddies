@@ -12,7 +12,6 @@ const VerifyCode = ({ title, otp, detail, keyP, forget , token }) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [initialOtp, setInitialOtp] = useState(otp);
-  console.log("as" , token);
 
   // prop for create pass
 

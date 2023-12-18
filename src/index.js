@@ -5,12 +5,14 @@ import Spinner from "react-bootstrap/Spinner";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import   store  from "./components/Redux/Store";
+import   {store , persistor }  from "./components/Redux/Store";
+import { PersistGate } from 'redux-persist/integration/react';
 const App = lazy(() => import("./App"));
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
+  <PersistGate loading={null} persistor={persistor}>
     <Suspense
       fallback={
         <div className="lazy_spiner">
@@ -24,6 +26,8 @@ root.render(
         </BrowserRouter>
       </React.StrictMode>
     </Suspense>
-  </Provider>
+  </PersistGate>
+</Provider>
+
 );
 reportWebVitals();
