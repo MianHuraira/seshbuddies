@@ -113,10 +113,10 @@ const OtherUsers = () => {
         severity={snackbarSeverity} // or "error", "warning", "info", etc.
         onClose={handleSnackbarClose}
       />
-
+    <div className="main_head00">
       <Container className="top_padd px-4" fluid="xxl">
         <Row className="h-100 p-0">
-          <Col lg="3" md="3" className=" overflow-hidden">
+          <Col lg="3" md="3" className="sideHeight00 d-md-block d-none">
             <Createpost />
           </Col>
 
@@ -305,11 +305,12 @@ const OtherUsers = () => {
               </div>
             </div>
           </Col>
-          <Col lg="3" className=" overflow-hidden">
+          <Col lg="3" className="sideHeight00 d-lg-block d-none">
             <SideMessage />
           </Col>
         </Row>
       </Container>
+      </div>
       <Modal
         dialogClassName="modal_width"
         show={Suggested}
