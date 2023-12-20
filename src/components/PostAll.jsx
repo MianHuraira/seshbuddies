@@ -44,7 +44,7 @@ const PostAll = () => {
   const userData = useSelector(selectUser);
   const [postLikes, setPostLikes] = useState([]);
   const [totalLikes, setTotalLikes] = useState([]);
-  const [postIndex , setPostIndex] = useState("")
+  const [postIndex, setPostIndex] = useState("");
 
   const likesModalShow = (postId) => {
     setLikeModalShow(true);
@@ -67,13 +67,13 @@ const PostAll = () => {
   // follow status
 
   // post modal
-  const comentModal = (postData, id , index) => {
+  const comentModal = (postData, id, index) => {
     getComment(id);
     setPostData(postData);
     setComent(true);
     setCommentLoad(true);
     setPostIndex(index);
-    
+    console.log(index, "index of");
   };
 
   const handleClose = () => {
@@ -311,6 +311,7 @@ const PostAll = () => {
               </p>
               <div className="m-auto mt-2">
                 <Swiper
+                  onClick={() => comentModal(data, data?._id, index)}
                   pagination={true}
                   modules={[Pagination]}
                   className="swiper00"
@@ -321,12 +322,10 @@ const PostAll = () => {
                         <ImageLoader
                           classes={"story_img"}
                           imageUrl={item.url}
-                          onClick={() => comentModal(data, data?._id , index)}
                         />
                       ) : item.type === "video" ? (
                         <video
                           controls
-                          onClick={() => comentModal(data, data?._id)}
                           className="story_img mb-2"
                           src={item.url}
                         />
@@ -381,7 +380,7 @@ const PostAll = () => {
               </Col>
 
               <Col
-                onClick={() => comentModal(data, data?._id ,index)}
+                onClick={() => comentModal(data, data?._id, index)}
                 lg="4"
                 sm="4"
                 xs="4"

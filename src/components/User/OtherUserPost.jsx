@@ -67,11 +67,12 @@ const OtherUserPost = () => {
   };
 
   // post modal
-  const comentModal = (postData, id) => {
+  const comentModal = (postData, id, index) => {
     getComment(id);
     setPostData(postData);
     setComent(true);
     setCommentLoad(true);
+    setPostIndex(index);
   };
 
   const handleClose = () => {
@@ -179,7 +180,6 @@ const OtherUserPost = () => {
       console.log(error, "error");
       toast.error(error);
     } finally {
-      // getPost();
       setLoading(false);
     }
   };
@@ -287,6 +287,7 @@ const OtherUserPost = () => {
             </p>
             <div className="m-auto mt-2">
               <Swiper
+                onClick={() => comentModal(data, data?._id, index)}
                 pagination={true}
                 modules={[Pagination]}
                 className="swiper00"
@@ -294,15 +295,10 @@ const OtherUserPost = () => {
                 {data?.multimedia?.map((item, index) => (
                   <SwiperSlide key={index}>
                     {item.type === "image" ? (
-                      <ImageLoader
-                        classes={"story_img"}
-                        imageUrl={item.url}
-                        onClick={() => comentModal(data, data?._id)}
-                      />
+                      <ImageLoader classes={"story_img"} imageUrl={item.url} />
                     ) : item.type === "video" ? (
                       <video
                         controls
-                        onClick={() => comentModal(data, data?._id)}
                         className="story_img mb-2"
                         src={item.url}
                       />
@@ -354,7 +350,7 @@ const OtherUserPost = () => {
             </Col>
 
             <Col
-              onClick={() => comentModal(data, data?._id)}
+              onClick={() => comentModal(data, data?._id, index)}
               lg="4"
               sm="4"
               xs="4"

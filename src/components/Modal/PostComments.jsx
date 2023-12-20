@@ -55,11 +55,8 @@ const PostComments = ({
   const userData = useSelector(selectUser);
   const [selectedCommentId, setSelectedCommentId] = useState(null);
   const [openStates, setOpenStates] = useState({});
-
   // coment post api
-  const handleLike = async () => {
- 
-  };
+  const handleLike = async () => {};
 
   const postComment = async (postId, selectedCommentId) => {
     try {
@@ -224,7 +221,11 @@ const PostComments = ({
                           onClick={Likes_btn_open}
                           className="inherit black_text_md cursorP align_center"
                         >
-                          <img src={likesImg} alt="likes" className="ms-2 me-1" />
+                          <img
+                            src={likesImg}
+                            alt="likes"
+                            className="ms-2 me-1"
+                          />
                           {totalLikes[postIndex]}
                         </p>
                       </div>
