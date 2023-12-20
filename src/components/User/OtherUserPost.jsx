@@ -27,8 +27,7 @@ import PostReport from "../Modal/PostReport";
 import ImageLoader from "../ImageLoader";
 import { toast } from "react-toastify";
 import { selectUser } from "../Redux/Slices/AuthSlice";
-import { useSelector } from 'react-redux';
-
+import { useSelector } from "react-redux";
 
 const OtherUserPost = () => {
   const { userId } = useParams();
@@ -47,7 +46,7 @@ const OtherUserPost = () => {
   const [commentGet, setCommentGet] = useState([]);
   const [postLikes, setPostLikes] = useState([]);
   const [totalLikes, setTotalLikes] = useState([]);
-  const [postIndex , setPostIndex] = useState("")
+  const [postIndex, setPostIndex] = useState("");
   const userData = useSelector(selectUser);
 
   // report modal
@@ -78,7 +77,6 @@ const OtherUserPost = () => {
   const handleClose = () => {
     setComent(false);
   };
-
 
   // api get comments
   const getComment = async (idPost) => {
@@ -122,7 +120,6 @@ const OtherUserPost = () => {
       const resultGet = res.data.posts;
       setGetData(resultGet);
 
-      
       const initialPostLikes = resultGet.map((data) => data?.likes || false);
       setPostLikes(initialPostLikes);
 
@@ -145,8 +142,7 @@ const OtherUserPost = () => {
     getPost();
   }, [userData]);
 
-  const handleLike = async (postId , index) => {
-
+  const handleLike = async (postId, index) => {
     const prevLikes = postLikes[index];
     postLikes[index] = !prevLikes;
     setPostLikes(postLikes);
@@ -159,8 +155,6 @@ const OtherUserPost = () => {
         ...prevTotalLikes.slice(index + 1),
       ];
     }); // Pass prevLikes as an argument
-
-
 
     try {
       const resp = await axios.post(
@@ -185,7 +179,7 @@ const OtherUserPost = () => {
       console.log(error, "error");
       toast.error(error);
     } finally {
-      getPost();
+      // getPost();
       setLoading(false);
     }
   };
@@ -223,7 +217,10 @@ const OtherUserPost = () => {
   return (
     <>
       {getData.map((data, index) => (
-        <div key={index}  className="bg-white mt-3 radius_12 mb-4 overflow-hidden">
+        <div
+          key={index}
+          className="bg-white mt-3 radius_12 mb-4 overflow-hidden"
+        >
           <div className="px-3">
             <div className="d-flex justify-content-between mt-3">
               <div className="d-flex align-items-center">
@@ -232,7 +229,7 @@ const OtherUserPost = () => {
                     circeltrue={true}
                     imageUrl={
                       data?.user?.profilePicture
-                        ?data?.user?.profilePicture
+                        ? data?.user?.profilePicture
                         : avatarImg
                     }
                     classes={"message-dp"}
@@ -337,7 +334,7 @@ const OtherUserPost = () => {
           <Row className="w-100 h-100 p-0 border-top m-auto">
             <Col lg="4" sm="4" xs="4" className="like_btn">
               <div
-                onClick={() => handleLike(data?._id , index)}
+                onClick={() => handleLike(data?._id, index)}
                 className="bg-white cursorP d-flex align-items-center justify-content-center"
               >
                 <img
@@ -346,7 +343,13 @@ const OtherUserPost = () => {
                   src={postLikes[index] ? greenLeaf : like_btn}
                   className="me-2"
                 />
-                Like
+                <h5
+                  className={`${
+                    postLikes[index] ? "green-txt" : ""
+                  } actionBTn00`}
+                >
+                  Like
+                </h5>
               </div>
             </Col>
 
