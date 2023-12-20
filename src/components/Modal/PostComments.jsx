@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import stars from "../../assets/logo/icons/star.svg";
 import dots from "../../assets/logo/icons/3dots.svg";
 import avatarImg from "../../assets/images/avatarImg.png";
-import likes from "../../assets/logo/icons/likes.svg";
+import likesImg from "../../assets/logo/icons/likes.svg";
 import like_btn from "../../assets/icons/like_transparent.svg";
 import greenLeaf from "../../assets/icons/greenLeaf.svg";
 import share_btn from "../../assets/logo/icons/share.svg";
@@ -224,7 +224,7 @@ const PostComments = ({
                           onClick={Likes_btn_open}
                           className="inherit black_text_md cursorP align_center"
                         >
-                          <img alt="" src={likes} className="ms-2 me-1" />
+                          <img src={likesImg} alt="likes" className="ms-2 me-1" />
                           {totalLikes[postIndex]}
                         </p>
                       </div>

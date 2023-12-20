@@ -46,7 +46,6 @@ const PostAll = () => {
   const [totalLikes, setTotalLikes] = useState([]);
   const [postIndex , setPostIndex] = useState("")
 
-
   const likesModalShow = (postId) => {
     setLikeModalShow(true);
     stePostId(postId);
@@ -417,6 +416,7 @@ const PostAll = () => {
         postLikes={postLikes}
         postIndex={postIndex}
         totalLikes={totalLikes}
+        handleLike={handleLike}
       />
 
       <PostReport isOpen={reportModal} onClose={reportModalClose} />
