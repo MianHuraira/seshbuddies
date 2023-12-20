@@ -78,9 +78,6 @@ const AgeVarification = () => {
     if (age >= 18) {
       setError("");
       toast.success("You are now eligible to sign up!");
-
-      // Store the flag in local storage or state indicating successful age verification
-      // localStorage.setItem("isAgeVerified", "true");
       dispatch(setAgeVerified(true));
 
       navigate("/signUp");

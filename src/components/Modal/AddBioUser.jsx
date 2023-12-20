@@ -22,14 +22,7 @@ const AddBioUser = ({ isOpen, onClose }) => {
     setIsValid(value.trim() !== "");
   };
 
-  // useEffect(() => {
-  //   const storedUserData = localStorage.getItem("meraname");
-
-  //   if (storedUserData) {
-  //     const parsedUserData = JSON.parse(storedUserData);
-  //     setResultData(parsedUserData);
-  //   }
-  // }, []);
+  
 
   const CreatBio = async () => {
     try {

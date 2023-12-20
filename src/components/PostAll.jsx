@@ -40,9 +40,12 @@ const PostAll = () => {
   const [reportModal, setReportModal] = useState(false);
   const [coment, setComent] = useState(false);
   const [postData, setPostData] = useState(null);
-  // const [resultData, setResultData] = useState({});
   const [commentGet, setCommentGet] = useState([]);
   const userData = useSelector(selectUser);
+  const [postLikes, setPostLikes] = useState([]);
+  const [totalLikes, setTotalLikes] = useState([]);
+  const [postIndex , setPostIndex] = useState("")
+
 
   const likesModalShow = (postId) => {
     setLikeModalShow(true);
@@ -65,11 +68,13 @@ const PostAll = () => {
   // follow status
 
   // post modal
-  const comentModal = (postData, id) => {
+  const comentModal = (postData, id , index) => {
     getComment(id);
     setPostData(postData);
     setComent(true);
     setCommentLoad(true);
+    setPostIndex(index);
+    
   };
 
   const handleClose = () => {
@@ -117,6 +122,12 @@ const PostAll = () => {
       });
       const resultGet = res.data.posts;
 
+      const initialPostLikes = resultGet.map((data) => data?.likes || false);
+      setPostLikes(initialPostLikes);
+
+      const initialLikes = resultGet.map((data) => data?.TotalLikes);
+      setTotalLikes(initialLikes);
+
       setGetData(resultGet);
 
       const finalR = res.data.success;
@@ -135,7 +146,20 @@ const PostAll = () => {
     getPost();
   }, [userData]);
 
-  const handleLike = async (postId) => {
+  const handleLike = async (postId, index) => {
+    const prevLikes = postLikes[index];
+    postLikes[index] = !prevLikes;
+    setPostLikes(postLikes);
+
+    setTotalLikes((prevTotalLikes) => {
+      const newLikeCount = prevTotalLikes[index] + (prevLikes ? -1 : 1);
+      return [
+        ...prevTotalLikes.slice(0, index),
+        newLikeCount,
+        ...prevTotalLikes.slice(index + 1),
+      ];
+    }); // Pass prevLikes as an argument
+
     try {
       const resp = await axios.post(
         `${global.BASEURL}/post/${postId}/like`,
@@ -159,7 +183,6 @@ const PostAll = () => {
       console.log(error, "error");
       toast.error(error);
     } finally {
-      getPost();
       setLoading(false);
     }
   };
@@ -299,7 +322,7 @@ const PostAll = () => {
                         <ImageLoader
                           classes={"story_img"}
                           imageUrl={item.url}
-                          onClick={() => comentModal(data, data?._id)}
+                          onClick={() => comentModal(data, data?._id , index)}
                         />
                       ) : item.type === "video" ? (
                         <video
@@ -325,14 +348,13 @@ const PostAll = () => {
                       className="inherit black_text_md cursorP align_center"
                     >
                       <img alt="" src={likes} className="ms-2 me-1" />
-                      <h5 className="postD">{data?.TotalLikes}</h5>
+                      <h5 className="postD">{totalLikes[index]}</h5>
                     </div>
                   </div>
                   <div className="d-flex">
                     <p className="me-2 postD">{data?.comments} Comments</p>
                     <p className="me-2 postD">{data?.shares} Shares</p>
                     <p className="me-2 postD">{data?.views} Views</p>
-                   
                   </div>
                 </div>
               </div>
@@ -340,21 +362,27 @@ const PostAll = () => {
             <Row className="w-100 h-100 p-0 border-top m-auto">
               <Col lg="4" sm="4" xs="4" className="like_btn">
                 <div
-                  onClick={() => handleLike(data?._id)}
+                  onClick={() => handleLike(data?._id, index)}
                   className="bg-white cursorP d-flex align-items-center justify-content-center"
                 >
                   <img
                     style={{ width: "20px", height: "20px" }}
                     alt=""
-                    src={data?.likes ? greenLeaf : like_btn}
+                    src={postLikes[index] ? greenLeaf : like_btn}
                     className="me-2"
                   />
-                  Like
+                  <h5
+                    className={`${
+                      postLikes[index] ? "green-txt" : ""
+                    } actionBTn00`}
+                  >
+                    Like
+                  </h5>
                 </div>
               </Col>
 
               <Col
-                onClick={() => comentModal(data, data?._id)}
+                onClick={() => comentModal(data, data?._id ,index)}
                 lg="4"
                 sm="4"
                 xs="4"
@@ -365,8 +393,6 @@ const PostAll = () => {
                   Comment
                 </div>
               </Col>
-
-              {/* PostComments */}
 
               <Col lg="4" sm="4" xs="4" className="like_btn border-0">
                 <button className="bg-white cursorP d-flex align-items-center justify-content-center">
@@ -388,6 +414,9 @@ const PostAll = () => {
         commentResult={commentGet}
         commentLoad={commentLoad}
         processText={processText}
+        postLikes={postLikes}
+        postIndex={postIndex}
+        totalLikes={totalLikes}
       />
 
       <PostReport isOpen={reportModal} onClose={reportModalClose} />

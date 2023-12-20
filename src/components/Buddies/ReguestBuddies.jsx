@@ -49,14 +49,6 @@ const ReguestBuddies = ({ activeModalTab }) => {
 
   // api
 
-  // useEffect(() => {
-  //   const storedUserData = localStorage.getItem("meraname");
-  //   if (storedUserData) {
-  //     const parsedUserData = JSON.parse(storedUserData);
-  //     setResultData(parsedUserData);
-  //   }
-  // }, []);
-
   const BuddiesRequest = async () => {
     setLoading(true);
     try {

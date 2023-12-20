@@ -77,14 +77,6 @@ const OtherUserPost = () => {
     setComent(false);
   };
 
-  // useEffect(() => {
-  //   const storedUserData = localStorage.getItem("meraname");
-
-  //   if (storedUserData) {
-  //     const parsedUserData = JSON.parse(storedUserData);
-  //     setResultData(parsedUserData);
-  //   }
-  // }, []);
 
   // api get comments
   const getComment = async (idPost) => {

@@ -31,14 +31,6 @@ const Buddies = ({ activeModalTab }) => {
     setSnackbarOpen(true);
   };
 
-  // useEffect(() => {
-  //   const storedUserData = localStorage.getItem("meraname");
-
-  //   if (storedUserData) {
-  //     const parsedUserData = JSON.parse(storedUserData);
-  //     setResultData(parsedUserData);
-  //   }
-  // }, []);
 
   const GetBuddies = async () => {
     setLoading(true);

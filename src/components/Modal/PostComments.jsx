@@ -14,11 +14,11 @@ import heart from "../../assets/logo/icons/heart.svg";
 import union from "../../assets/logo/icons/union.svg";
 import emoji from "../../assets/logo/icons/emoji.svg";
 import comment_upload from "../../assets/logo/icons/comment_upload.svg";
-import Colapse from "../colapse";
 import { Link } from "react-router-dom";
-import staticImg from "../../assets/images/started_img_bg.png";
 import Moment from "react-moment";
 import Picker from "emoji-picker-react";
+import Collapse from "react-bootstrap/Collapse";
+import angle_down from "../../assets/logo/icons/angle_down.svg";
 
 // import 'moment-timezone';
 
@@ -32,8 +32,7 @@ import ImageLoader from "../ImageLoader";
 import Spinner from "react-bootstrap/Spinner";
 import axios from "axios";
 import { selectUser } from "../Redux/Slices/AuthSlice";
-import { useSelector } from 'react-redux';
-
+import { useSelector } from "react-redux";
 
 const PostComments = ({
   isOpen,
@@ -42,55 +41,32 @@ const PostComments = ({
   commentResult = [],
   commentLoad,
   processText,
+  postLikes,
+  postIndex,
+  totalLikes,
 }) => {
   const [Likes, setShow] = useState(false);
   const Likes_btn_close = () => setShow(false);
-  const [likedPosts, setLikedPosts] = useState({});
   const Likes_btn_open = () => setShow(true);
   const [report, setReport] = useState(false);
   const [commentValue, setCommentValue] = useState("");
-  // const [resultData, setResultData] = useState({});
   const [sentComment, setSentComment] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
   const userData = useSelector(selectUser);
-
-
-  const onEmojiClick = (event, emojiObject) => {
-    commentValue((prevInput) => prevInput + emojiObject.emoji);
-    setShowPicker(false);
-  };
-
-  const handleCommentChange = (event) => {
-    setCommentValue(event.target.value);
-  };
-
-  // report modal open
-  const reportHandleModal = () => {
-    setReport(true);
-    onClose();
-  };
-  const handleCloseModal = () => {
-    setReport(false);
-  };
+  const [selectedCommentId, setSelectedCommentId] = useState(null);
+  const [openStates, setOpenStates] = useState({});
 
   // coment post api
+  const handleLike = async () => {
+ 
+  };
 
-  // useEffect(() => {
-  //   const storedUserData = localStorage.getItem("meraname");
-
-  //   if (storedUserData) {
-  //     const parsedUserData = JSON.parse(storedUserData);
-  //     setResultData(parsedUserData);
-  //   }
-  // }, []);
-  const postComment = async (postId) => {
+  const postComment = async (postId, selectedCommentId) => {
     try {
       if (!userData?.token) {
         return;
       }
-
-      setSentComment(true); // Start the spinner when the API call begins
-
+      setSentComment(true);
       const response = await axios.post(
         global.BASEURL + `/comments/create/${postId}/`,
         {
@@ -114,6 +90,34 @@ const PostComments = ({
       document.getElementById("comment_feild").value = "";
     }
   };
+
+  const toggleOpenState = (commentId) => {
+    setOpenStates((prevStates) => ({
+      ...prevStates,
+      [commentId]: !prevStates[commentId],
+    }));
+  };
+
+  const onEmojiClick = (event, emojiObject) => {
+    commentValue((prevInput) => prevInput + emojiObject.emoji);
+    setShowPicker(false);
+  };
+
+  const handleCommentChange = (event) => {
+    setCommentValue(event.target.value);
+  };
+
+  // report modal open
+  const reportHandleModal = () => {
+    setReport(true);
+    onClose();
+  };
+  const handleCloseModal = () => {
+    setReport(false);
+  };
+
+  // post like
+
   return (
     <>
       <Modal show={isOpen} onHide={onClose} size="lg" centered>
@@ -221,7 +225,7 @@ const PostComments = ({
                           className="inherit black_text_md cursorP align_center"
                         >
                           <img alt="" src={likes} className="ms-2 me-1" />
-                          {postData?.TotalLikes}
+                          {totalLikes[postIndex]}
                         </p>
                       </div>
                       <div className="d-flex">
@@ -237,20 +241,22 @@ const PostComments = ({
                 <Row className="w-100 h-100 p-0 border-top m-auto">
                   <Col lg="6" className="like_btn">
                     <div
-                      //   onClick={() => handleLike(postData?._id)}
+                      onClick={handleLike}
                       className="bg-white cursorP d-flex align-items-center justify-content-center"
                     >
                       <img
                         style={{ width: "20px", height: "20px" }}
                         alt=""
-                        src={
-                          likedPosts[postData?._id] || postData?.likes
-                            ? greenLeaf
-                            : like_btn
-                        }
+                        src={postLikes[postIndex] ? greenLeaf : like_btn}
                         className="me-2"
                       />
-                      Like
+                      <h5
+                        className={`${
+                          postLikes[postIndex] ? "green-txt" : ""
+                        } actionBTn00`}
+                      >
+                        Like
+                      </h5>
                     </div>
                   </Col>
 
@@ -291,8 +297,11 @@ const PostComments = ({
                       </Spinner>
                     </div>
                   ) : commentResult.length > 0 ? (
-                    commentResult?.map((item) => (
-                      <div className="d-flex align-items-start mb-3">
+                    commentResult?.map((item, index) => (
+                      <div
+                        key={index}
+                        className="d-flex align-items-start mb-3"
+                      >
                         <ImageLoader
                           imageUrl={
                             item?.user?.profilePicture
@@ -314,7 +323,6 @@ const PostComments = ({
                             </div>
                             <p className="gray_text_md justify_center">
                               <Moment fromNow>{item?.createdAt}</Moment>
-
                               <img
                                 alt=""
                                 src={heart}
@@ -322,23 +330,86 @@ const PostComments = ({
                               />
                             </p>
                           </div>
-                          {/* <name & like section> */}
-
                           <p className="black_text_md">{item?.text}</p>
 
-                          <p className="black_text_md">
+                          <div className="black_text_md">
                             <Moment format="YYYY-MM-DD">
                               {item?.createdAt}
                             </Moment>
-                            <button className="border-0 green-txt bg-white inter-semi ms-2">
+                            <button
+                              className="border-0 green-txt bg-white inter-semi ms-2"
+                              onClick={() => setSelectedCommentId(item?._id)}
+                            >
                               Reply
                             </button>
-                            {item?.replied ? (
-                              <Colapse children={<Colapse />} />
-                            ) : (
-                              ""
-                            )}
-                          </p>
+                          </div>
+                          {item?.replyComments &&
+                          item.replyComments.length > 0 ? (
+                            <>
+                              <button
+                                className="border-0 bg-white black_text_md green-txt"
+                                onClick={() => toggleOpenState(item?._id)}
+                                aria-controls={item?._id}
+                                aria-expanded={openStates[item?._id]}
+                              >
+                                View replies ({item.replyComments?.length})
+                                <img alt="" src={angle_down} className="ms-1" />
+                              </button>
+                              <Collapse key={index} in={openStates[item?._id]}>
+                                <div id={item.replyComments?._id}>
+                                  {item.replyComments.map((replData, index) => (
+                                    <>
+                                      <div
+                                        key={index}
+                                        className="d-flex align-items-start  mt-3"
+                                      >
+                                        <img
+                                          alt=""
+                                          src={
+                                            replData?.user?.profilePicture ||
+                                            avatarImg
+                                          }
+                                          className="comment_avatar"
+                                        />
+                                        <div className="w-100 ms-2">
+                                          <div className="d-flex justify-content-between align-items-center w-100">
+                                            <div>
+                                              <h1 className="black_text_md inter-semi">
+                                                {replData?.user?.username}
+                                                <span className="light_text_sm ms-1">
+                                                  @{replData?.user?.username}
+                                                </span>
+                                              </h1>
+                                            </div>
+                                            <p className="gray_text_md justify_center">
+                                              <Moment fromNow>
+                                                {replData?.createdAt}
+                                              </Moment>
+                                              <img
+                                                alt=""
+                                                src={heart}
+                                                className=" ms-2 mb-1 heart"
+                                              />
+                                            </p>
+                                          </div>
+                                          <p className="black_text_md">
+                                            {replData.text}
+                                          </p>
+                                          <div className="black_text_md">
+                                            <Moment format="YYYY-MM-DD">
+                                              {item?.createdAt}
+                                            </Moment>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </>
+                                  ))}
+                                </div>
+                              </Collapse>
+                            </>
+                          ) : (
+                            ""
+                          )}
                         </div>
                       </div>
                     ))
@@ -356,7 +427,13 @@ const PostComments = ({
                       aria-describedby="comment_feild"
                       value={commentValue}
                       onChange={handleCommentChange}
+                      ref={(input) => {
+                        if (input && selectedCommentId) {
+                          input.focus();
+                        }
+                      }}
                     />
+
                     <div className="ms-auto d-flex align-items-center me-3">
                       <div className="ms-3 cursorP">
                         <img alt="" src={union} className="input_icon" />

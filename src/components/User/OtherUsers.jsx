@@ -90,19 +90,6 @@ const OtherUsers = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const storedUserData = localStorage.getItem("meraname");
-
-  //   if (storedUserData) {
-  //     const parsedUserData = JSON.parse(storedUserData);
-
-  //     if (parsedUserData.token) {
-  //       setToken(parsedUserData.token);
-  //     }
-
-  //     setResultData(parsedUserData);
-  //   }
-  // }, []);
 
   useEffect(() => {
     if (userData?.token) {

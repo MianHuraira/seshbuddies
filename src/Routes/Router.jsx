@@ -33,7 +33,6 @@ const ForgetPass = lazy(() => import("../pages/Registration/ForgetPass"));
 const Test = lazy(() => import("../pages/Registration/PassCode"));
 
 const Router = () => {
-  // const { isAuthenticated } = useAuth();
   const AgeVarified = useSelector(selectIsAgeVerified);
   const isAuthenticated = useSelector(selectIsAuthenticated);
 

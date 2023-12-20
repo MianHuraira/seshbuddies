@@ -24,14 +24,7 @@ const PostLikesUser = ({ isOpen, onClose, postId }) => {
     }));
   };
 
-  // useEffect(() => {
-  //   const storedUserData = localStorage.getItem("meraname");
-
-  //   if (storedUserData) {
-  //     const parsedUserData = JSON.parse(storedUserData);
-  //     setResultData(parsedUserData);
-  //   }
-  // }, []);
+ 
 
   useEffect(() => {
     if (isOpen) {

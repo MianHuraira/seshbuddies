@@ -564,7 +564,7 @@
   font-family: "inter-medium";
 }
 .main_height {
-  height: 100vh;
+  height: 80vh;
   margin-bottom: 40px;
 }
 
@@ -1159,7 +1159,11 @@
   transform: scale(0);
   transition: transform 0.3s ease-in-out;
 }
-
+.actionBTn00{
+  color: #2D3D38;
+  font-family: "inter-regular";
+  font-size: 14px;
+}
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 
 /* __for you css___ */

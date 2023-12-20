@@ -71,15 +71,7 @@ const MyProfile = () => {
     setActiveTab(tab);
   };
 
-  // const [userData, setUserData] = useState({});
-  // useEffect(() => {
-  //   const storedUserData = localStorage.getItem("meraname");
-  //   if (storedUserData) {
-    
-  //     const parsedUserData = JSON.parse(storedUserData);
-  //     setUserData(parsedUserData);
-  //   }
-  // }, []);
+
 
   // api update profiel
   const [createpost, setShow] = useState(false);
