@@ -30,7 +30,7 @@ import PostLikesUser from "../components/Modal/PostLikesUser";
 import { selectUser } from "./Redux/Slices/AuthSlice";
 import { useSelector } from "react-redux";
 
-const PostAll = () => {
+const PostAll = ({headClick}) => {
   const [likeModalShow, setLikeModalShow] = useState(false);
   const [postId, stePostId] = useState("");
   const [likedPosts, setLikedPosts] = useState({});
@@ -73,7 +73,6 @@ const PostAll = () => {
     setComent(true);
     setCommentLoad(true);
     setPostIndex(index);
-    console.log(index, "index of");
   };
 
   const handleClose = () => {
@@ -326,6 +325,8 @@ const PostAll = () => {
                       ) : item.type === "video" ? (
                         <video
                           controls
+                          // Seeking
+                          Track 
                           className="story_img mb-2"
                           src={item.url}
                         />

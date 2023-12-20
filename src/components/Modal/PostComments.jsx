@@ -55,6 +55,7 @@ const PostComments = ({
   const userData = useSelector(selectUser);
   const [selectedCommentId, setSelectedCommentId] = useState(null);
   const [openStates, setOpenStates] = useState({});
+
   // coment post api
   const handleLike = async () => {};
 
@@ -117,7 +118,13 @@ const PostComments = ({
 
   return (
     <>
-      <Modal show={isOpen} onHide={onClose} size="lg" centered>
+      <Modal
+        backdrop="static"
+        show={isOpen}
+        onHide={onClose}
+        size="lg"
+        centered
+      >
         <Modal.Body>
           <Row>
             <Col
