@@ -5,9 +5,7 @@ import { Button, Modal, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Spinner from "react-bootstrap/Spinner";
 import { selectUser } from "../Redux/Slices/AuthSlice";
-import { useSelector } from 'react-redux';
-
-
+import { useSelector } from "react-redux";
 
 const AddBioUser = ({ isOpen, onClose }) => {
   const [bioValue, setBioValue] = useState("");
@@ -21,8 +19,6 @@ const AddBioUser = ({ isOpen, onClose }) => {
     setBioValue(value);
     setIsValid(value.trim() !== "");
   };
-
-  
 
   const CreatBio = async () => {
     try {

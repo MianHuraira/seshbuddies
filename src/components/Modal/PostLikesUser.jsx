@@ -7,7 +7,7 @@ import axios from "axios";
 import ImageLoader from "../ImageLoader";
 import Spinner from "react-bootstrap/Spinner";
 import { selectUser } from "../Redux/Slices/AuthSlice";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
 const PostLikesUser = ({ isOpen, onClose, postId }) => {
   const [follow, setFollow] = useState(false);
@@ -23,8 +23,6 @@ const PostLikesUser = ({ isOpen, onClose, postId }) => {
       [key]: !prevState[key],
     }));
   };
-
- 
 
   useEffect(() => {
     if (isOpen) {
@@ -91,11 +89,7 @@ const PostLikesUser = ({ isOpen, onClose, postId }) => {
                 <div className="d-flex align-items-center">
                   <ImageLoader
                     circeltrue={true}
-                    imageUrl={
-                      data?.user?.profilePicture
-                        ? global.BASEURL + "/" + data?.user?.profilePicture
-                        : avatarImg
-                    }
+                    imageUrl={data?.user?.profilePicture || avatarImg}
                     classes={"likes_dp imgB"}
                   />
                   <div className="ms-3 height-30 me-4">
@@ -111,12 +105,12 @@ const PostLikesUser = ({ isOpen, onClose, postId }) => {
                   </div>
                 </div>
                 <button
-                  onClick={() => folloStatus(data.id)}
+                  onClick={() => folloStatus(data?._id)}
                   className={`${
-                    follow[data.id] ? "folowing_btn00" : "folow_btn00"
+                    follow[data?._id] ? "folowing_btn00" : "folow_btn00"
                   }`}
                 >
-                  {follow[data.id] ? "Following" : "Follow"}
+                  {follow[data?._id] ? "Following" : "Follow"}
                 </button>
               </div>
             ))

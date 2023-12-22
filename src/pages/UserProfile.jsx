@@ -9,15 +9,17 @@ const UserProfile = () => {
     <div>
       <Container className="top_padd px-4" fluid="xxl">
         <Row className="h-100 p-0">
-          <Col lg="3" className=" overflow-hidden">
+          <Col lg="3" md="3" className="sideHeight00 d-md-block d-none">
             <ProfileSettings />
           </Col>
-          <Col  lg="6"
+          <Col
+            lg="6"
             md="9"
-            className="main_height no_scrollbar gx-5 overflow-y-auto">
+            className="main_height no_scrollbar gx-5 overflow-y-auto"
+          >
             <MyProfile />
           </Col>
-          <Col lg="3" className="overflow-hidden d-lg-block d-none">
+          <Col lg="3" className="sideHeight00 d-lg-block d-none">
             <SideMessage />
           </Col>
         </Row>

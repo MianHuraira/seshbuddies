@@ -154,7 +154,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 20px;
-  border: 1px solid transparent;
+  /* border: 1px solid transparent !important; */
 }
 
 .nav_item a.active {
@@ -240,6 +240,9 @@
   height: 45px;
   border-radius: 50%;
   border: 1px solid var(--stroke-light-base, #eaebf0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .status_icon {
   position: absolute;
@@ -1160,10 +1163,18 @@
   transform: scale(0);
   transition: transform 0.3s ease-in-out;
 }
-.actionBTn00{
-  color: #2D3D38;
+.actionBTn00 {
+  color: #2d3d38;
   font-family: "inter-regular";
   font-size: 14px;
+}
+.imagLoader00 {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 20px;
+  bottom: 0;
+  color: white;
 }
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 

@@ -34,7 +34,7 @@ const MyProfile = () => {
   const [bio, setBio] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("info"); // or any other valid default value
+  const [snackbarSeverity, setSnackbarSeverity] = useState("info"); 
   // or any other valid default value
 
   // close snackbar
@@ -292,7 +292,7 @@ const MyProfile = () => {
       <AddBioUser isOpen={bio} onClose={BioClose} />
       <AddUrlUser isOpen={url} onClose={UrlClose} />
       <AddQrCodeUser isOpen={qrCode} onClose={QRClose} />
-      <ProfilUpdate isOpen={profile} onClose={Profile_close} />
+      <ProfilUpdate setProfile={setProfile} isOpen={profile} onClose={Profile_close} />
       <CreatePost isOpen={createpost} onClose={Post_close} />
     </>
   );

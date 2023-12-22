@@ -27,10 +27,14 @@ import StoryIconMd from "../assets/icons/mdStoryIcon.png";
 import LiveIconMd from "../assets/icons/mdLiveIcon.png";
 import RedUpModal from "./Modal/RedUpModal";
 import CreatePost from "./Modal/CreatePost";
+import { selectUser } from "./Redux/Slices/AuthSlice";
+import { useSelector } from "react-redux";
+import ImageLoader from "./ImageLoader";
+import Avatar from "../assets/images/avatarImg.png";
 
 const Header = () => {
   const [activeNavLink, setActiveNavLink] = useState("home");
-
+  const userData = useSelector(selectUser);
   const handleNavLinkClick = (navLinkId) => {
     setActiveNavLink(navLinkId);
   };
@@ -142,7 +146,7 @@ const Header = () => {
     }
     setOpen(false);
   };
-  
+
   const [createpost, setShow] = useState(false);
   const Post_open = () => {
     setShow(true);
@@ -403,9 +407,13 @@ const Header = () => {
                 />
               </svg>
             </NavLink>
-            <div className="d-block d-lg-none">
-              <Profile />
-            </div>
+            <NavLink to={"/profile"} className="d-block d-lg-none border-0">
+              <ImageLoader
+                classes="profile_img mdSize00Profile"
+                imageUrl={userData?.user?.profilePicture || Avatar}
+                alt=""
+              />
+            </NavLink>
           </div>
           <div className="blank_div mx-2"></div>
 

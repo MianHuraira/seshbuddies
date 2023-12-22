@@ -30,7 +30,7 @@ import PostLikesUser from "../components/Modal/PostLikesUser";
 import { selectUser } from "./Redux/Slices/AuthSlice";
 import { useSelector } from "react-redux";
 
-const PostAll = ({headClick}) => {
+const PostAll = () => {
   const [likeModalShow, setLikeModalShow] = useState(false);
   const [postId, stePostId] = useState("");
   const [likedPosts, setLikedPosts] = useState({});
@@ -143,7 +143,7 @@ const PostAll = ({headClick}) => {
   useEffect(() => {
     getPost();
   }, [userData]);
-
+  
   const handleLike = async (postId, index) => {
     const prevLikes = postLikes[index];
     postLikes[index] = !prevLikes;
@@ -156,7 +156,7 @@ const PostAll = ({headClick}) => {
         newLikeCount,
         ...prevTotalLikes.slice(index + 1),
       ];
-    }); // Pass prevLikes as an argument
+    });
 
     try {
       const resp = await axios.post(
@@ -326,7 +326,7 @@ const PostAll = ({headClick}) => {
                         <video
                           controls
                           // Seeking
-                          Track 
+                          Track
                           className="story_img mb-2"
                           src={item.url}
                         />
@@ -405,19 +405,22 @@ const PostAll = ({headClick}) => {
       )}
 
       {/* post coment modal */}
-
-      <PostComments
-        isOpen={coment}
-        onClose={handleClose}
-        postData={postData}
-        commentResult={commentGet}
-        commentLoad={commentLoad}
-        processText={processText}
-        postLikes={postLikes}
-        postIndex={postIndex}
-        totalLikes={totalLikes}
-        handleLike={handleLike}
-      />
+      {getData ? (
+        <PostComments
+          isOpen={coment}
+          onClose={handleClose}
+          postData={postData}
+          commentResult={commentGet}
+          commentLoad={commentLoad}
+          processText={processText}
+          postLikes={postLikes}
+          postIndex={postIndex}
+          totalLikes={totalLikes}
+          handleLike={handleLike}
+        />
+      ) : (
+        ""
+      )}
 
       <PostReport isOpen={reportModal} onClose={reportModalClose} />
       <PostLikesUser

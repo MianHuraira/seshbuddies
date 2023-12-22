@@ -55,9 +55,22 @@ const PostComments = ({
   const userData = useSelector(selectUser);
   const [selectedCommentId, setSelectedCommentId] = useState(null);
   const [openStates, setOpenStates] = useState({});
-
   // coment post api
-  const handleLike = async () => {};
+
+
+
+  const [localPostLikes, setLocalPostLikes] = useState(postLikes || []);
+  const handleLike = async () => {
+    setLocalPostLikes((prevLikes) => {
+      const newLikes = [...prevLikes];
+      newLikes[postIndex] = !newLikes[postIndex];
+      return newLikes;
+    });
+  };
+
+  useEffect(() => {
+    // console.log(localPostLikes, "finale");
+  }, [localPostLikes, postIndex]); // Dependency array me postIndex bhi add karein
 
   const postComment = async (postId, selectedCommentId) => {
     try {
@@ -255,12 +268,12 @@ const PostComments = ({
                       <img
                         style={{ width: "20px", height: "20px" }}
                         alt=""
-                        src={postLikes[postIndex] ? greenLeaf : like_btn}
+                        src={localPostLikes[postIndex] ? greenLeaf : like_btn}
                         className="me-2"
                       />
                       <h5
                         className={`${
-                          postLikes[postIndex] ? "green-txt" : ""
+                          localPostLikes[postIndex] ? "green-txt" : ""
                         } actionBTn00`}
                       >
                         Like
@@ -363,7 +376,10 @@ const PostComments = ({
                                 View replies ({item.replyComments?.length})
                                 <img alt="" src={angle_down} className="ms-1" />
                               </button>
-                              <Collapse key={index} in={openStates[item?._id]}>
+                              <Collapse
+                                key={item?._id}
+                                in={openStates[item?._id]}
+                              >
                                 <div id={item.replyComments?._id}>
                                   {item.replyComments.map((replData, index) => (
                                     <>

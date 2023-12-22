@@ -159,10 +159,8 @@ const LocationMap = ({ setIsMapVisible, onSave }) => {
           onClick={handleMapClick}
           apiKey={apiKey}
         >
-          {/* Marker for user's current location */}
           <Marker position={customLocation || { lat: 0, lng: 0 }} label="📍" />
 
-          {/* Marker for custom location */}
           {customLocation && <Marker position={customLocation} label="📍" />}
         </GoogleMap>
 
