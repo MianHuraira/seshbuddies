@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { React, useState, useEffect } from "react";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
-
 import Uploadimg from "../../assets/logo/icons/uploadphoto.svg";
 import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
@@ -9,11 +8,11 @@ import CustomSnackbar from "../CustomSnackbar";
 import MapIcon from "../../assets/icons/mapIcon.svg";
 import LocationMap from "./LocationMap";
 import { selectUser } from "../Redux/Slices/AuthSlice";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
+import MentionUser from "../MentionUser";
 
 const CreatePost = ({ isOpen, onClose }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
-  // const [resultData, setResultData] = useState({});
   const [text, setText] = useState("");
   const [mediaData, setMediaData] = useState([]);
   const [fileLoading, setFileLoading] = useState({});
@@ -22,11 +21,13 @@ const CreatePost = ({ isOpen, onClose }) => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("info");
   const userData = useSelector(selectUser);
-
   const [isMapVisible, setIsMapVisible] = useState(false);
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
   const [location, setLocation] = useState("");
+  const [selectedUserIds, setSelectedUserIds] = useState([]);
+  const [mentionValue, setMentionValue] = useState("");
+
 
   const handleSave = (locationData) => {
     setLat(locationData.lat);
@@ -36,12 +37,13 @@ const CreatePost = ({ isOpen, onClose }) => {
 
   //
   const handleHide = () => {
-    // Reset state values when hiding the modal
     setSelectedFiles([]);
     setText("");
     setLocation("");
     setLat("");
     setLng("");
+    setMentionValue("");
+    setSelectedUserIds([]);
   };
 
   // close snackbar
@@ -57,9 +59,30 @@ const CreatePost = ({ isOpen, onClose }) => {
 
   // post text handle
   const postTextHandle = (e) => {
-    setText(e.target.value);
-  };
+    const newText = e.target.value;
+    setText(newText);
 
+    // Check if the new text contains '@'
+    if (newText.includes("@")) {
+      const atIndex = newText.lastIndexOf("@");
+      if (atIndex === newText.length - 1) {
+        setMentionValue("mentionProp");
+      } else {
+        setMentionValue("");
+      }
+    } else {
+      setMentionValue("");
+    }
+  };
+  // user tag
+  const handleUserSelect = (selectedUser) => {
+    setText((prevText) => `${prevText}${selectedUser.username} `);
+    setMentionValue(""); // Clear mention value
+    setSelectedUserIds((prevSelectedUserIds) => [
+      ...prevSelectedUserIds,
+      selectedUser._id,
+    ]);
+  };
   useEffect(() => {
     if (text.trim() !== "" && selectedFiles.length > 0 && location) {
       setIsButtonDisabled(false);
@@ -170,7 +193,7 @@ const CreatePost = ({ isOpen, onClose }) => {
   const renderFile = (file, index) => {
     const style = {
       width: "100%",
-      objectFit:"contain",
+      objectFit: "contain",
       height: selectedFiles.length === 1 ? "221px" : "161px",
     };
     const fileIndex = index;
@@ -222,16 +245,7 @@ const CreatePost = ({ isOpen, onClose }) => {
     );
   };
 
-  // api
-  // useEffect(() => {
-  //   const storedUserData = localStorage.getItem("meraname");
-
-  //   if (storedUserData) {
-  //     const parsedUserData = JSON.parse(storedUserData);
-  //     setResultData(parsedUserData);
-  //   }
-  // }, []);
-
+  // creat post api
   const createPost = async () => {
     try {
       const formData = {
@@ -259,12 +273,13 @@ const CreatePost = ({ isOpen, onClose }) => {
       console.error("Error creating post:", error);
       showSnackbar(`Error creating post. Please try again.`, "error");
     }
-    setSelectedFiles([]);
-    setText("");
-    setLocation("");
-    setLat("");
-    setLng("");
+    // setSelectedFiles([]);
+    // setText("");
+    // setLocation("");
+    // setLat("");
+    // setLng("");
     onClose();
+    handleHide()
   };
 
   return (
@@ -304,6 +319,11 @@ const CreatePost = ({ isOpen, onClose }) => {
                     className="mb-3 text_area"
                     value={text}
                     onChange={postTextHandle}
+                  />
+                  <MentionUser
+                    mentionValue={mentionValue}
+                    onUserSelect={handleUserSelect}
+                    selectedUserIds={selectedUserIds}
                   />
                   <h5 className="locationText00 mb-3">{location}</h5>
 

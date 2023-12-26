@@ -901,6 +901,7 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
+  border: 1px solid var(--stroke-light-base, #eaebf0);
 }
 .userNamesearc00 {
   font-size: 13px;
@@ -1175,6 +1176,21 @@
   top: 20px;
   bottom: 0;
   color: white;
+}
+.mainTag00 {
+  box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.24);
+  border-radius: 10px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px;
+  overflow: auto;
+  height: 13rem;
+  position: absolute;
+  z-index: 999999;
+  background: white;
+  right: 0;
+  left: 0;
 }
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 

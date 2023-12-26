@@ -35,13 +35,13 @@ const Home = () => {
             <div>
               <PostAll handleShow={handleShow} show={show} />
             </div>
-            <h1 className="fs-16 inter-semi mb-3 ms-3">Watch Reels</h1>
-            <div className=" overflow-auto">
+            {/* <h1 className="fs-16 inter-semi mb-3 ms-3">Watch Reels</h1> */}
+            {/* <div className=" overflow-auto">
               <WatchReels />
             </div>
             <div className=" overflow-auto">
               <FollowBuddies />
-            </div>
+            </div> */}
           </Col>
           <Col lg="3" className="sideHeight00 d-lg-block d-none">
             <SideMessage />
