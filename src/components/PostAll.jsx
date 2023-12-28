@@ -143,7 +143,7 @@ const PostAll = () => {
   useEffect(() => {
     getPost();
   }, [userData]);
-  
+
   const handleLike = async (postId, index) => {
     const prevLikes = postLikes[index];
     postLikes[index] = !prevLikes;
@@ -404,23 +404,18 @@ const PostAll = () => {
         ))
       )}
 
-      {/* post coment modal */}
-      {getData ? (
-        <PostComments
-          isOpen={coment}
-          onClose={handleClose}
-          postData={postData}
-          commentResult={commentGet}
-          commentLoad={commentLoad}
-          processText={processText}
-          postLikes={postLikes}
-          postIndex={postIndex}
-          totalLikes={totalLikes}
-          handleLike={handleLike}
-        />
-      ) : (
-        ""
-      )}
+      <PostComments
+        isOpen={coment}
+        onClose={handleClose}
+        postData={postData}
+        commentResult={commentGet}
+        commentLoad={commentLoad}
+        processText={processText}
+        postLikes={postLikes}
+        postIndex={postIndex}
+        totalLikes={totalLikes}
+        handleLike={handleLike}
+      />
 
       <PostReport isOpen={reportModal} onClose={reportModalClose} />
       <PostLikesUser

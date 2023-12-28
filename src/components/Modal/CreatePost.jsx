@@ -63,7 +63,7 @@ const CreatePost = ({ isOpen, onClose }) => {
     if (newText.includes("@")) {
       const atIndex = newText.lastIndexOf("@");
       if (atIndex === newText.length - 1) {
-        setMentionValue("mentionProp");
+        setMentionValue("@");
       } else {
         setMentionValue("");
       }

@@ -38,7 +38,7 @@ const MentionUser = ({ mentionValue, onUserSelect, text }) => {
   };
 
   useEffect(() => {
-    if (mentionValue === "mentionProp") {
+    if (mentionValue === "@") {
       userTag();
     } else {
       setUsers([]);

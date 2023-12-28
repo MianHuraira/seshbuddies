@@ -19,7 +19,7 @@ import Moment from "react-moment";
 import Picker from "emoji-picker-react";
 import Collapse from "react-bootstrap/Collapse";
 import angle_down from "../../assets/logo/icons/angle_down.svg";
-
+import grenHeart from "../../assets/icons/grenHeart.svg";
 // import 'moment-timezone';
 
 // swiper
@@ -56,8 +56,6 @@ const PostComments = ({
   const [selectedCommentId, setSelectedCommentId] = useState(null);
   const [openStates, setOpenStates] = useState({});
   // coment post api
-
-
 
   const [localPostLikes, setLocalPostLikes] = useState(postLikes || []);
   const handleLike = async () => {
@@ -346,8 +344,8 @@ const PostComments = ({
                               <Moment fromNow>{item?.createdAt}</Moment>
                               <img
                                 alt=""
-                                src={heart}
-                                className=" ms-2 mb-1 heart"
+                                src={item?.likes ? grenHeart : heart}
+                                className=" ms-2 mb-1 heart cursorP"
                               />
                             </p>
                           </div>

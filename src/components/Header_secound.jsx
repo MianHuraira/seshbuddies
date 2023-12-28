@@ -16,7 +16,7 @@ const Header_secound = () => {
       <Navbar expand="lg" className="nav_bar_sec">
         <div className="container-fluid">
           <Navbar.Brand className="d-flex align-items-center  ms-2">
-            <NavLink to={"/"}>
+            <NavLink to={"/home"}>
               <img
                 className="logo_icon"
                 src={

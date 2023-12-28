@@ -160,7 +160,7 @@ const Header = () => {
       <Navbar expand="lg" className={`nav_bg ${chngBg} nav_bar`}>
         <div className="container-xxl px-0">
           <Navbar.Brand className="d-flex align-items-center  ms-2">
-            <NavLink to={"/"}>
+            <NavLink to={"/home"}>
               <img
                 className="logo_icon"
                 src={allPath ? logoWhite : logo}
