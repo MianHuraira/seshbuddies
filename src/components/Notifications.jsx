@@ -3,7 +3,7 @@ import avatar from "../assets/logo/Avatar3.svg";
 import "../assets/css/style.css";
 import cancel_icon from "../assets/logo/cancel_icon.svg";
 import { Container, Row, Col } from "react-bootstrap";
-import Createpost from "./createpost";
+import LeftSideBar from "./LeftSideBar";
 import SideMessage from "./side_message";
 import statusLeaf from "../assets/icons/statusLeaf.svg";
 import statusTime from "../assets/icons/sttatusTime.svg";
@@ -21,7 +21,7 @@ const Notifications = () => {
       <Container className="top_padd" fluid="xxl">
         <Row className="w-100 h-100 p-0">
           <Col lg="3" className=" overflow-hidden">
-            <Createpost />
+            <LeftSideBar />
           </Col>
           <Col lg="6" className="main_height no_scrollbar ps-5 overflow-y-auto">
             <div className="d-flex justify-content-between align-items-center">

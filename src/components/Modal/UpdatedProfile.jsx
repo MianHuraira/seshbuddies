@@ -112,7 +112,7 @@ const UpdatedProfile = ({ openModal, closeModal, dataKey }) => {
             Edit {dataKey}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="modal-light radius_8">
           <Form.Control
             placeholder={dataKey}
             type="text"
@@ -120,7 +120,7 @@ const UpdatedProfile = ({ openModal, closeModal, dataKey }) => {
             value={dataValue}
             onChange={handleChange}
           />
-          <Modal.Footer className="border-0 modal-light">
+          <div className="border-0">
             <button
               disabled={!isValid || loading}
               className={` mt-3 ${
@@ -145,7 +145,7 @@ const UpdatedProfile = ({ openModal, closeModal, dataKey }) => {
                 "Update"
               )}
             </button>
-          </Modal.Footer>
+          </div>
         </Modal.Body>
       </Modal>
     </>

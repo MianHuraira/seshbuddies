@@ -13,6 +13,6 @@ const likePostSlice = createSlice({
 });
 
 export const { toggleLike } = likePostSlice.actions;
-export const selectLikes = (state) => state.likePost; // Assuming your state structure is { postId: 'like_btn' or 'greenLeaf' }
+export const selectLikes = (state) => state.likePost;
 
 export default likePostSlice.reducer;

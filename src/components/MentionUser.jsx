@@ -8,15 +8,12 @@ import { selectUser } from "./Redux/Slices/AuthSlice";
 import avatarImg from "../assets/images/avatarImg.png";
 import Spinner from "react-bootstrap/Spinner";
 
-const MentionUser = ({ mentionValue, onUserSelect, selectedUserIds }) => {
-  const [query, setQuery] = useState("");
+const MentionUser = ({ mentionValue, onUserSelect, text }) => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const userData = useSelector(selectUser);
+
   //   slice selected user
-  const filteredUsers = users.filter(
-    (user) => !selectedUserIds.includes(user._id)
-  );
 
   const userTag = async () => {
     try {
@@ -27,7 +24,12 @@ const MentionUser = ({ mentionValue, onUserSelect, selectedUserIds }) => {
           "x-auth-token": userData?.token,
         },
       });
-      setUsers(response.data.users);
+      // Filter out usernames already present in the text
+      const filteredUsers = response.data.users.filter((user) => {
+        const usernamePattern = new RegExp(`@${user.username}\\s*`, "i");
+        return !text.match(usernamePattern);
+      });
+      setUsers(filteredUsers);
     } catch (error) {
       console.error("Error fetching users:", error);
     } finally {
@@ -41,7 +43,7 @@ const MentionUser = ({ mentionValue, onUserSelect, selectedUserIds }) => {
     } else {
       setUsers([]);
     }
-  }, [mentionValue, query, userData?.token]);
+  }, [mentionValue, userData?.token]);
 
   return (
     <div className="position-relative">
@@ -61,9 +63,9 @@ const MentionUser = ({ mentionValue, onUserSelect, selectedUserIds }) => {
           </Spinner>
         </div>
       ) : (
-        filteredUsers.length > 0 && (
+        users.length > 0 && (
           <div className="mainTag00">
-            {filteredUsers.map((user, index) => (
+            {users.map((user, index) => (
               <div
                 className="mb-2 d-flex cursorP align-items-center"
                 onClick={() => {

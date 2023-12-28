@@ -888,14 +888,15 @@
   background: var(--project-colours-white, #fff);
   box-shadow: 0px 3px 16px 0px rgba(0, 0, 0, 0.24);
   width: 12rem;
-  margin: auto;
   padding: 10px;
   max-height: 14rem;
   overflow: auto;
   transform: translateX(-50%);
-  top: -232%;
-  left: 50%;
+  /* top: -232%; */
+  left: 0;
+  right: 0;
   position: absolute;
+  z-index: 999999;
 }
 .searcimg00 {
   width: 30px;
@@ -1185,12 +1186,13 @@
   margin-right: auto;
   padding: 5px;
   overflow: auto;
-  height: 13rem;
   position: absolute;
   z-index: 999999;
   background: white;
   right: 0;
   left: 0;
+  max-height: 14rem;
+  top: 0;
 }
 /* /////////////////////////////////////////////// huraira cs ended ////////////////////////////////////////////////// */
 

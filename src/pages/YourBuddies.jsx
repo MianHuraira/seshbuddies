@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import Createpost from "../components/createpost";
+import LeftSideBar from "../components/LeftSideBar";
 import SideMessage from "../components/side_message";
 
 import SuggestedBuddies from "../components/Buddies/SuggestedBuddies";
 import ReguestBuddies from "../components/Buddies/ReguestBuddies";
 import Buddies from "../components/Buddies/MyBuddies";
 
-
 const YourBuddies = () => {
- 
-
   const [activeModalTab, setActiveModalTab] = useState("tab1");
   const handleModalClick = (tab) => {
     setActiveModalTab(tab);
@@ -21,7 +18,7 @@ const YourBuddies = () => {
         <Container className="top_padd px-4" fluid="xxl">
           <Row className="h-100 p-0">
             <Col lg="3" md="3" className="sideHeight00 d-md-block d-none">
-              <Createpost />
+              <LeftSideBar />
             </Col>
             <Col lg="6" md="9" className="gx-5">
               <div>

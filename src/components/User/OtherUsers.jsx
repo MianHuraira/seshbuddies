@@ -23,7 +23,7 @@ import stars from "../../assets/logo/icons/star.svg";
 import CloseIcon from "../../assets/logo/closeLight.svg";
 import AngleRight from "../../assets/logo/icons/angle_right.svg";
 import Info from "../../assets/logo/info_icon.svg";
-import Createpost from "../createpost";
+import LeftSideBar from "../LeftSideBar";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import ImageLoader from "../ImageLoader";
@@ -117,7 +117,7 @@ const OtherUsers = () => {
       <Container className="top_padd px-4" fluid="xxl">
         <Row className="h-100 p-0">
           <Col lg="3" md="3" className="sideHeight00 d-md-block d-none">
-            <Createpost />
+            <LeftSideBar />
           </Col>
 
           <Col

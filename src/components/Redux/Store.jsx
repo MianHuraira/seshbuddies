@@ -4,6 +4,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import likePostReducer from './Slices/likePostSlice';
 import authReducer from './Slices/AuthSlice';
+import userTagReducer from './Slices/UserTag';
 
 const persistConfig = {
   key: 'root',
@@ -13,6 +14,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   likePost: likePostReducer,
   auth: persistReducer(persistConfig, authReducer),
+  userTag: userTagReducer, 
 });
 
 const store = configureStore({

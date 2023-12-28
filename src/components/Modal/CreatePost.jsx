@@ -25,9 +25,7 @@ const CreatePost = ({ isOpen, onClose }) => {
   const [lat, setLat] = useState("");
   const [lng, setLng] = useState("");
   const [location, setLocation] = useState("");
-  const [selectedUserIds, setSelectedUserIds] = useState([]);
   const [mentionValue, setMentionValue] = useState("");
-
 
   const handleSave = (locationData) => {
     setLat(locationData.lat);
@@ -43,7 +41,6 @@ const CreatePost = ({ isOpen, onClose }) => {
     setLat("");
     setLng("");
     setMentionValue("");
-    setSelectedUserIds([]);
   };
 
   // close snackbar
@@ -78,10 +75,6 @@ const CreatePost = ({ isOpen, onClose }) => {
   const handleUserSelect = (selectedUser) => {
     setText((prevText) => `${prevText}${selectedUser.username} `);
     setMentionValue(""); // Clear mention value
-    setSelectedUserIds((prevSelectedUserIds) => [
-      ...prevSelectedUserIds,
-      selectedUser._id,
-    ]);
   };
   useEffect(() => {
     if (text.trim() !== "" && selectedFiles.length > 0 && location) {
@@ -279,7 +272,7 @@ const CreatePost = ({ isOpen, onClose }) => {
     // setLat("");
     // setLng("");
     onClose();
-    handleHide()
+    handleHide();
   };
 
   return (
@@ -311,7 +304,7 @@ const CreatePost = ({ isOpen, onClose }) => {
                 <Modal.Title className="fs-16 inter-bold">New Post</Modal.Title>
               </Modal.Header>
               <Modal.Body className="upload_modal">
-                <div className="file-selector">
+                <div className="file-selector position-relative">
                   <Form.Control
                     as="textarea"
                     aria-label="With textarea"
@@ -323,7 +316,7 @@ const CreatePost = ({ isOpen, onClose }) => {
                   <MentionUser
                     mentionValue={mentionValue}
                     onUserSelect={handleUserSelect}
-                    selectedUserIds={selectedUserIds}
+                    text={text}
                   />
                   <h5 className="locationText00 mb-3">{location}</h5>
 

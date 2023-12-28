@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import "../assets/css/style.css";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Createpost from "../components/createpost";
+import LeftSideBar from "../components/LeftSideBar";
 import SideMessage from "../components/side_message";
 import TopStory from "../components/top_story";
 import WatchReels from "../components/watch_reels";
@@ -22,7 +22,7 @@ const Home = () => {
       <Container className="top_padd px-4" fluid="xxl">
         <Row className="h-100 p-0">
           <Col lg="3" md="3" className="sideHeight00 d-md-block d-none">
-            <Createpost />
+            <LeftSideBar />
           </Col>
           <Col
             lg="6"

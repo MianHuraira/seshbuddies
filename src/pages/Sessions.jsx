@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import Createpost from "../components/createpost";
+import LeftSideBar from "../components/LeftSideBar";
 import SideMessage from "../components/side_message";
 import ForYouInner from "../components/ForYouInner";
 import Forbuddies from "../components/Forbuddies";
@@ -18,7 +18,7 @@ const ForYou = () => {
         <Container className="top_padd px-4" fluid="xxl">
           <Row className="h-100 p-0">
             <Col lg="3" md="3" className="sideHeight00 d-md-block d-none">
-              <Createpost />
+              <LeftSideBar />
             </Col>
             <Col
               lg="6"

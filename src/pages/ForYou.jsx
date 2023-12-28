@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap'
-import Createpost from '../components/createpost'
+import LeftSideBar from '../components/LeftSideBar'
 import SideMessage from '../components/side_message'
 import ForYouInner from '../components/ForYouInner';
 import Forbuddies from '../components/Forbuddies';
@@ -19,7 +19,7 @@ const ForYou = () => {
                 <Container fluid="xxl">
                     <Row className="w-100 h-100 p-0 pt-4">
                         <Col lg="3" className=" overflow-hidden">
-                            <Createpost />
+                            <LeftSideBar />
                         </Col>
                         <Col lg="6" className="centered_height no_scrollbar overflow-y-auto">
                             {/* ___FOR YOU / FOR BUDDIES TABS___ */}

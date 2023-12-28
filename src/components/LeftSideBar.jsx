@@ -9,19 +9,14 @@ import downIcon from "../assets/icons/downIcon.svg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
-
-// images
-
 import user1 from "../assets/images/user1.png";
 import user2 from "../assets/images/user2.png";
 import CreatePost from "./Modal/CreatePost";
 
-const Createpost = () => {
+const LeftSideBar = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [date, setdate] = useState("");
-
   // mention code start
-
   const [inputValue, setInputValue] = useState("");
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
@@ -95,12 +90,12 @@ const Createpost = () => {
     ShowNotification(true);
   };
 
-  const [createpost, setShow] = useState(false);
+  const [createPostModal, setCreatePostModal] = useState(false);
   const Post_open = () => {
-    setShow(true);
+    setCreatePostModal(true);
   };
   const Post_close = () => {
-    setShow(false);
+    setCreatePostModal(false);
   };
 
   const [SHMOKE, shmoke] = useState(false);
@@ -527,8 +522,8 @@ const Createpost = () => {
               />
               {shouldShowSuggestions && (
                 <div className="mainSearch000">
-                  {suggestions.map((user , index) => (
-                    <div 
+                  {suggestions.map((user, index) => (
+                    <div
                       className="suggestion-item mb-2 d-flex align-items-center"
                       onClick={() => handleSuggestionClick(user)}
                       key={user.id}
@@ -594,9 +589,9 @@ const Createpost = () => {
         </Modal.Body>
       </Modal>
 
-      <CreatePost isOpen={createpost} onClose={Post_close} />
+      <CreatePost isOpen={createPostModal} onClose={Post_close} />
     </div>
   );
 };
 
-export default Createpost;
+export default LeftSideBar;

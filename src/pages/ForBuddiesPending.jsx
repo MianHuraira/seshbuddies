@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import SideMessage from "../components/side_message";
-import Createpost from "../components/createpost";
+import LeftSideBar from "../components/LeftSideBar";
 import stars from "../assets/logo/icons/star.svg";
 import girl from "../assets/logo/orange-girl.svg";
 import Avatar from "../assets/logo/Avatar2.svg";
@@ -33,7 +33,7 @@ const ForBuddiesPending = () => {
       <Container fluid="xxl">
         <Row className="w-100 h-100 p-0 pt-4">
           <Col lg="3" className=" overflow-hidden">
-            <Createpost />
+            <LeftSideBar />
           </Col>
           <Col
             lg="6"
