@@ -33,7 +33,6 @@ import { useSelector } from "react-redux";
 const PostAll = () => {
   const [likeModalShow, setLikeModalShow] = useState(false);
   const [postId, stePostId] = useState("");
-  const [likedPosts, setLikedPosts] = useState({});
   const [getData, setGetData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [commentLoad, setCommentLoad] = useState(true);
@@ -169,14 +168,6 @@ const PostAll = () => {
           },
         }
       );
-      const { success } = resp.data;
-
-      if (success) {
-        setLikedPosts((prevLikedPosts) => ({
-          ...prevLikedPosts,
-          [postId]: !prevLikedPosts[postId],
-        }));
-      }
     } catch (error) {
       console.log(error, "error");
       toast.error(error);

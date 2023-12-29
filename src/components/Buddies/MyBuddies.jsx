@@ -8,7 +8,8 @@ import Avatar from "../../assets/images/avatarImg.png";
 import CustomSnackbar from "../CustomSnackbar";
 
 import { selectUser } from "../Redux/Slices/AuthSlice";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Buddies = ({ activeModalTab }) => {
   // const [resultData, setResultData] = useState(null);
@@ -30,7 +31,6 @@ const Buddies = ({ activeModalTab }) => {
     setSnackbarSeverity(severity);
     setSnackbarOpen(true);
   };
-
 
   const GetBuddies = async () => {
     setLoading(true);
@@ -123,19 +123,30 @@ const Buddies = ({ activeModalTab }) => {
             }`}
           >
             <div className="d-flex mt-2">
-              <div className="">
+              <Link
+                to={`/users/${data?.user?._id}`}
+                className="d-flex align-items-center cursorP"
+              >
                 <ImageLoader
                   classes="message-dp"
                   imageUrl={data?.user?.profilePicture || Avatar}
                   alt=""
                 />
-              </div>
-              <div className="status ms-2">
-                <p className="inter-semi fs-14 mb-2">{data?.user?.username}</p>
-                <h1 className="fs-13 align_center inter light_text">
-                  New York, USA
-                </h1>
-              </div>
+                <div className="status ms-2">
+                  <p
+                    style={{ color: "rgb(37, 37, 37)" }}
+                    className="inter-semi fs-14 mb-2"
+                  >
+                    {data?.user?.username}
+                  </p>
+                  <h1
+                    style={{ color: "rgb(37, 37, 37)" }}
+                    className="fs-13 align_center inter light_text"
+                  >
+                    New York, USA
+                  </h1>
+                </div>
+              </Link>
               <div className=" ms-auto d-flex justify-content-center align-items-center">
                 <div className="d-flex align-items-start me-2 justify-content-center">
                   <img alt="" src={stars} className="rating-star" />

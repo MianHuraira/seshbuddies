@@ -12,7 +12,8 @@ import SuggestedBuddies from "./SuggestedBuddies";
 import StarElement from "../../assets/logo/icons/star_element_green.svg";
 import Spinner from "react-bootstrap/Spinner";
 import { selectUser } from "../Redux/Slices/AuthSlice";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const ReguestBuddies = ({ activeModalTab }) => {
   const [rejectRequest, setRejectRequest] = useState(false);
@@ -97,7 +98,6 @@ const ReguestBuddies = ({ activeModalTab }) => {
 
       if (resp.status === 200) {
         setFadeOutIndex(index);
-
         // After some time, remove the index from state
         setTimeout(() => {
           setFadeOutIndex(null);
@@ -154,19 +154,28 @@ const ReguestBuddies = ({ activeModalTab }) => {
             }`}
           >
             <div className="d-flex mt-2">
-              <div>
+              <Link
+                to={`/users/${data?.user?._id}`}
+                className="d-flex align-items-center cursorP"
+              >
                 <ImageLoader
                   circleTrue={"true"}
                   imageUrl={data?.user?.profilePicture || avatarImg}
                   classes={"message-dp"}
                 />
-              </div>
-              <div className="status ms-2">
-                <p className="inter-semi fs-14 mb-2">{data?.user?.username}</p>
-                <h1 className="fs-13 align_center inter light_text">
-                  New York, USA
-                </h1>
-              </div>
+
+                <div className="status ms-2">
+                  <p
+                    style={{ color: "rgb(37, 37, 37)" }}
+                    className="inter-semi fs-14 mb-2"
+                  >
+                    {data?.user?.username}
+                  </p>
+                  <h1 style={{ color: "rgb(37, 37, 37)" }} className="fs-13 align_center inter light_text">
+                    New York, USA
+                  </h1>
+                </div>
+              </Link>
               <div className=" ms-auto d-flex justify-content-center align-items-center">
                 <div className="d-flex align-items-start me-2 justify-content-center">
                   <img alt="" src={stars} className="rating-star" />

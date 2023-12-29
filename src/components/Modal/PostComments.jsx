@@ -55,7 +55,7 @@ const PostComments = ({
   const userData = useSelector(selectUser);
   const [selectedCommentId, setSelectedCommentId] = useState(null);
   const [openStates, setOpenStates] = useState({});
-  // coment post api
+  const [commentLiked, setCommentLiked] = useState([]);
 
   const [localPostLikes, setLocalPostLikes] = useState(postLikes || []);
   const handleLike = async () => {
@@ -66,9 +66,7 @@ const PostComments = ({
     });
   };
 
-  useEffect(() => {
-    // console.log(localPostLikes, "finale");
-  }, [localPostLikes, postIndex]); // Dependency array me postIndex bhi add karein
+  useEffect(() => {}, [localPostLikes, postIndex]);
 
   const postComment = async (postId, selectedCommentId) => {
     try {
@@ -125,7 +123,39 @@ const PostComments = ({
     setReport(false);
   };
 
-  // post like
+  // post comment like api
+
+  useEffect(() => {
+    const initialCommentLikes = commentResult.map(
+      (data) => data?.likes || false
+    );
+    setCommentLiked(initialCommentLikes);
+  }, [commentResult]);
+
+  const handleLikeComment = async (id, index, replc) => {
+    if (!replc) {
+      const updatedCommentLiked = [...commentLiked];
+      updatedCommentLiked[index] = !updatedCommentLiked[index];
+      setCommentLiked(updatedCommentLiked);
+    }
+
+    try {
+      const resp = await axios.post(
+        `${global.BASEURL}/comments/${id}/like`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": userData?.token,
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error, "error");
+    }
+  };
+
+  // ////////////////////// ended ///////////////
 
   return (
     <>
@@ -169,7 +199,7 @@ const PostComments = ({
                           {postData?.location?.location}
                           <span>.</span>
                           <p className="ms-1 black_text_md inter-light ">
-                            5 min
+                            <Moment fromNow>{postData?.createdAt}</Moment>
                           </p>
                         </h1>
                       </div>
@@ -340,14 +370,17 @@ const PostComments = ({
                                 </span>
                               </h1>
                             </div>
-                            <p className="gray_text_md justify_center">
+                            <div className="gray_text_md justify_center">
                               <Moment fromNow>{item?.createdAt}</Moment>
                               <img
                                 alt=""
-                                src={item?.likes ? grenHeart : heart}
+                                src={commentLiked[index] ? grenHeart : heart}
                                 className=" ms-2 mb-1 heart cursorP"
+                                onClick={() =>
+                                  handleLikeComment(item?._id, index)
+                                }
                               />
-                            </p>
+                            </div>
                           </div>
                           <p className="black_text_md">{item?.text}</p>
 
@@ -409,8 +442,19 @@ const PostComments = ({
                                               </Moment>
                                               <img
                                                 alt=""
-                                                src={heart}
-                                                className=" ms-2 mb-1 heart"
+                                                src={
+                                                  replData.likes
+                                                    ? grenHeart
+                                                    : heart
+                                                }
+                                                className=" ms-2 mb-1 heart cursorP"
+                                                onClick={() =>
+                                                  handleLikeComment(
+                                                    replData?._id,
+                                                    index,
+                                                    "replc"
+                                                  )
+                                                }
                                               />
                                             </p>
                                           </div>

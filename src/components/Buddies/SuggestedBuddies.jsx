@@ -10,8 +10,8 @@ import Avatar from "../../assets/images/avatarImg.png";
 import ImageLoader from "../ImageLoader";
 import CustomSnackbar from "../CustomSnackbar";
 import { selectUser } from "../Redux/Slices/AuthSlice";
-import { useSelector } from 'react-redux';
-
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const SuggestedBuddies = ({ activeModalTab }) => {
   // const [resultData, setResultData] = useState(null);
@@ -26,6 +26,7 @@ const SuggestedBuddies = ({ activeModalTab }) => {
   const [fadeOutIndex, setFadeOutIndex] = useState(null);
   const userData = useSelector(selectUser);
 
+  
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
@@ -34,7 +35,6 @@ const SuggestedBuddies = ({ activeModalTab }) => {
     setSnackbarSeverity(severity);
     setSnackbarOpen(true);
   };
-
 
   const GetSuggest = async () => {
     setLoading(true);
@@ -134,18 +134,29 @@ const SuggestedBuddies = ({ activeModalTab }) => {
             }`}
           >
             <div className="d-flex mt-2">
-              <div className="">
+              <Link
+                to={`/users/${data?._id}`}
+                className="d-flex align-items-center cursorP"
+              >
                 <ImageLoader
                   classes="message-dp"
                   imageUrl={data?.profilePicture || Avatar}
                 />
-              </div>
-              <div className="status ms-2">
-                <p className="inter-semi fs-14">{data?.username}</p>
-                <h1 className="fs-13 align_center inter light_text">
-                  New York, USA
-                </h1>
-              </div>
+                <div className="status ms-2">
+                  <p
+                    style={{ color: "rgb(37, 37, 37)" }}
+                    className="inter-semi fs-14"
+                  >
+                    {data?.username}
+                  </p>
+                  <h1
+                    style={{ color: "rgb(37, 37, 37)" }}
+                    className="fs-13 align_center inter light_text"
+                  >
+                    New York, USA
+                  </h1>
+                </div>
+              </Link>
               <div className=" ms-auto d-flex justify-content-center align-items-center">
                 <div className="d-flex align-items-start me-2 justify-content-center">
                   <img alt="" src={stars} className="rating-star" />
