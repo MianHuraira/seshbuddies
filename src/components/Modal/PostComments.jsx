@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import stars from "../../assets/logo/icons/star.svg";
 import dots from "../../assets/logo/icons/3dots.svg";
 import avatarImg from "../../assets/images/avatarImg.png";
@@ -33,6 +33,7 @@ import Spinner from "react-bootstrap/Spinner";
 import axios from "axios";
 import { selectUser } from "../Redux/Slices/AuthSlice";
 import { useSelector } from "react-redux";
+import CustomSnackbar from "../CustomSnackbar";
 
 const PostComments = ({
   isOpen,
@@ -45,6 +46,7 @@ const PostComments = ({
   postIndex,
   totalLikes,
 }) => {
+  const commentDataRef = useRef(null);
   const [Likes, setShow] = useState(false);
   const Likes_btn_close = () => setShow(false);
   const Likes_btn_open = () => setShow(true);
@@ -56,8 +58,26 @@ const PostComments = ({
   const [selectedCommentId, setSelectedCommentId] = useState(null);
   const [openStates, setOpenStates] = useState({});
   const [commentLiked, setCommentLiked] = useState([]);
-
+  const [commentData, setCommentData] = useState(commentResult);
+  const [newComment, setnewComment] = useState("");
   const [localPostLikes, setLocalPostLikes] = useState(postLikes || []);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("info");
+  
+
+  // snackbar
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+  const showSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+  };
+  // snackbar
+
   const handleLike = async () => {
     setLocalPostLikes((prevLikes) => {
       const newLikes = [...prevLikes];
@@ -68,7 +88,15 @@ const PostComments = ({
 
   useEffect(() => {}, [localPostLikes, postIndex]);
 
-  const postComment = async (postId, selectedCommentId) => {
+  // comment create
+
+  useEffect(() => {
+    if (commentResult.length > 0) {
+      setCommentData(commentResult);
+    }
+  }, [commentResult]);
+
+  const createComments = async (postId) => {
     try {
       if (!userData?.token) {
         return;
@@ -86,18 +114,47 @@ const PostComments = ({
           },
         }
       );
+      if (response.status === 201) {
+        const getResult = response.data.comment;
+        const modifiUserData = {
+          username: userData?.user?.username,
+          profilePicture: userData?.user?.profilePicture,
+          _id: userData?.user?._id,
+        };
 
-      // Do something with the response if needed
+        if (getResult && getResult?.user) {
+          // Replace 'user' property with modifiUserData
+          const modifiedResult = {
+            ...getResult,
+            user: {
+              ...modifiUserData,
+            },
+          };
+
+          setnewComment(modifiedResult);
+        } else {
+          console.error("User property not found in getResult:", getResult);
+        }
+      }
     } catch (error) {
       console.log(error, "error");
-      // Handle the error as needed
+      showSnackbar(error, "error");
     } finally {
       setSentComment(false);
       setCommentValue("");
       document.getElementById("comment_feild").value = "";
     }
   };
+  useEffect(() => {
+    if (newComment) {
+      setCommentData((prevComments) => [newComment, ...prevComments]);
+      if (commentDataRef.current) {
+        commentDataRef.current.scrollTop = 0;
+      }
+    }
+  }, [newComment]);
 
+  // comment create
   const toggleOpenState = (commentId) => {
     setOpenStates((prevStates) => ({
       ...prevStates,
@@ -124,12 +181,13 @@ const PostComments = ({
   };
 
   // post comment like api
-
   useEffect(() => {
-    const initialCommentLikes = commentResult.map(
-      (data) => data?.likes || false
-    );
-    setCommentLiked(initialCommentLikes);
+    if (commentResult.length > 0) {
+      const initialCommentLikes = commentResult.map(
+        (data) => data?.likes || false
+      );
+      setCommentLiked(initialCommentLikes);
+    }
   }, [commentResult]);
 
   const handleLikeComment = async (id, index, replc) => {
@@ -155,10 +213,21 @@ const PostComments = ({
     }
   };
 
+  const modalClose = () => {
+    setCommentData("");
+    setCommentValue("");
+  };
+
   // ////////////////////// ended ///////////////
 
   return (
     <>
+      <CustomSnackbar
+        open={snackbarOpen}
+        message={snackbarMessage}
+        severity={snackbarSeverity} // or "error", "warning", "info", etc.
+        onClose={handleSnackbarClose}
+      />
       <Modal
         backdrop="static"
         show={isOpen}
@@ -167,13 +236,18 @@ const PostComments = ({
         centered
       >
         <Modal.Body>
+          <Modal.Header
+            closeButton
+            className="py-3 border-0 poAB00"
+            onClick={modalClose}
+          ></Modal.Header>
           <Row>
             <Col
               className="p-0"
               style={{ borderRight: "2px solid #EEF5F2" }}
               lg="6"
             >
-              <div className="bg-white radius_12  overflow-hidden">
+              <div className="bg-white radius_12 overflow-hidden">
                 <div className="px-3">
                   <div className="d-flex justify-content-between mt-2">
                     <Link to={"/users"} className="d-flex align-items-center">
@@ -322,14 +396,13 @@ const PostComments = ({
               <div className="d-flex flex-column justify-content-between">
                 <div className="d-flex justify-content-between align-items-center h-100 mt-2">
                   <h1 className="black_text_lg">
-                    {!commentLoad ? commentResult.length : ""}
+                    {!commentLoad ? commentData.length : ""}
                   </h1>
-                  <button
-                    className="border-0 btn-close hide_fcontrol"
-                    onClick={onClose}
-                  ></button>
                 </div>
-                <div className="pt-3 px-3 w-100 comment_block no_scrollbar overflow-y-auto overflow-x-hidden">
+                <div
+                  ref={commentDataRef}
+                  className="pt-3 px-3 w-100 comment_block no_scrollbar overflow-y-auto overflow-x-hidden"
+                >
                   {commentLoad ? (
                     <div className="text-center">
                       <Spinner
@@ -345,8 +418,8 @@ const PostComments = ({
                         <span className="visually-hidden">Loading...</span>
                       </Spinner>
                     </div>
-                  ) : commentResult.length > 0 ? (
-                    commentResult?.map((item, index) => (
+                  ) : commentData.length > 0 ? (
+                    commentData?.map((item, index) => (
                       <div
                         key={index}
                         className="d-flex align-items-start mb-3"
@@ -407,10 +480,7 @@ const PostComments = ({
                                 View replies ({item.replyComments?.length})
                                 <img alt="" src={angle_down} className="ms-1" />
                               </button>
-                              <Collapse
-                                key={item?._id}
-                                in={openStates[item?._id]}
-                              >
+                              <Collapse key={index} in={openStates[item?._id]}>
                                 <div id={item.replyComments?._id}>
                                   {item.replyComments.map((replData, index) => (
                                     <>
@@ -535,7 +605,7 @@ const PostComments = ({
                             alt=""
                             src={comment_upload}
                             className="input_icon"
-                            onClick={() => postComment(postData?._id)}
+                            onClick={() => createComments(postData?._id)}
                           />
                         )}
                       </div>

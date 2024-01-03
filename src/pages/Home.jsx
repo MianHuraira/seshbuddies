@@ -48,30 +48,7 @@ const Home = () => {
           </Col>
         </Row>
       </Container>
-      {/* ---modal--- */}
-      {/* <Modal
-        show={show}
-        onHide={handleClose}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Body className="py-0">
-          <Row>
-            <Col
-              sm={6}
-              className="p-0"
-              style={{ borderRight: "1px solid lightgray" }}
-            >
-              <PostAll />
-            </Col>
-            <Col sm={6} className="p-0">
-              <CommentModal handleClose={handleClose} />
-            </Col>
-          </Row>
-        </Modal.Body>
-      </Modal> */}
-      {/* ___modal end--- */}
+  
       </div>
     
     </>
