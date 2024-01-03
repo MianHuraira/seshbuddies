@@ -47,6 +47,7 @@ const PostComments = ({
   totalLikes,
 }) => {
   const commentDataRef = useRef(null);
+  const commentInputRef = useRef(null);
   const [Likes, setShow] = useState(false);
   const Likes_btn_close = () => setShow(false);
   const Likes_btn_open = () => setShow(true);
@@ -55,7 +56,7 @@ const PostComments = ({
   const [sentComment, setSentComment] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
   const userData = useSelector(selectUser);
-  const [selectedCommentId, setSelectedCommentId] = useState(null);
+  // const [selectedCommentId, setSelectedCommentId] = useState(null);
   const [openStates, setOpenStates] = useState({});
   const [commentLiked, setCommentLiked] = useState([]);
   const [commentData, setCommentData] = useState(commentResult);
@@ -64,7 +65,6 @@ const PostComments = ({
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("info");
-  
 
   // snackbar
 
@@ -213,6 +213,16 @@ const PostComments = ({
     }
   };
 
+  const replied = (commentId) => {
+    console.log(commentId);
+
+    // Set focus on the comment input
+    if (commentInputRef.current) {
+      commentInputRef.current.focus();
+    }
+  };
+
+  // modal close
   const modalClose = () => {
     setCommentData("");
     setCommentValue("");
@@ -250,7 +260,10 @@ const PostComments = ({
               <div className="bg-white radius_12 overflow-hidden">
                 <div className="px-3">
                   <div className="d-flex justify-content-between mt-2">
-                    <Link to={"/users"} className="d-flex align-items-center">
+                    <Link
+                      to={`/users/${postData?.user?._id}`}
+                      className="d-flex align-items-center"
+                    >
                       <div className="position-relative">
                         <ImageLoader
                           imageUrl={
@@ -463,7 +476,7 @@ const PostComments = ({
                             </Moment>
                             <button
                               className="border-0 green-txt bg-white inter-semi ms-2"
-                              onClick={() => setSelectedCommentId(item?._id)}
+                              onClick={() => replied(item?._id)}
                             >
                               Reply
                             </button>
@@ -563,11 +576,7 @@ const PostComments = ({
                       aria-describedby="comment_feild"
                       value={commentValue}
                       onChange={handleCommentChange}
-                      ref={(input) => {
-                        if (input && selectedCommentId) {
-                          input.focus();
-                        }
-                      }}
+                      ref={commentInputRef}
                     />
 
                     <div className="ms-auto d-flex align-items-center me-3">
