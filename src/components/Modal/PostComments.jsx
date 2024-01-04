@@ -14,6 +14,7 @@ import heart from "../../assets/logo/icons/heart.svg";
 import union from "../../assets/logo/icons/union.svg";
 import emoji from "../../assets/logo/icons/emoji.svg";
 import comment_upload from "../../assets/logo/icons/comment_upload.svg";
+import comment_uploadD from "../../assets/logo/icons/comment_upload(d).svg";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import Picker from "emoji-picker-react";
@@ -48,6 +49,7 @@ const PostComments = ({
 }) => {
   const commentDataRef = useRef(null);
   const commentInputRef = useRef(null);
+  const replyButtonRef = useRef(null);
   const [Likes, setShow] = useState(false);
   const Likes_btn_close = () => setShow(false);
   const Likes_btn_open = () => setShow(true);
@@ -56,7 +58,6 @@ const PostComments = ({
   const [sentComment, setSentComment] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
   const userData = useSelector(selectUser);
-  // const [selectedCommentId, setSelectedCommentId] = useState(null);
   const [openStates, setOpenStates] = useState({});
   const [commentLiked, setCommentLiked] = useState([]);
   const [commentData, setCommentData] = useState(commentResult);
@@ -65,8 +66,17 @@ const PostComments = ({
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("info");
+  const [selectedCommentId, setSelectedCommentId] = useState("");
 
   // snackbar
+
+  const handleReplyButton = (commentId) => {
+    setSelectedCommentId(commentId);
+    // Set focus on the comment input
+    if (commentInputRef.current) {
+      commentInputRef.current.focus();
+    }
+  };
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
@@ -106,6 +116,7 @@ const PostComments = ({
         global.BASEURL + `/comments/create/${postId}/`,
         {
           text: commentValue,
+          ...(selectedCommentId ? { replyComment: selectedCommentId } : {}),
         },
         {
           headers: {
@@ -142,6 +153,7 @@ const PostComments = ({
     } finally {
       setSentComment(false);
       setCommentValue("");
+      setSelectedCommentId("");
       document.getElementById("comment_feild").value = "";
     }
   };
@@ -210,15 +222,6 @@ const PostComments = ({
       );
     } catch (error) {
       console.log(error, "error");
-    }
-  };
-
-  const replied = (commentId) => {
-    console.log(commentId);
-
-    // Set focus on the comment input
-    if (commentInputRef.current) {
-      commentInputRef.current.focus();
     }
   };
 
@@ -475,8 +478,9 @@ const PostComments = ({
                               {item?.createdAt}
                             </Moment>
                             <button
+                              ref={replyButtonRef}
                               className="border-0 green-txt bg-white inter-semi ms-2"
-                              onClick={() => replied(item?._id)}
+                              onClick={() => handleReplyButton(item?._id)}
                             >
                               Reply
                             </button>
@@ -486,14 +490,14 @@ const PostComments = ({
                             <>
                               <button
                                 className="border-0 bg-white black_text_md green-txt"
-                                onClick={() => toggleOpenState(item?._id)}
-                                aria-controls={item?._id}
-                                aria-expanded={openStates[item?._id]}
+                                onClick={() => toggleOpenState(index)}
+                                aria-controls={index}
+                                aria-expanded={openStates[index]}
                               >
                                 View replies ({item.replyComments?.length})
                                 <img alt="" src={angle_down} className="ms-1" />
                               </button>
-                              <Collapse key={index} in={openStates[item?._id]}>
+                              <Collapse key={index} in={openStates[index]}>
                                 <div id={item.replyComments?._id}>
                                   {item.replyComments.map((replData, index) => (
                                     <>
@@ -612,9 +616,19 @@ const PostComments = ({
                         ) : (
                           <img
                             alt=""
-                            src={comment_upload}
-                            className="input_icon"
-                            onClick={() => createComments(postData?._id)}
+                            src={
+                              commentValue.trim()
+                                ? comment_upload
+                                : comment_uploadD
+                            }
+                            className={`input_icon ${
+                              commentValue.trim() ? "enabled" : "disabled"
+                            }`}
+                            onClick={() => {
+                              if (commentValue.trim()) {
+                                createComments(postData?._id);
+                              }
+                            }}
                           />
                         )}
                       </div>
