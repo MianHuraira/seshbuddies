@@ -46,6 +46,7 @@ const PostComments = ({
   postLikes,
   postIndex,
   totalLikes,
+  currentPostId,
 }) => {
   const commentDataRef = useRef(null);
   const commentInputRef = useRef(null);
@@ -67,6 +68,9 @@ const PostComments = ({
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("info");
   const [selectedCommentId, setSelectedCommentId] = useState("");
+  const [commentGet, setCommentGet] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [commentStatus, setCommentStatus] = useState("");
 
   // snackbar
 
@@ -225,10 +229,40 @@ const PostComments = ({
     }
   };
 
+  // get all comments
+
+  const getComment = async (idPost) => {
+    setLoading(true);
+    try {
+      const resp = await axios.get(
+        global.BASEURL + `/comments/all/${idPost}/`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": userData?.token,
+          },
+        }
+      );
+      const ComentResult = resp.data.posts;
+      setCommentStatus(resp?.data?.message);
+      if (resp.status) setCommentGet(ComentResult);
+    } catch (error) {
+      console.log(error, "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (currentPostId) {
+      getComment(currentPostId);
+    }
+  }, [currentPostId]);
   // modal close
   const modalClose = () => {
     setCommentData("");
     setCommentValue("");
+    setLoading(true);
   };
 
   // ////////////////////// ended ///////////////
@@ -419,7 +453,7 @@ const PostComments = ({
                   ref={commentDataRef}
                   className="pt-3 px-3 w-100 comment_block no_scrollbar overflow-y-auto overflow-x-hidden"
                 >
-                  {commentLoad ? (
+                  {loading ? (
                     <div className="text-center">
                       <Spinner
                         style={{
@@ -434,8 +468,8 @@ const PostComments = ({
                         <span className="visually-hidden">Loading...</span>
                       </Spinner>
                     </div>
-                  ) : commentData.length > 0 ? (
-                    commentData?.map((item, index) => (
+                  ) : commentGet?.length > 0 ? (
+                    commentGet?.map((item, index) => (
                       <div
                         key={index}
                         className="d-flex align-items-start mb-3"
@@ -567,7 +601,7 @@ const PostComments = ({
                       </div>
                     ))
                   ) : (
-                    "No more comments found"
+                    commentStatus
                   )}
                 </div>
                 <div className="light_border_top">

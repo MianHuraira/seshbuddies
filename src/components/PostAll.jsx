@@ -35,15 +35,14 @@ const PostAll = () => {
   const [postId, stePostId] = useState("");
   const [getData, setGetData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [commentLoad, setCommentLoad] = useState(true);
   const [reportModal, setReportModal] = useState(false);
   const [coment, setComent] = useState(false);
   const [postData, setPostData] = useState(null);
-  const [commentGet, setCommentGet] = useState([]);
   const userData = useSelector(selectUser);
   const [postLikes, setPostLikes] = useState([]);
   const [totalLikes, setTotalLikes] = useState([]);
   const [postIndex, setPostIndex] = useState("");
+  const [currentPostId, setCurrentPostId] = useState("");
 
   const likesModalShow = (postId) => {
     setLikeModalShow(true);
@@ -67,42 +66,14 @@ const PostAll = () => {
 
   // post modal
   const comentModal = (postData, id, index) => {
-    getComment(id);
     setPostData(postData);
     setComent(true);
-    setCommentLoad(true);
     setPostIndex(index);
+    setCurrentPostId(postData?._id);
   };
 
   const handleClose = () => {
     setComent(false);
-  };
-
-  // api get comments
-  const getComment = async (idPost) => {
-    try {
-      const resp = await axios.get(
-        global.BASEURL + `/comments/all/${idPost}/`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": userData?.token,
-          },
-        }
-      );
-      const ComentResult = resp.data.posts;
-
-      setCommentGet(ComentResult);
-
-      if (resp) {
-        setCommentLoad(false);
-      } else {
-        setCommentLoad(true);
-      }
-    } catch (error) {
-      console.log(error, "error");
-      toast.error(error);
-    }
   };
 
   // api get post start
@@ -399,13 +370,12 @@ const PostAll = () => {
         isOpen={coment}
         onClose={handleClose}
         postData={postData}
-        commentResult={commentGet}
-        commentLoad={commentLoad}
         processText={processText}
         postLikes={postLikes}
         postIndex={postIndex}
         totalLikes={totalLikes}
         handleLike={handleLike}
+        currentPostId={currentPostId}
       />
 
       <PostReport isOpen={reportModal} onClose={reportModalClose} />
