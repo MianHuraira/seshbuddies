@@ -376,6 +376,7 @@ const PostAll = () => {
         totalLikes={totalLikes}
         handleLike={handleLike}
         currentPostId={currentPostId}
+        setCurrentPostId={setCurrentPostId}
       />
 
       <PostReport isOpen={reportModal} onClose={reportModalClose} />

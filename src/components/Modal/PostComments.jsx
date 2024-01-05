@@ -35,18 +35,19 @@ import axios from "axios";
 import { selectUser } from "../Redux/Slices/AuthSlice";
 import { useSelector } from "react-redux";
 import CustomSnackbar from "../CustomSnackbar";
+import InfiniteScroll from "react-infinite-scroller";
 
 const PostComments = ({
   isOpen,
   onClose,
   postData,
-  commentResult = [],
   commentLoad,
   processText,
   postLikes,
   postIndex,
   totalLikes,
   currentPostId,
+  setCurrentPostId,
 }) => {
   const commentDataRef = useRef(null);
   const commentInputRef = useRef(null);
@@ -61,7 +62,6 @@ const PostComments = ({
   const userData = useSelector(selectUser);
   const [openStates, setOpenStates] = useState({});
   const [commentLiked, setCommentLiked] = useState([]);
-  const [commentData, setCommentData] = useState(commentResult);
   const [newComment, setnewComment] = useState("");
   const [localPostLikes, setLocalPostLikes] = useState(postLikes || []);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -71,7 +71,6 @@ const PostComments = ({
   const [commentGet, setCommentGet] = useState([]);
   const [loading, setLoading] = useState(true);
   const [commentStatus, setCommentStatus] = useState("");
-
   // snackbar
 
   const handleReplyButton = (commentId) => {
@@ -105,10 +104,10 @@ const PostComments = ({
   // comment create
 
   useEffect(() => {
-    if (commentResult.length > 0) {
-      setCommentData(commentResult);
+    if (commentGet.length > 0) {
+      setCommentGet(commentGet);
     }
-  }, [commentResult]);
+  }, [commentGet]);
 
   const createComments = async (postId) => {
     try {
@@ -163,7 +162,7 @@ const PostComments = ({
   };
   useEffect(() => {
     if (newComment) {
-      setCommentData((prevComments) => [newComment, ...prevComments]);
+      setCommentGet((prevComments) => [newComment, ...prevComments]);
       if (commentDataRef.current) {
         commentDataRef.current.scrollTop = 0;
       }
@@ -171,6 +170,7 @@ const PostComments = ({
   }, [newComment]);
 
   // comment create
+  // replay toggle
   const toggleOpenState = (commentId) => {
     setOpenStates((prevStates) => ({
       ...prevStates,
@@ -198,13 +198,13 @@ const PostComments = ({
 
   // post comment like api
   useEffect(() => {
-    if (commentResult.length > 0) {
-      const initialCommentLikes = commentResult.map(
+    if (commentGet.length > 0) {
+      const initialCommentLikes = commentGet.map(
         (data) => data?.likes || false
       );
       setCommentLiked(initialCommentLikes);
     }
-  }, [commentResult]);
+  }, [commentGet]);
 
   const handleLikeComment = async (id, index, replc) => {
     if (!replc) {
@@ -260,9 +260,10 @@ const PostComments = ({
   }, [currentPostId]);
   // modal close
   const modalClose = () => {
-    setCommentData("");
+    setCommentGet("");
     setCommentValue("");
     setLoading(true);
+    setCurrentPostId("");
   };
 
   // ////////////////////// ended ///////////////
@@ -446,7 +447,7 @@ const PostComments = ({
               <div className="d-flex flex-column justify-content-between">
                 <div className="d-flex justify-content-between align-items-center h-100 mt-2">
                   <h1 className="black_text_lg">
-                    {!commentLoad ? commentData.length : ""}
+                    {!commentLoad ? commentGet.length : ""}
                   </h1>
                 </div>
                 <div
