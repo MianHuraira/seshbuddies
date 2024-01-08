@@ -74,11 +74,11 @@ const Login = () => {
 
     if (activeTab === "tab1") {
       // Phone tab
-      requestData = { phone, password };
+      requestData = { phone, password, fcmToken: "", };
       currentDetail = phone;
     } else if (activeTab === "tab2") {
       // Email tab
-      requestData = { email, password };
+      requestData = { email, password ,fcmToken: "", };
       currentDetail = email;
     }
     setIsButtonClicked(true);

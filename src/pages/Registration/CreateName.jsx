@@ -38,6 +38,7 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
       password: passCreate,
       username: nickname,
       passcode: passCode,
+      fcmToken: "",
     };
 
     // Determine the key based on keyP value and update the dataToSend accordingly
@@ -47,10 +48,7 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
       dataToSend.email = detail;
     }
     setIsButtonClicked(true);
-    const checkName = {
-      username: nickname,
-    };
-    axios.post(`${global.BASEURL}/users/check-username`, checkName);
+
     // Send data to the server
     axios
       .post(`${global.BASEURL}/users/signup`, dataToSend)
@@ -61,6 +59,7 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
 
         // Show success toast
         toast.success("Account created successfully!");
+        console.log(res, "resp");
       })
       .catch((error) => {
         // Handle error
