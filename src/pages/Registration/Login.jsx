@@ -94,7 +94,7 @@ const Login = () => {
       })
       .catch((error) => {
         console.error("Error sending code: ", error);
-        toast.error(error.response.data.message);
+        toast.error(error?.response?.data?.message);
       })
       .finally(() => {
         // This block will execute regardless of success or error
