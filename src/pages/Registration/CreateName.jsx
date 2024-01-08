@@ -70,10 +70,8 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
               setIsConfirmed(true);
               dispatch(setUser(res?.data));
               dispatch(setAuthenticated(true));
-
               // Show success toast
               toast.success("Account created successfully!");
-              console.log(res, "resp");
             })
             .catch((error) => {
               console.error("Error creating account: ", error);

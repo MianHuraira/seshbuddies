@@ -71,6 +71,7 @@ const PostComments = ({
   const [loading, setLoading] = useState(true);
   const [commentStatus, setCommentStatus] = useState("");
   const [getReplyComments, setGetReplyComments] = useState([]);
+  console.log(getReplyComments);
   // report modal open
   const reportHandleModal = () => {
     setReport(true);
@@ -543,7 +544,99 @@ const PostComments = ({
                             </button>
                           </div>
 
-                          {item?.replyComments &&
+                          {
+                            getReplyComments[index] &&
+                            getReplyComments[index].length > 0 ? (
+                              <>
+                                <button
+                                  className="border-0 bg-white black_text_md green-txt"
+                                  onClick={() => toggleOpenState(index)}
+                                  aria-controls={index}
+                                  aria-expanded={openStates[index]}
+                                >
+                                  View replies ({getReplyComments[index].length}
+                                  )
+                                  <img
+                                    alt=""
+                                    src={angle_down}
+                                    className="ms-1"
+                                  />
+                                </button>
+                                <Collapse key={index} in={openStates[index]}>
+                                  <div id={item.replyComments?._id}>
+                                    {getReplyComments[index].map(
+                                      (replData, index) => (
+                                        <>
+                                          <div
+                                            key={index}
+                                            className="d-flex align-items-start  mt-3"
+                                          >
+                                            <img
+                                              alt=""
+                                              src={
+                                                replData?.user
+                                                  ?.profilePicture || avatarImg
+                                              }
+                                              className="comment_avatar"
+                                            />
+                                            <div className="w-100 ms-2">
+                                              <div className="d-flex justify-content-between align-items-center w-100">
+                                                <div>
+                                                  <h1 className="black_text_md inter-semi">
+                                                    <span className="light_text_sm ms-1">
+                                                      @
+                                                      {replData?.user?.username}
+                                                    </span>
+                                                  </h1>
+                                                </div>
+                                                <p className="gray_text_md justify_center">
+                                                  <Moment fromNow>
+                                                    {replData?.createdAt}
+                                                  </Moment>
+                                                  <img
+                                                    alt=""
+                                                    src={
+                                                      replData.likes
+                                                        ? grenHeart
+                                                        : heart
+                                                    }
+                                                    className=" ms-2 mb-1 heart cursorP"
+                                                    onClick={() =>
+                                                      handleLikeComment(
+                                                        replData?._id,
+                                                        index,
+                                                        "replc"
+                                                      )
+                                                    }
+                                                  />
+                                                </p>
+                                              </div>
+                                              <p className="black_text_md">
+                                                {replData.text}
+                                              </p>
+                                              <div className="black_text_md">
+                                                <Moment format="YYYY-MM-DD">
+                                                  {item?.createdAt}
+                                                </Moment>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </>
+                                      )
+                                    )}
+                                  </div>
+                                </Collapse>
+                              </>
+                            ) : (
+                              ""
+                            )
+                            //  getReplyComments[index].map(
+                            //     (replyItem, replyIndex) => (
+                            //     )
+                            //   )
+                          }
+
+                          {/* {item?.replyComments &&
                           item.replyComments.length > 0 ? (
                             <>
                               <button
@@ -620,7 +713,7 @@ const PostComments = ({
                             </>
                           ) : (
                             ""
-                          )}
+                          )} */}
                         </div>
                       </div>
                     ))
