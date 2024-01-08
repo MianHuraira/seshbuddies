@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import DoneLogo from "../../assets/icons/doneLogo.png";
@@ -21,12 +22,19 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const dispatch = useDispatch();
+
   const handleNicknameChange = (event) => {
     const input = event.target.value;
 
     // Check if the input length is within the allowed range (6 to 30 characters)
-    if (input.length <= maxCharacterLimit) {
-      setNickname(input);
+    if (input.trim().length > 0 && input.length <= maxCharacterLimit) {
+      // Check if the last character is space, if yes, remove it
+      const trimmedInput = input.endsWith(" ") ? input.trimRight() : input;
+
+      // Replace spaces with underscores between words
+      const formattedInput = trimmedInput.replace(/\s+/g, "_");
+
+      setNickname(formattedInput);
     }
   };
 
@@ -42,34 +50,50 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
     };
 
     // Determine the key based on keyP value and update the dataToSend accordingly
+
     if (keyP === "number") {
       dataToSend.phone = detail;
     } else if (keyP === "gmail") {
       dataToSend.email = detail;
     }
     setIsButtonClicked(true);
-
-    // Send data to the server
+    const checkName = {
+      username: nickname,
+    };
     axios
-      .post(`${global.BASEURL}/users/signup`, dataToSend)
-      .then((res) => {
-        setIsConfirmed(true);
-        dispatch(setUser(res.data));
-        dispatch(setAuthenticated(true));
+      .post(`${global.BASEURL}/users/check-username`, checkName)
+      .then((response) => {
+        if (response.data.success === true) {
+          axios
+            .post(`${global.BASEURL}/users/signup`, dataToSend)
+            .then((res) => {
+              setIsConfirmed(true);
+              dispatch(setUser(res?.data));
+              dispatch(setAuthenticated(true));
 
-        // Show success toast
-        toast.success("Account created successfully!");
-        console.log(res, "resp");
+              // Show success toast
+              toast.success("Account created successfully!");
+              console.log(res, "resp");
+            })
+            .catch((error) => {
+              console.error("Error creating account: ", error);
+              toast.error(error.response.data.message);
+            })
+            .finally(() => {
+              setIsButtonClicked(false);
+            });
+        }
       })
       .catch((error) => {
         // Handle error
-        console.error("Error creating account: ", error);
+        console.error("Error checking username: ", error);
         toast.error(error.response.data.message);
       })
       .finally(() => {
-        // This block will execute regardless of success or error
         setIsButtonClicked(false);
       });
+
+    // Send data to the server
   };
 
   return (
@@ -116,7 +140,7 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
                       className="hide_fcontrol p-0"
                       type="text"
                       placeholder="Add your nickname"
-                      value={nickname}
+                      // value={nickname}
                       onFocus={() => setIsInputFocused(true)}
                       onBlur={() => setIsInputFocused(false)}
                       onChange={handleNicknameChange}
