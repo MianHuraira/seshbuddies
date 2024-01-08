@@ -95,9 +95,7 @@ const PostAll = () => {
 
       const initialLikes = resultGet.map((data) => data?.TotalLikes);
       setTotalLikes(initialLikes);
-
       setGetData(resultGet);
-
       const finalR = res.data.success;
       if (finalR) {
         setLoading(false);

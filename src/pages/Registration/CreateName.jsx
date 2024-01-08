@@ -8,7 +8,10 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import Spinner from "react-bootstrap/Spinner";
 import "react-toastify/dist/ReactToastify.css";
-import { setUser ,setAuthenticated } from "../../components/Redux/Slices/AuthSlice";
+import {
+  setUser,
+  setAuthenticated,
+} from "../../components/Redux/Slices/AuthSlice";
 import { useDispatch } from "react-redux";
 
 const CreateName = ({ passCreate, detail, keyP, passCode }) => {
@@ -44,7 +47,10 @@ const CreateName = ({ passCreate, detail, keyP, passCode }) => {
       dataToSend.email = detail;
     }
     setIsButtonClicked(true);
-
+    const checkName = {
+      username: nickname,
+    };
+    axios.post(`${global.BASEURL}/users/check-username`, checkName);
     // Send data to the server
     axios
       .post(`${global.BASEURL}/users/signup`, dataToSend)

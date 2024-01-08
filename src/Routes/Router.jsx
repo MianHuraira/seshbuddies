@@ -30,7 +30,7 @@ const AcountSuport = lazy(() => import("../pages/AcountSuport"));
 const AcountAbout = lazy(() => import("../pages/AcountAbout"));
 const ForgetPass = lazy(() => import("../pages/Registration/ForgetPass"));
 // for test
-const Test = lazy(() => import("../pages/Registration/PassCode"));
+const Test = lazy(() => import("../pages/Registration/CreateName"));
 
 const Router = () => {
   const AgeVarified = useSelector(selectIsAgeVerified);

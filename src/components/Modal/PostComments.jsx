@@ -41,7 +41,6 @@ const PostComments = ({
   isOpen,
   onClose,
   postData,
-  commentLoad,
   processText,
   postLikes,
   postIndex,
@@ -71,7 +70,12 @@ const PostComments = ({
   const [commentGet, setCommentGet] = useState([]);
   const [loading, setLoading] = useState(true);
   const [commentStatus, setCommentStatus] = useState("");
-  // snackbar
+  const [getReplyComments, setGetReplyComments] = useState([]);
+  // report modal open
+  const reportHandleModal = () => {
+    setReport(true);
+    onClose();
+  };
 
   const handleReplyButton = (commentId) => {
     setSelectedCommentId(commentId);
@@ -81,6 +85,7 @@ const PostComments = ({
     }
   };
 
+  // snackbar
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
@@ -104,7 +109,7 @@ const PostComments = ({
   // comment create
 
   useEffect(() => {
-    if (commentGet.length > 0) {
+    if (commentGet && commentGet.length > 0) {
       setCommentGet(commentGet);
     }
   }, [commentGet]);
@@ -130,6 +135,7 @@ const PostComments = ({
       );
       if (response.status === 201) {
         const getResult = response.data.comment;
+
         const modifiUserData = {
           username: userData?.user?.username,
           profilePicture: userData?.user?.profilePicture,
@@ -140,14 +146,17 @@ const PostComments = ({
           // Replace 'user' property with modifiUserData
           const modifiedResult = {
             ...getResult,
+            // concat user data
             user: {
               ...modifiUserData,
             },
+            // chnges likes data
+            likes: false,
           };
-
           setnewComment(modifiedResult);
         } else {
           console.error("User property not found in getResult:", getResult);
+          showSnackbar(getResult, "error");
         }
       }
     } catch (error) {
@@ -162,7 +171,13 @@ const PostComments = ({
   };
   useEffect(() => {
     if (newComment) {
-      setCommentGet((prevComments) => [newComment, ...prevComments]);
+      setCommentGet((prevComments) => {
+        // Check if prevComments is truthy and is an array
+        return Array.isArray(prevComments)
+          ? [newComment, ...prevComments]
+          : [newComment];
+      });
+
       if (commentDataRef.current) {
         commentDataRef.current.scrollTop = 0;
       }
@@ -187,18 +202,13 @@ const PostComments = ({
     setCommentValue(event.target.value);
   };
 
-  // report modal open
-  const reportHandleModal = () => {
-    setReport(true);
-    onClose();
-  };
   const handleCloseModal = () => {
     setReport(false);
   };
 
   // post comment like api
   useEffect(() => {
-    if (commentGet.length > 0) {
+    if (commentGet && commentGet.length > 0) {
       const initialCommentLikes = commentGet.map(
         (data) => data?.likes || false
       );
@@ -266,6 +276,18 @@ const PostComments = ({
     setCurrentPostId("");
   };
 
+  // replay comment get
+  useEffect(() => {
+    if (commentGet && commentGet.length > 0) {
+      // Extract replyComments from commentGet
+      const extractedReplyComments = commentGet.map(
+        (comment) => comment.replyComments || []
+      );
+
+      // Set extractedReplyComments in getReplyComments state
+      setGetReplyComments(extractedReplyComments);
+    }
+  }, [commentGet]);
   // ////////////////////// ended ///////////////
 
   return (
@@ -447,7 +469,7 @@ const PostComments = ({
               <div className="d-flex flex-column justify-content-between">
                 <div className="d-flex justify-content-between align-items-center h-100 mt-2">
                   <h1 className="black_text_lg">
-                    {!commentLoad ? commentGet.length : ""}
+                    {commentGet && commentGet?.length}
                   </h1>
                 </div>
                 <div
@@ -469,7 +491,7 @@ const PostComments = ({
                         <span className="visually-hidden">Loading...</span>
                       </Spinner>
                     </div>
-                  ) : commentGet?.length > 0 ? (
+                  ) : commentGet && commentGet?.length > 0 ? (
                     commentGet?.map((item, index) => (
                       <div
                         key={index}
@@ -520,6 +542,7 @@ const PostComments = ({
                               Reply
                             </button>
                           </div>
+
                           {item?.replyComments &&
                           item.replyComments.length > 0 ? (
                             <>
@@ -605,6 +628,7 @@ const PostComments = ({
                     commentStatus
                   )}
                 </div>
+
                 <div className="light_border_top">
                   <div className="comment_input mt-2">
                     <Form.Control
@@ -625,9 +649,9 @@ const PostComments = ({
                       <div className="ms-3 cursorP">
                         <img
                           alt=""
-                          onClick={() => setShowPicker((val) => !val)}
+                          // onClick={() => setShowPicker((val) => !val)}
                           src={emoji}
-                          className="input_icon"
+                          className="input_icon cursorP"
                         />
                       </div>
                       <div className="ms-3 cursorP">
